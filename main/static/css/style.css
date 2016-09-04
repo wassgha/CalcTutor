@@ -1,0 +1,86 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+body {
+	background-color: #2E2E2E;
+	font-family: 'Roboto', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	overflow-x: hidden;
+	color: #fff;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin-top:50px;
+}
+
+
+/* Typography */
+
+p {
+	font-size: 18px;
+	line-height: 1.5;
+	color: #8a8e91;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Roboto', 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+	position: relative;
+	margin: 10px 0;
+}
+
+h1 {
+	font-size: 60px;
+}
+
+h2 {
+	font-size: 48px;
+}
+
+h3 {
+	font-size: 30px;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+h6 {
+	font-size: 16px;
+}
+
+
+.card-img {
+	width: 100%;
+}
+
+.card-primary > .card-img-overlay {
+  background: rgba(2, 96, 177, 0.9);
+}
+
+.card-secondary > .card-img-overlay {
+  background: rgba(173, 171, 171, 0.9);
+}
+
+.card-info > .card-img-overlay {
+  background: rgba(74, 156, 181, 0.9);
+}
+
+.card-success > .card-img-overlay {
+  background: rgba(77, 156, 77, 0.9);
+}
+
+.card-warning > .card-img-overlay {
+  background: rgba(240,173,78,0.9);
+}
+
+.card-danger > .card-img-overlay {
+  background: rgba(199, 76, 72, 0.9);
+}
+
+

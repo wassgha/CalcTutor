@@ -1,0 +1,25 @@
+{% extends "header.html" %}
+{% block content %}
+  {% load staticfiles %}
+  <h3>{{ course.course_name }}</h3>
+  <br>
+  <p>
+  {{ course.course_desc }}
+  </p>
+<!-- 
+  {% if courses %}
+  <div class="card-columns">
+    {% for course in courses %}
+      <div class="card card-inverse card-{{ course.course_color }}">
+        <img class="card-img" src="{% static 'img/math.jpg' %}" alt="Math course">
+        <div class="card-img-overlay {{ course.course_color }}">
+          <h4 class="card-title">{{ course.course_name }}</h4>
+          <p class="card-text">{{ course.short_course_desc }}</p>
+          <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }}">Go somewhere</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %} -->
+
+{% endblock %}
