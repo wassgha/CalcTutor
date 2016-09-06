@@ -6,12 +6,20 @@
   <p>
   {{ course.course_desc }}
   </p>
-  <br>
+<!--   <br>
   {{rand_fn}}
   <br>
-  Differential : {{diff}}
+  Differential : <br>{{diff}}
   <br>
-  Integral :   {{integral}}
+  Integral :   <br>{{integral}} -->
+  {% if course.topic_set.all %}
+  <h4>Topics</h4>
+  <div class="topics row">
+    {% for topic in course.topic_set.all %}
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"><a href="/course/{{ course.id }}/topic/{{ topic.id }}"><i class="material-icons">{% if topic.id < 3 %}star{% else %}star_border{% endif%}</i>{{ topic.topic_name }}</a></div>
+    {% endfor %}
+  </div>
+  {% endif %}
 <!-- 
   {% if courses %}
   <div class="card-columns">

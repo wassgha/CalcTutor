@@ -82,3 +82,22 @@ h6 {
 .card-danger > .card-img-overlay {
   background: rgba(199, 76, 72, 0.9);
 }
+
+.topics {
+    margin-top: 30px;
+}
+
+.topics div {
+    margin-bottom: 20px;
+}
+
+.topics a {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #f49200;
+}
+
+.material-icons {
+	vertical-align: middle;
+	margin-right: 5px;
+}

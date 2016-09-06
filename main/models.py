@@ -13,6 +13,9 @@ class Course(models.Model):
     def __str__(self):
         return self.course_name
 
+class Topic(models.Model):
+	topic_name = models.CharField(max_length=200)
+	course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 # class Choice(models.Model):
 #     question = models.ForeignKey(Question, on_delete=models.CASCADE)
