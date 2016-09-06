@@ -19,6 +19,17 @@ p {
 	color: #8a8e91;
 }
 
+a {
+	color:#999;
+	text-decoration: none;
+}
+
+a:hover {
+	color:white;
+	text-decoration: none;
+}
+
+
 h1,
 h2,
 h3,
@@ -54,6 +65,10 @@ h6 {
 	font-size: 16px;
 }
 
+.material-icons {
+	vertical-align: bottom;
+	font-size: 20px !important;
+}
 
 .card-img {
 	width: 100%;
@@ -97,7 +112,6 @@ h6 {
     color: #f49200;
 }
 
-.material-icons {
-	vertical-align: middle;
-	margin-right: 5px;
+.exercise h4.card-title {
+    color: #2e2e2e;
 }

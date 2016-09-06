@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+{% block content %}
+  {% load staticfiles %}
+  <a href="/course/{{ course.id }}"><b>{{ course.course_name }}</b></a>
+  <h3> <i class="material-icons">keyboard_arrow_right</i> {{ topic.topic_name }}</h3>
+  <br>
+  {% if topic.exercise_set.all %}
+  <div class="exercises card-deck">
+    {% for exercise in topic.exercise_set.all %}
+        <div class="exercise card">
+          <div class="card-block">
+            <h4 class="card-title">{{ exercise.exercise_name }}</h4>
+            <p class="card-text">
+              <br>
+              <progress class="progress progress-success progress-striped" value="60" max="100"></progress>
+            </p>
+          </div>
+          <div class="card-footer text-xs-right">
+            <button type="button" class="btn btn-success"><i class="material-icons">assessment</i></button>
+            <button type="button" class="btn btn-danger"><i class="material-icons">alarm</i></button>
+            <a href="/course/{{ course.id }}/topic/{{ topic.id }}/exercise/{{ exercise.id }}"><button type="button" class="btn btn-primary">Practice</button></a>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+{% endblock %}

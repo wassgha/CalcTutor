@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from .models import Course
+from .models import Course, Topic, Exercise
 from .utils import *
 
 # Create your views here.
@@ -13,13 +13,36 @@ def index(request):
 	}
 	return render(request, 'index.html', context)
 
-def course_page(request, course_id):
+def course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
-    randfn = rand_fn()
     return render(request, 'course.html', {
         'course': course,
 		# 'rand_fn': "$" + latex(randfn) + "$",
 		# 'diff': "$" + latex(diff(randfn)) + "$",
 		# 'integral': "$" + latex(integrate(randfn)) + "$"
+
+    })
+
+def topic(request, course_id, topic_id):
+    course = get_object_or_404(Course, pk=course_id)
+    topic = get_object_or_404(Topic, pk=topic_id)
+    return render(request, 'topic.html', {
+        'course': course,
+        'topic': topic,
+    })
+
+
+def exercise(request, course_id, topic_id, exercise_id):
+    course = get_object_or_404(Course, pk=course_id)
+    topic = get_object_or_404(Topic, pk=topic_id)
+    exercise = get_object_or_404(Exercise, pk=exercise_id)
+    randfn = rand_fn()
+    return render(request, 'exercise.html', {
+        'course': course,
+        'topic': topic,
+        'exercise': exercise,
+		'rand_fn': "$" + latex(randfn) + "$",
+		'diff': "$" + latex(diff(randfn)) + "$",
+		'integral': "$" + latex(integrate(randfn)) + "$"
 
     })
