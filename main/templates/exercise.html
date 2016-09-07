@@ -1,39 +1,38 @@
 {% extends "header.html" %}
 {% block content %}
   {% load staticfiles %}
-  <h3>{{ course.course_name }}</h3>
+  <a href="/course/{{ course.id }}"><b>{{ course.course_name }}</b></a>
+  <a href="/course/{{ course.id }}/topic/{{ topic.id }}"><b><i class="material-icons">keyboard_arrow_right</i> {{ topic.topic_name }}</b></a>
+  <h3> <i class="material-icons" style="vertical-align:middle">keyboard_arrow_right</i> {{ exercise.exercise_name }}</h3>
   <br>
+  <center>
   <p>
-  {{ course.course_desc }}
+  Differentiate this function : 
   </p>
-<!--   <br>
-  {{rand_fn}}
   <br>
+  {{rand_fn}}<br><br>
+  Your answer : <br>
+  <input id ="math-keyboard" type="text" />
+  </center>
+<!--   <br>
   Differential : <br>{{diff}}
   <br>
-  Integral :   <br>{{integral}} -->
-  {% if course.topic_set.all %}
-  <h4>Topics</h4>
-  <div class="topics row">
-    {% for topic in course.topic_set.all %}
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"><a href="/course/{{ course.id }}/topic/{{ topic.id }}"><i class="material-icons">{% if topic.id < 3 %}star{% else %}star_border{% endif%}</i>{{ topic.topic_name }}</a></div>
-    {% endfor %}
-  </div>
-  {% endif %}
-<!-- 
-  {% if courses %}
-  <div class="card-columns">
-    {% for course in courses %}
-      <div class="card card-inverse card-{{ course.course_color }}">
-        <img class="card-img" src="{% static 'img/math.jpg' %}" alt="Math course">
-        <div class="card-img-overlay {{ course.course_color }}">
-          <h4 class="card-title">{{ course.course_name }}</h4>
-          <p class="card-text">{{ course.short_course_desc }}</p>
-          <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }}">Go somewhere</a>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-  {% endif %} -->
-
+  Integral :   <br>{{integral}}
+ -->
+ <script type="text/javascript">
+   $('#math-keyboard').keyboard({ layout: 'qwerty' })
+  .autocomplete({
+    source: availableTags
+  })
+  // position options added after v1.23.4
+  .addAutocomplete({
+    position : {
+      of : null,        // when null, element will default to kb.$keyboard
+      my : 'right top', // 'center top', (position under keyboard)
+      at : 'left top',  // 'center bottom',
+      collision: 'flip'
+    }
+  })
+  .addTyping();
+ </script>
 {% endblock %}

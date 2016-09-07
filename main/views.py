@@ -42,7 +42,7 @@ def exercise(request, course_id, topic_id, exercise_id):
         'topic': topic,
         'exercise': exercise,
 		'rand_fn': "$" + latex(randfn) + "$",
-		'diff': "$" + latex(diff(randfn)) + "$",
-		'integral': "$" + latex(integrate(randfn)) + "$"
+		# 'diff': "$" + latex(diff(randfn)) + "$",
+		# 'integral': "$" + latex(integrate(randfn)) + "$"
 
     })
