@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from .models import Course, Topic, Exercise
 from .utils import *
 
+from .logic import diffsteps
+
 # Create your views here.
 
 def index(request):
@@ -41,8 +43,9 @@ def exercise(request, course_id, topic_id, exercise_id):
         'course': course,
         'topic': topic,
         'exercise': exercise,
-		'rand_fn': "$" + latex(randfn) + "$",
-		# 'diff': "$" + latex(diff(randfn)) + "$",
+		'rand_fn': latex(randfn),
+		'diff': latex(diff(randfn)),
+		'diff_steps': diffsteps.print_html_steps(randfn, Symbol('x')),
 		# 'integral': "$" + latex(integrate(randfn)) + "$"
 
     })

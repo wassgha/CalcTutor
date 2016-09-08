@@ -10,29 +10,38 @@
   Differentiate this function : 
   </p>
   <br>
-  {{rand_fn}}<br><br>
-  Your answer : <br>
-  <input id ="math-keyboard" type="text" />
-  </center>
-<!--   <br>
-  Differential : <br>{{diff}}
+  <script type="math/tex; mode=display">{{rand_fn}}</script><br><br>
+<!--   Your answer : <br>
+  <span id ="math-keyboard" style="background:white; color:black; width:200px;height:30px"></span>
+  <span id ="latex" style="display:none" type="text"></span>
+ -->  </center>
+   <br>
+  Solution : <br><script type="math/tex; mode=display">{{diff}}</script>
   <br>
+  Steps : <br>
+  {% autoescape off %}
+  <div class="steps">{{diff_steps}}</div>
+  {% endautoescape %}
+<!--  <br>
   Integral :   <br>{{integral}}
  -->
- <script type="text/javascript">
-   $('#math-keyboard').keyboard({ layout: 'qwerty' })
-  .autocomplete({
-    source: availableTags
-  })
-  // position options added after v1.23.4
-  .addAutocomplete({
-    position : {
-      of : null,        // when null, element will default to kb.$keyboard
-      my : 'right top', // 'center top', (position under keyboard)
-      at : 'left top',  // 'center bottom',
-      collision: 'flip'
+<script>
+var mathFieldSpan = document.getElementById('math-keyboard');
+var latexSpan = document.getElementById('latex');
+
+var MQ = MathQuill.getInterface(2); // for backcompat
+var mathField = MQ.MathField(mathFieldSpan, {
+  spaceBehavesLikeTab: true, // configurable
+  handlers: {
+    edit: function() { // useful event handlers
+      latexSpan.textContent = mathField.latex(); // simple API
     }
-  })
-  .addTyping();
+  }
+});
+</script>
+
+ <script type="text/javascript">
+   $('#problem').keyboard({ layout: 'qwerty',     usePreview: false
+ });
  </script>
 {% endblock %}
