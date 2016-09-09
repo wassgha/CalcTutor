@@ -15,7 +15,7 @@ from Production import *
 
 prod = Production()
 tree = FunctionTree()
-while tree.getComplexity() < 10:
+while tree.getComplexity() < 15:
 	productionRule = prod.getRandomProductionRule()
-	tree = tree.applyProduction( productionRule )
+	tree.applyProduction( productionRule )
 tree.traverse()

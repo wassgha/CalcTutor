@@ -3,7 +3,7 @@ import numpy as np
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from sympy.abc import x,y
-from random import randint
+from random import choice
 
 class Production:
 	plus = lambda f1,f2: f1 + f2
@@ -18,6 +18,6 @@ class Production:
 	functionArray = [ plus, minus, times, divide, power, compose ]
 
 	def getRandomProductionRule( self ):
-		return self.functionArray[ randint(0, len(self.functionArray) - 1) ]
+		return choice( self.functionArray )
 
 

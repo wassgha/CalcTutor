@@ -1,6 +1,6 @@
 import numpy as np
 
-from random import randint
+from random import choice
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 
@@ -8,30 +8,50 @@ from enum import Enum
 from Production import *
 import sys
 
-def getRandomIndex( arr ):
-	return randint( 0, len(arr) - 1 )
-
 
 class Node:
-	def __init__( self, type, holder='' ):
+	def __init__( self, holder = None ):
 		self.holder = holder
-		self.type = type
+		self.left = None
+		self.right = None
+
+
+	def setLeftChild( self, left ):
+		self.left = left
+
+
+	def setRightChild( self, right ):
+		self.right = right
+
+
+	def getLeftChild( self ):
+		return self.left
+
+
+	def getRightChild( self ):
+		return self.right
+
+
+	def isLeaf( self ):
+		return self.left is None and self.right is None
+
 
 	def getComplexity( self ):
-		if self.type == NodeType.INNER_NODE:
-			return Production.complexityMap[self.holder]
-		else:
-			return 0
+		complexity = 0
+		if not self.isLeaf():
+			complexity = complexity + Production.complexityMap[self.holder]
+		if self.left is not None:
+			complexity = complexity + self.left.getComplexity()
+		if self.right is not None:
+			complexity = complexity + self.right.getComplexity()
+		return complexity
+
 
 	def display( self ):
-		if self.type == NodeType.INNER_NODE:
+		if not self.isLeaf():
 			sys.stdout.write(Production.nameMap[self.holder] + " ")
 		else:
 			sys.stdout.write("elem ")
-
-class NodeType(Enum):
-	LEAF = 0
-	INNER_NODE = 1
 
 
 class FunctionTree:
@@ -43,47 +63,63 @@ class FunctionTree:
 		lambda x: cos(x)
 	]
 
-	def __init__( self, root = Node(NodeType.LEAF, elemFunctions[getRandomIndex(elemFunctions)]) ):
-		self.root = root
-		self.leftSubtree = None
-		self.rightSubtree = None
+	def __init__( self ):
+		# initialize root as a leaf
+		self.root = Node()
+
 
 	def applyProduction( self, production ):
-		# create new root, which is an inner node holding a production rule
-		newRoot = Node( NodeType.INNER_NODE, production )
-		# create new tree, where left subtree is the current tree and right subtree is a leaf
-		newTree = FunctionTree( newRoot )
-		newRightSubTree = FunctionTree( Node( NodeType.LEAF ) )
-		newTree.setLeftSubtree( self )
-		newTree.setRightSubtree( newRightSubTree )
-		return newTree
+		leafAndParent = self.getRandomLeafAndParent()
+		leaf = leafAndParent[0]
+		parent = leafAndParent[1]
+		# create new inner node holding a production rule
+		newNode = Node( production )
+		# create new leaf
+		newLeaf = Node()
+		newNode.setLeftChild( leaf )
+		newNode.setRightChild( newLeaf )
 
-	def setLeftSubtree( self, tree ):
-		self.leftSubtree = tree
+		# if current leaf has a parent, update its pointer
+		if parent is not None:
+			if leaf == parent.getLeftChild():
+				parent.setLeftChild( newNode )
+			else:
+				parent.setRightChild( newNode )
+		# leaf is the root, update the tree's root pointer
+		else:
+			self.root = newNode
 
-	def setRightSubtree( self, tree ):
-		self.rightSubtree = tree
+
+	def getRandomLeafAndParent( self ):
+		parent = None
+		currentNode = self.root
+		while not currentNode.isLeaf():
+			parent = currentNode
+			goLeft = choice([0, 1])
+			if goLeft == 1:
+				currentNode = currentNode.getLeftChild()
+			else:
+				currentNode = currentNode.getRightChild()
+		return [currentNode, parent]
+
 
 	def getComplexity( self ):
-		leftComp = rightComp = 0
-		if self.leftSubtree is not None:
-			leftComp = self.leftSubtree.getComplexity()
-		if self.rightSubtree is not None:
-			rightComp = self.rightSubtree.getComplexity()
-		return leftComp + rightComp + self.root.getComplexity()
+		return self.root.getComplexity()
+
 
 	def getRoot( self ):
 		return self.root
 
+
 	def traverse( self ):
-		thisLevel = [ self ]
+		thisLevel = [ self.root ]
 		while len(thisLevel) > 0:
 			nextLevel = list()
-			for tree in thisLevel:
-				tree.getRoot().display()
-				if tree.leftSubtree is not None:
-					nextLevel.append( tree.leftSubtree )
-				if tree.rightSubtree is not None:
-					nextLevel.append( tree.rightSubtree )
+			for node in thisLevel:
+				node.display()
+				if node.getLeftChild() is not None:
+					nextLevel.append( node.getLeftChild() )
+				if node.getRightChild() is not None:
+					nextLevel.append( node.getRightChild() )
 			print()
 			thisLevel = nextLevel
