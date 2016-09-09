@@ -2,8 +2,8 @@ import numpy as np
 
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
-from enum import Enum
 from sympy.abc import x,y
+from random import randint
 
 class Production:
 	plus = lambda f1,f2: f1 + f2
@@ -14,4 +14,10 @@ class Production:
 	compose = lambda f1, f2: f1.subs({'x' : f2})
 
 	complexityMap = { plus: 1, minus: 1, times: 2, divide: 3, power: 1, compose: 4 }
+	nameMap = { plus: "plus", minus: "minus", times: "times", divide: "divide", power: "power", compose: "compose", '': "no func"}
 	functionArray = [ plus, minus, times, divide, power, compose ]
+
+	def getRandomProductionRule( self ):
+		return self.functionArray[ randint(0, len(self.functionArray) - 1) ]
+
+
