@@ -1,8 +1,6 @@
 import numpy as np
 
 from random import choice
-from sympy.parsing.sympy_parser import parse_expr
-from sympy import *
 
 from Production import *
 import sys
