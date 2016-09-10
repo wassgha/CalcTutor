@@ -4,7 +4,6 @@ from random import choice
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 
-from enum import Enum
 from Production import *
 import sys
 
@@ -14,6 +13,14 @@ class Node:
 		self.holder = holder
 		self.left = None
 		self.right = None
+
+
+	def setValue( self, holder ):
+		self.holder = holder
+
+
+	def getValue( self ):
+		return self.holder
 
 
 	def setLeftChild( self, left ):
@@ -35,7 +42,7 @@ class Node:
 	def isLeaf( self ):
 		return self.left is None and self.right is None
 
-
+	# Get the complexity of the subtree rooted at this node
 	def getComplexity( self ):
 		complexity = 0
 		if not self.isLeaf():
@@ -47,21 +54,29 @@ class Node:
 		return complexity
 
 
+	# Display the name of the function / production in this node
 	def display( self ):
 		if not self.isLeaf():
 			sys.stdout.write(Production.nameMap[self.holder] + " ")
 		else:
-			sys.stdout.write("elem ")
+			sys.stdout.write( FunctionTree.words[self.holder] + " ")
 
 
 class FunctionTree:
 
 	elemFunctions = [
-		lambda x: exp(x),
-		lambda x: x,
-		lambda x: sin(x),
-		lambda x: cos(x)
+		parse_expr("exp(x)"),
+		parse_expr("x"),
+		parse_expr("sin(x)"),
+		parse_expr("cos(x)")
 	]
+
+	words = { 
+		elemFunctions[0] : "exp", 
+		elemFunctions[1] : "x", 
+		elemFunctions[2] : "sin", 
+		elemFunctions[3] : "cos" 
+	}
 
 	def __init__( self ):
 		# initialize root as a leaf
@@ -85,11 +100,12 @@ class FunctionTree:
 				parent.setLeftChild( newNode )
 			else:
 				parent.setRightChild( newNode )
-		# leaf is the root, update the tree's root pointer
+		# otherwise, leaf is the root, update the tree's root pointer
 		else:
 			self.root = newNode
 
 
+	# Move left / right random until arriving at a leaf
 	def getRandomLeafAndParent( self ):
 		parent = None
 		currentNode = self.root
@@ -103,6 +119,7 @@ class FunctionTree:
 		return [currentNode, parent]
 
 
+	# Get the entire tree's complexity
 	def getComplexity( self ):
 		return self.root.getComplexity()
 
@@ -111,7 +128,28 @@ class FunctionTree:
 		return self.root
 
 
-	def traverse( self ):
+	# Get all the leaves in the tree
+	def getAllLeaves( self, node ):
+		leaves = []
+		if node is not None:
+			if node.isLeaf():
+				leaves.append( node )
+			else:
+				leaves = leaves + self.getAllLeaves( node.getLeftChild() ) 
+				leaves = leaves + self.getAllLeaves( node.getRightChild() ) 
+		return leaves
+
+
+	# Assign an elementary function to each leaf
+	def assignFunctionsToLeaves( self ):
+		leaves = self.getAllLeaves( self.root )
+		for leaf in leaves:
+			func = choice( self.elemFunctions )
+			leaf.setValue( choice(self.elemFunctions) )
+
+
+	# Print the tree level by level
+	def printTree( self ):
 		thisLevel = [ self.root ]
 		while len(thisLevel) > 0:
 			nextLevel = list()
@@ -123,3 +161,20 @@ class FunctionTree:
 					nextLevel.append( node.getRightChild() )
 			print()
 			thisLevel = nextLevel
+
+
+	# Evaluate the subtree rooted at node to get the output function
+	def getFunctionAtSubtree( self, node ):
+		if node.isLeaf():
+			return node.getValue()
+		else:
+			production = node.getValue()
+			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
+			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
+			return production( leftFunction, rightFunction )
+
+
+	# Evaluate the entire tree to get the output function
+	def getOutputFunction( self ):
+		return self.getFunctionAtSubtree( self.root )
+
