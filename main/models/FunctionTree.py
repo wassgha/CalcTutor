@@ -13,6 +13,7 @@ class Node:
 		self.holder = holder
 		self.left = None
 		self.right = None
+		self.parent = None
 
 
 	def setValue( self, holder ):
@@ -25,10 +26,12 @@ class Node:
 
 	def setLeftChild( self, left ):
 		self.left = left
+		left.setParent( self )
 
 
 	def setRightChild( self, right ):
 		self.right = right
+		right.setParent( self )
 
 
 	def getLeftChild( self ):
@@ -37,6 +40,14 @@ class Node:
 
 	def getRightChild( self ):
 		return self.right
+
+
+	def setParent( self, parent ):
+		self.parent = parent
+
+
+	def getParent( self ):
+		return self.parent
 
 
 	def isLeaf( self ):
@@ -84,39 +95,27 @@ class FunctionTree:
 
 
 	def applyProduction( self, production ):
-		leafAndParent = self.getRandomLeafAndParent()
-		leaf = leafAndParent[0]
-		parent = leafAndParent[1]
+		leaf = self.getRandomLeaf()
+		parent = leaf.getParent()
 		# create new inner node holding a production rule
 		newNode = Node( production )
 		# create new leaf
 		newLeaf = Node()
 		newNode.setLeftChild( leaf )
 		newNode.setRightChild( newLeaf )
-
-		# if current leaf has a parent, update its pointer
-		if parent is not None:
-			if leaf == parent.getLeftChild():
-				parent.setLeftChild( newNode )
-			else:
-				parent.setRightChild( newNode )
-		# otherwise, leaf is the root, update the tree's root pointer
-		else:
-			self.root = newNode
+		self.replaceNode( leaf, newNode, parent )
 
 
 	# Move left / right random until arriving at a leaf
-	def getRandomLeafAndParent( self ):
-		parent = None
+	def getRandomLeaf( self ):
 		currentNode = self.root
 		while not currentNode.isLeaf():
-			parent = currentNode
 			goLeft = choice([0, 1])
 			if goLeft == 1:
 				currentNode = currentNode.getLeftChild()
 			else:
 				currentNode = currentNode.getRightChild()
-		return [currentNode, parent]
+		return currentNode
 
 
 	# Get the entire tree's complexity
@@ -171,10 +170,41 @@ class FunctionTree:
 			production = node.getValue()
 			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
 			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
-			return production( leftFunction, rightFunction )
+			result = production( leftFunction, rightFunction )
+			if simplify(result) == 0:
+				comp = node.getComplexity()
+				while True:
+					# create a new function tree with the same complexity but does not simplify to 0
+					newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
+					newOutputFunction = newTree.getOutputFunction()
+					if simplify( newOutputFunction ) != 0:
+						break
+				# replace the current subtree with the new tree
+				self.replaceNode( node, newTree.getRoot(), node.getParent() )
+				return newOutputFunction
+			else:
+				return result
 
 
 	# Evaluate the entire tree to get the output function
 	def getOutputFunction( self ):
 		return self.getFunctionAtSubtree( self.root )
 
+
+	def replaceNode( self, oldNode, newNode, parent ):
+		if parent is None:
+			self.root = newNode
+		elif oldNode == parent.getLeftChild():
+			parent.setLeftChild( newNode )
+		else:
+			parent.setRightChild( newNode )
+
+
+	def buildTreeWithMaxComplexity( complexity ):
+		prod = Production()
+		tree = FunctionTree()
+		while tree.getComplexity() < complexity:
+			productionRule = prod.getRandomProductionRule()
+			tree.applyProduction( productionRule )
+		tree.assignFunctionsToLeaves()
+		return tree

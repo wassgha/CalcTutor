@@ -6,18 +6,13 @@ from FunctionTree import *
 from Production import *
 
 # def makeFn():
-# 	return parse_expr("cos(x) * sin(x - 3)")
+# 	return parse_expr("x**2 + 2*x + 1 - (x+1)*(x+1)")
 
-# square = makeFn()
-# x = symbols("x")
-# print (square.subs({x: 5}))
+# square = simplify(makeFn())
+# print (square == 0)
 
-prod = Production()
-tree = FunctionTree()
-while tree.getComplexity() < 10:
-	productionRule = prod.getRandomProductionRule()
-	tree.applyProduction( productionRule )
-tree.assignFunctionsToLeaves()
+
+tree = FunctionTree.buildTreeWithMaxComplexity( 10 )
 tree.printTree()
 func =  tree.getOutputFunction() 
 print("The output function is: ")
