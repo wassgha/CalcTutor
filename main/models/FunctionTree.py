@@ -3,6 +3,7 @@ import numpy as np
 from random import choice
 
 from Production import *
+from Function import *
 import sys
 
 
@@ -51,6 +52,7 @@ class Node:
 	def isLeaf( self ):
 		return self.left is None and self.right is None
 
+
 	# Get the complexity of the subtree rooted at this node
 	def getComplexity( self ):
 		complexity = 0
@@ -65,27 +67,10 @@ class Node:
 
 	# Display the name of the function / production in this node
 	def display( self ):
-		if not self.isLeaf():
-			sys.stdout.write(Production.nameMap[self.holder] + " ")
-		else:
-			sys.stdout.write( FunctionTree.words[self.holder] + " ")
+		sys.stdout.write( Production.nameMap[self.holder] + " " )
 
 
 class FunctionTree:
-
-	elemFunctions = [
-		parse_expr("exp(x)"),
-		parse_expr("x"),
-		parse_expr("sin(x)"),
-		parse_expr("cos(x)")
-	]
-
-	words = { 
-		elemFunctions[0] : "exp", 
-		elemFunctions[1] : "x", 
-		elemFunctions[2] : "sin", 
-		elemFunctions[3] : "cos" 
-	}
 
 	def __init__( self ):
 		# initialize root as a leaf
@@ -125,7 +110,7 @@ class FunctionTree:
 		return self.root
 
 
-	# Get all the leaves in the tree
+	# Get all the leaves in the subtree rooted at the input node
 	def getAllLeaves( self, node ):
 		leaves = []
 		if node is not None:
@@ -141,8 +126,8 @@ class FunctionTree:
 	def assignFunctionsToLeaves( self ):
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
-			func = choice( self.elemFunctions )
-			leaf.setValue( choice(self.elemFunctions) )
+			func = choice( Production.elemFunctions )
+			leaf.setValue( func )
 
 
 	# Print the tree level by level
@@ -163,25 +148,25 @@ class FunctionTree:
 	# Evaluate the subtree rooted at node to get the output function
 	def getFunctionAtSubtree( self, node ):
 		if node.isLeaf():
-			return node.getValue()
+			return node.getValue()()
 		else:
 			production = node.getValue()
 			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
 			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 			result = production( leftFunction, rightFunction )
-			if simplify(result) == 0:
-				comp = node.getComplexity()
-				while True:
-					# create a new function tree with the same complexity but does not simplify to 0
-					newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
-					newOutputFunction = newTree.getOutputFunction()
-					if simplify( newOutputFunction ) != 0:
-						break
-				# replace the current subtree with the new tree
-				self.replaceNode( node, newTree.getRoot(), node.getParent() )
-				return newOutputFunction
-			else:
-				return result
+			# if Production.simplify(result) == 0:
+			# 	comp = node.getComplexity()
+			# 	while True:
+			# 		# create a new function tree with the same complexity but does not simplify to 0
+			# 		newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
+			# 		newOutputFunction = newTree.getOutputFunction()
+			# 		if Production.simplify( newOutputFunction ) != 0:
+			# 			break
+			# 	# replace the current subtree with the new tree
+			# 	self.replaceNode( node, newTree.getRoot(), node.getParent() )
+			# 	return newOutputFunction
+			# else:
+			return result
 
 
 	# Evaluate the entire tree to get the output function
