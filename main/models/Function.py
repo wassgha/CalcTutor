@@ -7,6 +7,7 @@ class Function:
 		self.func = input
 		self.isConstant = isConstant
 		self.elementary = elementary
+		self.latex = None
 
 	# Return the string currently held
 	def getStringFunc( self ):
@@ -29,4 +30,13 @@ class Function:
 	def isNotElementary( self ):
 		return not self.elementary
 
+	def setlatex( self, latex ):
+		self.latex = latex
 
+
+	def getlatex( self ):
+		return self.latex
+
+
+	def getDisplayLatex( self ):
+		return self.latex.replace("x&", "x")
