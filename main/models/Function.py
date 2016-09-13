@@ -3,11 +3,13 @@ from sympy import *
 
 class Function:
 
+	# input: string representation of the function
 	def __init__( self, input, isConstant = False, elementary = True ):
 		self.func = input
 		self.isConstant = isConstant
 		self.elementary = elementary
 		self.latex = None
+		self.derivative = None
 
 	# Return the string currently held
 	def getStringFunc( self ):
@@ -30,6 +32,7 @@ class Function:
 	def isNotElementary( self ):
 		return not self.elementary
 
+
 	def setlatex( self, latex ):
 		self.latex = latex
 
@@ -40,3 +43,11 @@ class Function:
 
 	def getDisplayLatex( self ):
 		return self.latex.replace("x&", "x")
+
+
+	def setDerivative( self, derivative ):
+		self.derivative = derivative
+
+
+	def getDerivative( self ):
+		return self.derivative

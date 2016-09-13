@@ -8,6 +8,8 @@ import sys
 
 
 class Node:
+
+	# holder: object of type Function
 	def __init__( self, holder = None ):
 		self.holder = holder
 		self.left = None
@@ -149,29 +151,45 @@ class FunctionTree:
 	def getFunctionAtSubtree( self, node ):
 		if node.isLeaf():
 			return node.getValue()()
-		else:
-			production = node.getValue()
-			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
-			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
-			result = production( leftFunction, rightFunction )
-			# if Production.simplify(result) == 0:
-			# 	comp = node.getComplexity()
-			# 	while True:
-			# 		# create a new function tree with the same complexity but does not simplify to 0
-			# 		newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
-			# 		newOutputFunction = newTree.getOutputFunction()
-			# 		if Production.simplify( newOutputFunction ) != 0:
-			# 			break
-			# 	# replace the current subtree with the new tree
-			# 	self.replaceNode( node, newTree.getRoot(), node.getParent() )
-			# 	return newOutputFunction
-			# else:
-			return result
+
+		production = node.getValue()
+		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
+		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
+		result = production( leftFunction, rightFunction )
+		if Production.simplify(result) == 0:
+			comp = node.getComplexity()
+			while True:
+				# create a new function tree with the same complexity but does not simplify to 0
+				newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
+				newOutputFunction = newTree.getOutputFunction()
+				if Production.simplify( newOutputFunction ) != 0:
+					break
+			# replace the current subtree with the new tree
+			self.replaceNode( node, newTree.getRoot(), node.getParent() )
+			return newOutputFunction
+		return result
 
 
 	# Evaluate the entire tree to get the output function
 	def getOutputFunction( self ):
 		return self.getFunctionAtSubtree( self.root )
+
+
+	def getDerivativeAtSubtree( self, node ):
+		if node.isLeaf():
+			return node.getValue()().getDerivative()
+
+		production = node.getValue()
+		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
+		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
+		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
+		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
+		result = Production.getDerivative( product, leftFunction, rightFunction, leftDerivative, rightDerivative )
+		return result
+
+
+	def getOutputDerivative( self ):
+		return self.getDerivativeAtSubtree( self.root )
 
 
 	def replaceNode( self, oldNode, newNode, parent ):
@@ -184,10 +202,10 @@ class FunctionTree:
 
 
 	def buildTreeWithMaxComplexity( complexity ):
-		prod = Production()
+		# prod = Production()
 		tree = FunctionTree()
 		while tree.getComplexity() < complexity:
-			productionRule = prod.getRandomProductionRule()
+			productionRule = Production.getRandomProductionRule()
 			tree.applyProduction( productionRule )
 		tree.assignFunctionsToLeaves()
 		return tree

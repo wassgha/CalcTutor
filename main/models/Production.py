@@ -17,12 +17,32 @@ class Production:
 	# nameMap = { plus: "plus", minus: "minus", times: "times", divide: "divide", compose: "compose", '': "no func"}
 	# functionArray = [ plus, minus, times, divide, compose ]
 
-	def getRandomProductionRule( self ):
-		return choice( self.productions )
+	def getRandomProductionRule():
+		return choice( list(Production.production.values()) )
 
 
 	def simplify( func ):
 		return simplify( func.toString() )
+
+
+	def getDerivative( productionRule, func1, func2, func1D, func2D ):
+		nameMap = Production.production
+		print( productionRule )
+		print( Production.production )
+		if productionRule == Production.plus:
+			return plus( func1D, func2D )
+		if productionRule == Production.minus:
+			return minus( func1D, func2D )
+		if productionRule == Production.times:
+			return plus( times(func1D, func2), times(func1, func2D) )
+		if productionRule == Production.divide:
+			return divide( 
+				minus( times(func1D, func2), times(func1, func2D) ), 
+				power(func2, 2)
+			)
+		if productionRule == Production.compose:
+			return times( compose(func1D, func2), func2D )
+		print("no match")
 
 
 	def plus( func1, func2 ):
@@ -80,12 +100,12 @@ class Production:
 				function.setlatex( function.getStringFunc() )
 				return function
 			# if func1 = 1, output is just func2
-			elif int( func1.getStringFunc() ) == 1:
+			elif float( func1.getStringFunc() ) == 1:
 				return func2
 
 		# if func2 is a constant, swap the 2 functions
 		elif func2.constant():
-			return times( func2, func1 )
+			return Production.times( func2, func1 )
 
 		# if no function is constant, append the two
 		if func1.isNotElementary():
@@ -122,10 +142,11 @@ class Production:
 
 		return function
 
-
+		# TODO. f(x) ^ g(x) ?
 	def power( func1, const ):
 		function = Function( func1.getStringFunc() + " **const " )
 		function.setlatex( func1.getlatex() + "^{" + str(const) + "}")
+		return function
 
 
 	def compose( func1, func2 ):
@@ -137,67 +158,103 @@ class Production:
 	def const():
 		function = Function( str(randint(1, 10)), True )
 		function.setlatex( function.getStringFunc() )
+		derivative = Function( "0" )
+		derivative.setlatex( "0" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def linear():
 		randomConstant = str(randint(1, 10))
+
 		if randomConstant == "1":
 			function =  Function( "x&" )
 			function.setlatex( "x&")
 		else:
 			function = Function( "(" + randomConstant + "*x&)" )
 			function.setlatex( randomConstant + "x&" )
+
+		derivative = Function( randomConstant )
+		derivative.setlatex( randomConstant )
+		function.setDerivative( derivative )
 		return function
+
 
 	def sin():
 		function = Function( "sin(x&)" )
 		function.setlatex( "\\sin x&" )
+		derivative = Function( "cos(x&)")
+		derivative.setlatex( "\cos x&" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def cos():
 		function = Function( "cos(x&)" )
 		function.setlatex( "\\cos x&" )
+		derivative = Function( "-sin(x&)")
+		derivative.setlatex( "-\\sin x&" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def tan():
 		function = Function( "tan(x&)" )
 		function.setlatex( "\\tan x&" )
+		derivative = Function( "sec(x&)^2")
+		derivative.setlatex( "(\\sec x&)^2" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def sec():
 		function = Function( "sec(x&)" )
 		function.setlatex( "\\sec x&" )
+		derivative = Function( "sec(x&) * tan(x&)")
+		derivative.setlatex( "\\sec x& \cdot \\tan x&" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def csc():
 		function = Function( "csc(x&)" )
 		function.setlatex( "\\csc x&" )
+		derivative = Function( "-1 / (csc(x&) * cot(x&))")
+		derivative.setlatex( "\\dfrac{-1}{\csc x& \\cdot \\cot x&}" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def cot():
 		function = Function( "cot(x&)" )
 		function.setlatex( "\\cot x&" )
+		derivative = Function( "1 / ( csc(x&) )^2" )
+		derivative.setlatex( "\\dfrac{1}{(\csc x&)^2}" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def exp():
 		function = Function( "exp(x&)" )
 		function.setlatex( "e^{x&}" )
+		derivative = Function( "exp(x&)")
+		derivative.setlatex( "e^{x&}" )
+		function.setDerivative( derivative )
 		return function
 
 
 	def ln():
 		function = Function( "ln(x&)" )
 		function.setlatex( "\\ln x&" )
+		derivative = Function( "1 / x&")
+		derivative.setlatex( "\\dfrac{ 1 }{x&}" )
+		function.setDerivative( derivative )
 		return function
 
-	productions = [ plus, minus, times, divide, compose ]
+
+	# productions = [ plus, minus, times, divide, compose ]
+
+	# list of python functions, not Functions
 	elemFunctions = [ const, linear, sin, cos, tan, exp ]
 	complexityMap = {
 		plus : 1,
@@ -205,6 +262,13 @@ class Production:
 		times: 2,
 		divide: 3,
 		compose: 4
+	}
+	production = {
+		"plus" : plus,
+		"minus" : minus,
+		"times" : times,
+		"divide" : divide,
+		"compose" : compose,
 	}
 
 	# printing name for debugging only
