@@ -6,23 +6,25 @@
   <h3> <i class="material-icons" style="vertical-align:middle">keyboard_arrow_right</i> {{ exercise.exercise_name }}</h3>
   <br>
   <center>
-  <p>
-  Differentiate this function : 
-  </p>
-  <br>
-  <script type="math/tex; mode=display">{{rand_fn}}</script><br><br>
-<!--   Your answer : <br>
+  {% autoescape off %}
+  {{prompt}}
+  {% endautoescape %}
+  <br><br> 
+  {% if input_method == "MathKeyboard" %}
+  Your answer : <br>
   <span id ="math-keyboard" style="background:white; color:black; width:200px;height:30px"></span>
   <span id ="latex" style="display:none" type="text"></span>
- -->  </center>
+  {% endif %}
+  </center>
    <br>
-  Solution : <br><script type="math/tex; mode=display">{{diff}}</script>
-  <br>
-  Steps : <br>
+<!--   Solution : <br><script type="math/tex; mode=display">{{diff}}</script>
+ -->  <br>
+<!--   Steps : <br>
   {% autoescape off %}
   <div class="steps">{{diff_steps}}</div>
   {% endautoescape %}
-<!--  <br>
+ -->
+ <!--  <br>
   Integral :   <br>{{integral}}
  -->
 <script>
