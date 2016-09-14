@@ -69,7 +69,10 @@ class Node:
 
 	# Display the name of the function / production in this node
 	def display( self ):
-		sys.stdout.write( Production.nameMap[self.holder] + " " )
+		if self.isLeaf():
+			sys.stdout.write(self.getValue()().toString() + " ")
+		else:
+			sys.stdout.write( Production.nameMap[self.holder] + " " )
 
 
 class FunctionTree:
@@ -184,7 +187,17 @@ class FunctionTree:
 		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
 		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
-		result = Production.getDerivative( product, leftFunction, rightFunction, leftDerivative, rightDerivative )
+		result = Production.getDerivative( production, leftFunction, rightFunction, leftDerivative, rightDerivative )
+		# print("***********")
+		# print("current node: ")
+		# node.display()
+		# sys.stdout.write("left derivative:")
+		# sys.stdout.write( leftDerivative.toString()  + "\n")
+		# sys.stdout.write("left derivative:")
+		# sys.stdout.write( rightDerivative.toString() + "\n")
+		# print("Apply differential for p rule " + Production.nameMap[production])
+		# print(result.toString())
+		# print("***********")
 		return result
 
 

@@ -21,29 +21,25 @@ class Production:
 		return choice( list(Production.production.values()) )
 
 
-	def simplify( func ):
-		return simplify( func.toString() )
-
-
 	def getDerivative( productionRule, func1, func2, func1D, func2D ):
-		nameMap = Production.production
-		print( productionRule )
-		print( Production.production )
 		if productionRule == Production.plus:
-			return plus( func1D, func2D )
+			return Production.plus( func1D, func2D )
 		if productionRule == Production.minus:
-			return minus( func1D, func2D )
+			return Production.minus( func1D, func2D )
 		if productionRule == Production.times:
-			return plus( times(func1D, func2), times(func1, func2D) )
+			return Production.plus( Production.times(func1D, func2), Production.times(func1, func2D) )
 		if productionRule == Production.divide:
-			return divide( 
-				minus( times(func1D, func2), times(func1, func2D) ), 
-				power(func2, 2)
+			return Production.divide( 
+				Production.minus( Production.times(func1D, func2), Production.times(func1, func2D) ), 
+				Production.power(func2, 2)
 			)
 		if productionRule == Production.compose:
-			return times( compose(func1D, func2), func2D )
+			return Production.times( Production.compose(func1D, func2), func2D )
 		print("no match")
 
+
+	def simplify( func ):
+		return simplify( func.toString() )
 
 	def plus( func1, func2 ):
 		str1 = func1.getStringFunc()
@@ -144,7 +140,7 @@ class Production:
 
 		# TODO. f(x) ^ g(x) ?
 	def power( func1, const ):
-		function = Function( func1.getStringFunc() + " **const " )
+		function = Function( func1.getStringFunc() + " **" + str(const) )
 		function.setlatex( func1.getlatex() + "^{" + str(const) + "}")
 		return function
 
@@ -165,7 +161,7 @@ class Production:
 
 
 	def linear():
-		randomConstant = str(randint(1, 10))
+		randomConstant = "1"
 
 		if randomConstant == "1":
 			function =  Function( "x&" )
@@ -201,7 +197,7 @@ class Production:
 	def tan():
 		function = Function( "tan(x&)" )
 		function.setlatex( "\\tan x&" )
-		derivative = Function( "sec(x&)^2")
+		derivative = Function( "sec(x&)**2")
 		derivative.setlatex( "(\\sec x&)^2" )
 		function.setDerivative( derivative )
 		return function
@@ -219,8 +215,8 @@ class Production:
 	def csc():
 		function = Function( "csc(x&)" )
 		function.setlatex( "\\csc x&" )
-		derivative = Function( "-1 / (csc(x&) * cot(x&))")
-		derivative.setlatex( "\\dfrac{-1}{\csc x& \\cdot \\cot x&}" )
+		derivative = Function( "-(csc(x&) * cot(x&))")
+		derivative.setlatex( "-\csc x& \\cdot \\cot x&" )
 		function.setDerivative( derivative )
 		return function
 
@@ -228,8 +224,8 @@ class Production:
 	def cot():
 		function = Function( "cot(x&)" )
 		function.setlatex( "\\cot x&" )
-		derivative = Function( "1 / ( csc(x&) )^2" )
-		derivative.setlatex( "\\dfrac{1}{(\csc x&)^2}" )
+		derivative = Function( "-( csc(x&) )**2" )
+		derivative.setlatex( "-(\csc x&)^2" )
 		function.setDerivative( derivative )
 		return function
 
@@ -250,7 +246,6 @@ class Production:
 		derivative.setlatex( "\\dfrac{ 1 }{x&}" )
 		function.setDerivative( derivative )
 		return function
-
 
 	# productions = [ plus, minus, times, divide, compose ]
 

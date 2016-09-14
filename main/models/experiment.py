@@ -12,9 +12,9 @@ from Production import *
 # print (square == 0)
 
 
-tree = FunctionTree.buildTreeWithMaxComplexity( 10 )
-tree.printTree()
+tree = FunctionTree.buildTreeWithMaxComplexity( 3 )
 func =  tree.getOutputFunction() 
+tree.printTree()
 derivative = tree.getOutputDerivative()
 print("The output function is: ")
 print(func.toString())

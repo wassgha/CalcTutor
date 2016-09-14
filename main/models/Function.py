@@ -8,8 +8,10 @@ class Function:
 		self.func = input
 		self.isConstant = isConstant
 		self.elementary = elementary
+		self.functionType = None
 		self.latex = None
 		self.derivative = None
+
 
 	# Return the string currently held
 	def getStringFunc( self ):
@@ -32,6 +34,14 @@ class Function:
 	def isNotElementary( self ):
 		return not self.elementary
 
+
+	def setType( self, inputType ):
+		self.functionType = inputType
+
+
+	def getType( self ):
+		return self.getType
+		
 
 	def setlatex( self, latex ):
 		self.latex = latex
