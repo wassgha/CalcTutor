@@ -214,7 +214,8 @@ class FunctionTree:
 			parent.setRightChild( newNode )
 
 
-	def buildTreeWithMaxComplexity( complexity ):
+	@classmethod
+	def buildTreeWithMaxComplexity(self, complexity ):
 		# prod = Production()
 		tree = FunctionTree()
 		while tree.getComplexity() < complexity:

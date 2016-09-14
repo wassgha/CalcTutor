@@ -17,7 +17,9 @@ class Production:
 	# nameMap = { plus: "plus", minus: "minus", times: "times", divide: "divide", compose: "compose", '': "no func"}
 	# functionArray = [ plus, minus, times, divide, compose ]
 
-	def getRandomProductionRule():
+
+	@classmethod
+	def getRandomProductionRule(self):
 		return choice( list(Production.production.values()) )
 
 
@@ -38,8 +40,11 @@ class Production:
 		print("no match")
 
 
-	def simplify( func ):
+
+	@classmethod
+	def simplify(self, func ):
 		return simplify( func.toString() )
+		
 
 	def plus( func1, func2 ):
 		str1 = func1.getStringFunc()
