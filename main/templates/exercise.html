@@ -12,8 +12,11 @@
   <br><br> 
   {% if input_method == "MathKeyboard" %}
   Your answer : <br>
-  <span id ="math-keyboard" style="background:white; color:black; width:200px;height:30px"></span>
-  <span id ="latex" style="display:none" type="text"></span>
+<div id="wrap">
+  <textarea id="keyboard"></textarea>
+  <br>
+  <div id="mathquill"></div>
+</div>
   {% endif %}
   </center>
    <br>
@@ -28,22 +31,58 @@
   Integral :   <br>{{integral}}
  -->
 <script>
-var mathFieldSpan = document.getElementById('math-keyboard');
-var latexSpan = document.getElementById('latex');
+$(function() {
 
-var MQ = MathQuill.getInterface(2); // for backcompat
-var mathField = MQ.MathField(mathFieldSpan, {
-  spaceBehavesLikeTab: true, // configurable
-  handlers: {
-    edit: function() { // useful event handlers
-      latexSpan.textContent = mathField.latex(); // simple API
-    }
-  }
+  $.extend($.keyboard.keyaction, {
+    'frac': function(kb) {
+      kb.insertText('\\frac{}{}');
+      var caret = $.keyboard.caret(kb.$el);
+      kb.saveCaret(caret.start - 3, caret.start - 3);
+    },
+    'sqrt': function(kb) {
+      kb.insertText('\\sqrt{}');
+      var caret = $.keyboard.caret(kb.$el);
+      kb.saveCaret(caret.start - 1, caret.start - 1);
+    },
+  });
+
+  var MQElement = document.getElementById('mathquill');
+
+  var MQ = MathQuill.getInterface(2); // for backcompat
+
+  var mathField = MQ.MathField(MQElement, {});
+
+  $('#mathquill').click(function() {
+    $('#keyboard').getkeyboard().reveal();
+  });
+
+
+
+  $('#keyboard')
+    .keyboard({
+      usePreview: false,
+      layout: 'custom',
+      autoAccept: true,
+      customLayout: {
+        'default': [
+          'sin cos tan \u03c0 {b}',
+          '7 8 9 + -',
+          '4 5 6 * {frac}',
+          '1 2 3 ^ {sqrt}',
+          '0 . , {left} {right}',
+          '< > = {clear} {a}'
+        ]
+      },
+      useCombos: false,
+      accepted: function(event, keyboard, el) {
+        mathField.latex(el.value);
+      },
+      keyboardChange: function(event, keyboard, el) {
+        keyboard.insertText(mathField.latex())
+      }
+
+    });
+
 });
 </script>
-
- <script type="text/javascript">
-   $('.mq-textarea textarea').keyboard({ layout: 'qwerty',     usePreview: false
- });
- </script>
 {% endblock %}

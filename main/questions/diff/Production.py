@@ -23,20 +23,21 @@ class Production:
 		return choice( list(Production.production.values()) )
 
 
-	def getDerivative( productionRule, func1, func2, func1D, func2D ):
-		if productionRule == Production.plus:
-			return Production.plus( func1D, func2D )
-		if productionRule == Production.minus:
-			return Production.minus( func1D, func2D )
-		if productionRule == Production.times:
-			return Production.plus( Production.times(func1D, func2), Production.times(func1, func2D) )
-		if productionRule == Production.divide:
-			return Production.divide( 
-				Production.minus( Production.times(func1D, func2), Production.times(func1, func2D) ), 
-				Production.power(func2, 2)
+	@classmethod
+	def getDerivative(self, productionRule, func1, func2, func1D, func2D ):
+		if productionRule == self.plus:
+			return self.plus( func1D, func2D )
+		if productionRule == self.minus:
+			return self.minus( func1D, func2D )
+		if productionRule == self.times:
+			return self.plus( self.times(func1D, func2), self.times(func1, func2D) )
+		if productionRule == self.divide:
+			return self.divide( 
+				self.minus( self.times(func1D, func2), self.times(func1, func2D) ), 
+				self.power(func2, 2)
 			)
-		if productionRule == Production.compose:
-			return Production.times( Production.compose(func1D, func2), func2D )
+		if productionRule == self.compose:
+			return self.times( self.compose(func1D, func2), func2D )
 		print("no match")
 
 
@@ -88,7 +89,7 @@ class Production:
 		return function
 
 
-	def times( func1, func2 ):
+	def times(func1, func2 ):
 		str1 = func1.getStringFunc()
 		str2 = func2.getStringFunc()
 		latex1 = func1.getlatex()
@@ -106,7 +107,7 @@ class Production:
 
 		# if func2 is a constant, swap the 2 functions
 		elif func2.constant():
-			return Production.times( func2, func1 )
+			return self.times( func2, func1 )
 
 		# if no function is constant, append the two
 		if func1.isNotElementary():
