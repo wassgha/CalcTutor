@@ -22,6 +22,7 @@ class Production:
 		return choice( list(Production.production.values()) )
 
 
+	@classmethod
 	def getDerivative(self, productionRule, func1, func2, func1D, func2D ):
 		if productionRule == self.plus:
 			return self.plus( func1D, func2D )
@@ -103,7 +104,7 @@ class Production:
 
 		# if func2 is a constant, swap the 2 functions
 		elif func2.constant():
-			return times( func2, func1 )
+			return self.times( func2, func1 )
 
 		# if no function is constant, append the two
 		if func1.isNotElementary():
