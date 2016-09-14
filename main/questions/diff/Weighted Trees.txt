@@ -1,0 +1,28 @@
+Basic problems templates (e.g. "Find f'(x) for f(x)=___") are hand-coded with a placeholder for a randomly generated function (RGF).
+
+In order to automatically produce solutions, RGFs are created as weighted trees. Leafs are all FUNCTION as the tree structure is built up. Starting from a single FUNCTION node, production rules are applied randomly in order to increase function complexity. For example, function composition corresponds to a production rule FUNCTION -> (COMPOSE (FUNCTION, FUNCTION)), allowing for a Chain Rule step in a derivative problem. All production rules have FUNCTION at each leaf and assign a weight, representing difficulty, to the added internal node. Internal nodes all semantically represent methods of combining functions. There must be a corresponding calculus rule, relevant to the problem template, for each production rule. After the total tree weight reaches a desired range, FUNCTION leaves are randomly replaced by listed elementary functions.
+
+Something like:
+
+while functionTree.weight < minDifficulty
+    production = problemClass.randomProduction()
+    functionTree.applyProduction(production)
+for leaf in functionTree
+    functionTree.leafToElemFunction(leaf)
+
+The automatic solver can then recursively apply the calculus rules to each node, producing a solutionTree. solutionTree.toString() should then be routine programming.
+
+We then set solution=solutionTree.toString(). Assuming eval(string expr, float point) is our library function for evaluation of a function at a point, we set up two arrays.
+
+float[] xs = new float[NUMTESTPOINTS]
+float[] ys = new float[NUMTESTPOINTS]
+for i
+    do
+        xs[i] = random float
+        y = eval(solution, point)
+    while eval throws error
+    ys[i] = y
+
+The pair xs and ys now gives a hash to check the user input function against. There should also be a counter in the do-while loop to allow us to throw away RGFs that appear to have no domain. (After too many attempts to find points in the domain, give up and move on.)
+
+As discussed, it would be nice to set up a hash table of incorrect answers, storing input function strings via a hash of the ys. This provides an automated system for multiple choice problems, eventually. This could also allow for weights to be trained via user performance, if we want to get really fancy.
