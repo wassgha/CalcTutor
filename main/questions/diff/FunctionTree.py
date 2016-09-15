@@ -70,7 +70,7 @@ class Node:
 	# Display the name of the function / production in this node
 	def display( self ):
 		if self.isLeaf():
-			sys.stdout.write(self.getValue()().toString() + " ")
+			sys.stdout.write(self.getValue().toString() + " ")
 		else:
 			sys.stdout.write( Production.nameMap[self.holder] + " " )
 
@@ -132,7 +132,7 @@ class FunctionTree:
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
 			func = choice( Production.elemFunctions )
-			leaf.setValue( func )
+			leaf.setValue( func() )
 
 
 	# Print the tree level by level
@@ -153,7 +153,7 @@ class FunctionTree:
 	# Evaluate the subtree rooted at node to get the output function
 	def getFunctionAtSubtree( self, node ):
 		if node.isLeaf():
-			return node.getValue()()
+			return node.getValue()
 
 		production = node.getValue()
 		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
@@ -180,7 +180,7 @@ class FunctionTree:
 
 	def getDerivativeAtSubtree( self, node ):
 		if node.isLeaf():
-			return node.getValue()().getDerivative()
+			return node.getValue().getDerivative()
 
 		production = node.getValue()
 		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
@@ -188,16 +188,16 @@ class FunctionTree:
 		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
 		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
 		result = Production.getDerivative( production, leftFunction, rightFunction, leftDerivative, rightDerivative )
-		# print("***********")
-		# print("current node: ")
-		# node.display()
-		# sys.stdout.write("left derivative:")
-		# sys.stdout.write( leftDerivative.toString()  + "\n")
-		# sys.stdout.write("left derivative:")
-		# sys.stdout.write( rightDerivative.toString() + "\n")
-		# print("Apply differential for p rule " + Production.nameMap[production])
-		# print(result.toString())
-		# print("***********")
+		print("***********")
+		print("current node: ")
+		node.display()
+		sys.stdout.write("left derivative:")
+		sys.stdout.write( leftDerivative.toString()  + "\n")
+		sys.stdout.write("left derivative:")
+		sys.stdout.write( rightDerivative.toString() + "\n")
+		print("Apply differential for p rule " + Production.nameMap[production])
+		print(result.toString())
+		print("***********")
 		return result
 
 

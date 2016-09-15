@@ -89,7 +89,7 @@ class Production:
 		return function
 
 
-	def times(func1, func2 ):
+	def times( func1, func2 ):
 		str1 = func1.getStringFunc()
 		str2 = func2.getStringFunc()
 		latex1 = func1.getlatex()
@@ -107,7 +107,7 @@ class Production:
 
 		# if func2 is a constant, swap the 2 functions
 		elif func2.constant():
-			return self.times( func2, func1 )
+			return Production.times( func2, func1 )
 
 		# if no function is constant, append the two
 		if func1.isNotElementary():
@@ -146,13 +146,15 @@ class Production:
 
 		# TODO. f(x) ^ g(x) ?
 	def power( func1, const ):
-		function = Function( func1.getStringFunc() + " **" + str(const) )
+		function = Function( "(" + func1.getStringFunc() + ") **" + str(const), False, False )
 		function.setlatex( func1.getlatex() + "^{" + str(const) + "}")
 		return function
 
 
 	def compose( func1, func2 ):
-		function = Function( func1.getStringFunc().replace("x&", "(" + func2.getStringFunc() + ")"))
+		if func1.constant():
+			return func1
+		function = Function( func1.getStringFunc().replace("x&", "(" + func2.getStringFunc() + ")"), False, False)
 		function.setlatex( func1.getlatex().replace("x&", "(" + func2.getlatex() + ")") )
 		return function
 
