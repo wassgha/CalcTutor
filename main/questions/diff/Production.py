@@ -34,10 +34,18 @@ class Production:
 		if productionRule == self.divide:
 			return self.divide( 
 				self.minus( self.times(func1D, func2), self.times(func1, func2D) ), 
-				self.power(func2, 2)
+				self.powerConst(func2, 2)
 			)
 		if productionRule == self.compose:
 			return self.times( self.compose(func1D, func2), func2D )
+		if productionRule == self.power:
+			return self.times(
+				self.power( func1, func2 ),
+				self.plus(
+					self.times( func2, self.divide( func1D, func1 ) ),
+					self.times( self.compose( self.ln(), func1 ), func2D )
+				)
+			)
 		print("no match")
 
 
@@ -144,10 +152,22 @@ class Production:
 
 		return function
 
-		# TODO. f(x) ^ g(x) ?
-	def power( func1, const ):
-		function = Function( "(" + func1.getStringFunc() + ") **" + str(const), False, False )
-		function.setlatex( func1.getlatex() + "^{" + str(const) + "}")
+
+	def powerConst( func1, const ):
+		str1 = "(" + func1.getStringFunc() + ")"
+		latex1 = "(" + func1.getlatex() + ")"
+		function = Function( func1 + "**" + str(const), False, False )
+		function.setlatex( latex1 + "^{" + str(const) + "}")
+		return function
+
+
+	def power( func1, func2 ):
+		str1 = "(" + func1.getStringFunc() + ")"
+		str2 = "(" + func2.getStringFunc() + ")"
+		latex1 = "(" + func1.getlatex() + ")"
+		latex2 = func2.getlatex() # no need for ( ) in power
+		function = Function( str1 + "**" + str2 , False, False )
+		function.setlatex( latex1 + "^{" + latex2 + "}")
 		return function
 
 
@@ -159,8 +179,8 @@ class Production:
 		return function
 
 
-	def const():
-		function = Function( str(randint(1, 10)), True )
+	def const( number = randint(1, 10) ):
+		function = Function( str(number), True )
 		function.setlatex( function.getStringFunc() )
 		derivative = Function( "0" )
 		derivative.setlatex( "0" )
@@ -264,14 +284,16 @@ class Production:
 		minus : 1,
 		times: 2,
 		divide: 3,
-		compose: 4
+		compose: 4,
+		power: 8
 	}
 	production = {
-		"plus" : plus,
-		"minus" : minus,
-		"times" : times,
-		"divide" : divide,
-		"compose" : compose,
+		# "plus" : plus,
+		# "minus" : minus,
+		# "times" : times,
+		# "divide" : divide,
+		# "compose" : compose,
+		"power" : power
 	}
 
 	# printing name for debugging only
@@ -281,11 +303,12 @@ class Production:
 		times: "times", 
 		divide: "divide", 
 		compose: "compose", 
+		power: "power",
 		const: "const",
 		linear: "linear",
 		sin: "sin",
 		cos: "cos",
 		tan: "tan",
-		exp: "exp"
+		exp: "exp",
 	}
 

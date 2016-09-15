@@ -12,7 +12,7 @@ from Production import *
 # print (square == 0)
 
 
-tree = FunctionTree.buildTreeWithMaxComplexity( 5 )
+tree = FunctionTree.buildTreeWithMaxComplexity( 8 )
 func =  tree.getOutputFunction() 
 tree.printTree()
 derivative = tree.getOutputDerivative()
@@ -31,4 +31,4 @@ print( derivative.evaluate(5) )
 print("The latex representation is: ")
 print( derivative.getDisplayLatex() )
 print("checking")
-print("( differentiate (" + func.toString() + ")) - (" + derivative.toString() + ")")
+print("(differentiate (" + func.toString() + "))-(" + derivative.toString() + ")")

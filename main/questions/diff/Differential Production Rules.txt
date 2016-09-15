@@ -50,5 +50,76 @@ RGF: FUNCTION -> (LN (x))
 D: (LN (x)) -> (DIVIDE (1, x))
 
 //Six more inverse trig, six more hyperbolic, add weights
+RGF: FUNCTION -> (ARCSIN (x))
+D: (ARCSIN (x)) -> (DIVIDE (
+	1, 
+	COMPOSE (
+		SQRT (x),
+		MINUS (1, TIMES (x,x))
+	) 
+))
+
+RGF: FUNCTION -> (ARCOS (x))
+D: (ARCOS (x)) -> (DIVIDE (
+	-1, 
+	COMPOSE (
+		SQRT (x),
+		MINUS (1, TIMES (x,x))
+	) 
+))
+
+RGF: FUNCTION -> (ARCTAN (x))
+D: (ARCTAN (x)) -> (DIVIDE (
+	1,
+	PLUS (1, TIMES (x,x))
+))
+
+RGF: FUNCTION -> (ARCCOT (x))
+D: (ARCCOT (x)) -> (DIVIDE (
+	-1,
+	PLUS (1, TIMES (x,x))
+))
+
+RGF: FUNCTION -> (ARCSEC (x))
+D: (ARCSEC (x)) -> (DIVIDE (
+	1,
+	TIMES (
+		TIMES (x,x),
+		SQRT ( MINUS (
+			1,
+			DIVIDE( 1, TIMES (x,x))
+		))
+	)
+))
+
+RGF: FUNCTION -> (ARCCSC (x))
+D: (ARCSEC (x)) -> (DIVIDE (
+	-1,
+	TIMES (
+		TIMES (x,x),
+		SQRT ( MINUS (
+			1,
+			DIVIDE( 1, TIMES (x,x))
+		))
+	)
+))
+
+RGF: FUNCTION -> (SINH (x))
+D: (SINH (x)) -> (COSH (x))
+
+RGF: FUNCTION -> (COSH (x))
+D: (COSH (x)) -> (TIMES (-1,SINH (x)))
+
+RGF: FUNCTION -> (TANH (x))
+D: (TANH (x)) -> (TIMES (SECH (x), SECH (x)))
+
+RGF: FUNCTION -> (COTH (x))
+D: (COTH (x)) -> (TIMES (-1, (TIMES (CSCH (x), CSCH (x)))))
+
+RGF: FUNCTION -> (SECH (x))
+D: (SECH (x)) -> (TIMES (TANH(x), TIMES (-1, SECH(x))))
+
+RGF: FUNCTION -> (CSCH (x))
+D: (CSCH (x)) -> (TIMES (-1, TIMES (COTH (x), CSCH(x))))
 
 //There should also be a final pass to simplify out at only a basic level. Eliminate multiplying by 1, eliminate adding 0, zero out multiplying by 0, etc.
