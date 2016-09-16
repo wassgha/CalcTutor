@@ -29,6 +29,7 @@
   Integral :   <br>{{integral}}
  -->
 
+ <div id="keyboard-wrapper">
  <ul id="keyboard">
     <li class="symbol" data-action="write" data-content="1">1</li>
     <li class="symbol" data-action="write" data-content="2">2</li>
@@ -63,6 +64,9 @@
     <li class="letter" data-action="cmd" data-content="\pi">&pi;</li>
     <li class="delete" data-action="keystroke" data-content="Backspace">delete</li>
   </ul>
+  </div>
+  <div id="keyboard-mask">
+  </div>
 <script>
 $(document).ready(function() {
   var MQElement = document.getElementById('mathquill');

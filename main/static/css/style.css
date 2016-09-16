@@ -212,13 +212,24 @@ h6 {
 }
 
 
+#keyboard-wrapper {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin: auto;
+  position: fixed;
+  background: #c5c5c5;
+  padding: 10px;
+  width: 100%;
+  left: 0px;
+  bottom: 0px;
+}
 #keyboard {
-margin: 0;
-padding: 0;
-list-style: none;
-max-width: 600px;
-    margin: auto;
-    margin-bottom: 35px !important
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin: auto;
+  max-width: 400px;
 }
   #keyboard li {
   float: left;
@@ -281,4 +292,7 @@ max-width: 600px;
     border: 1px solid #f9f9f9;
     color: black;
     border-radius: 4px;
+}
+#keyboard-mask {
+  height: 200px;
 }
