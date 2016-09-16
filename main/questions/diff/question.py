@@ -22,7 +22,7 @@ class Question(object):
 
 	def __init__(self):
 		self.arg = arg
-		self.tree = FunctionTree.buildTreeWithMaxComplexity(7)
+		self.tree = FunctionTree.buildTreeWithMaxComplexity(5)
 		self.func =  self.tree.getOutputFunction() 
 		print "Derivative : " 
 		#print self.tree.getOutputDerivative()
@@ -39,8 +39,8 @@ class Question(object):
 		self.tree.printTree()
 		prompt += "<script type=\"math/tex; mode=display\">" + self.func.getDisplayLatex() + "</script>"
 		prompt += "<p>Solution : </p><br>"
-		prompt += self.deriv.toString()
-		prompt += "<script type=\"math/tex; mode=display\">" + self.deriv.getDisplayLatex() + "</script>"
+		# prompt += self.deriv.toString()
+		prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.deriv.toString()))) + "</script>"
 		return prompt
 
 	"""

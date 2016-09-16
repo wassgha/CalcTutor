@@ -27,6 +27,7 @@ class Function:
 	def evaluate( self, number ):
 		numericValue = self.getStringFunc().replace("x&", str(number))
 		return parse_expr( numericValue )
+
 	
 
 	def constant( self ):

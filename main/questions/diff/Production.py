@@ -17,10 +17,10 @@ def plus( func1, func2 ):
 		function = Function( str( int(str1) + int(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
-		if func1.isNotElementary():
-			str1 = "(" + str1 + ")"
-		if func2.isNotElementary():
-			str2 = "(" + str2 + ")"
+		# if func1.isNotElementary():
+		str1 = "(" + str1 + ")"
+		# if func2.isNotElementary():
+		str2 = "(" + str2 + ")"
 		function = Function( str1 + " + " + str2, False, False )
 		function.setlatex( func1.getlatex() + " + " + func2.getlatex() )
 
@@ -38,12 +38,12 @@ def minus( func1, func2 ):
 		function = Function( str( int(str1) - int(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
-		if func1.isNotElementary():
-			str1 = "(" + str1 + ")"
-			latex1 = "(" + latex1 + ")"
-		if func2.isNotElementary():
-			str2 = "(" + str2 + ")"
-			latex2 = "(" + latex2 + ")"
+		# if func1.isNotElementary():
+		str1 = "(" + str1 + ")"
+		latex1 = "(" + latex1 + ")"
+		# if func2.isNotElementary():
+		str2 = "(" + str2 + ")"
+		latex2 = "(" + latex2 + ")"
 		function = Function( str1 + " - " + str2, False, False )
 		function.setlatex( latex1 + " - " + latex2 )
 
@@ -71,12 +71,12 @@ def times( func1, func2 ):
 		return Production.times( func2, func1 )
 
 	# if no function is constant, append the two
-	if func1.isNotElementary():
-		str1 = "(" + str1 + ")"
-		latex1 = "(" + latex1 + ")"
-	if func2.isNotElementary():
-		str2 = "(" + str2 + ")"
-		latex2 = "(" + latex2 + ")"
+	# if func1.isNotElementary():
+	str1 = "(" + str1 + ")"
+	latex1 = "(" + latex1 + ")"
+	# if func2.isNotElementary():
+	str2 = "(" + str2 + ")"
+	latex2 = "(" + latex2 + ")"
 
 	function = Function( str1 + " * " + str2, False, False )
 	function.setlatex( latex1 + " \cdot " + latex2 )
@@ -96,10 +96,10 @@ def divide( func1, func2 ):
 		elif int( func2.getStringFunc() ) == 1:
 			return func1
 
-	if func1.isNotElementary():
-		str1 = "(" + str1 + ")"
-	if func2.isNotElementary():
-		str2 = "(" + str2 + ")"
+	# if func1.isNotElementary():
+	str1 = "(" + str1 + ")"
+	# if func2.isNotElementary():
+	str2 = "(" + str2 + ")"
 	function = Function( str1 + " / " + str2, False, False )
 	function.setlatex( "\\dfrac{" + func1.getlatex() + "}{" + func2.getlatex() + "}" )
 
