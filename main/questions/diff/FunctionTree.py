@@ -193,7 +193,7 @@ class FunctionTree:
 		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
 		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
-		result = Production.getDerivative( production, leftFunction, rightFunction, leftDerivative, rightDerivative )
+		result = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction, leftDerivative, rightDerivative )
 		print("***********")
 		print("current node: ")
 		node.display()
