@@ -62,6 +62,26 @@
     <li class="letter" data-action="write" data-content="(">(</li>
     <li class="letter" data-action="write" data-content=")">)</li>
     <li class="letter" data-action="cmd" data-content="\pi">&pi;</li>
+    <li class="letter" data-action="cmd" data-content="\sin">sin</li>
+    <li class="letter" data-action="cmd" data-content="\cos">cos</li>
+    <li class="letter" data-action="cmd" data-content="\tan">tan</li>
+    <li class="letter" data-action="cmd" data-content="\cot">cot</li>
+    <li class="letter" data-action="cmd" data-content="\sec">sec</li>
+    <li class="letter" data-action="cmd" data-content="\csc">csc</li>
+    <li class="letter" data-action="cmd" data-content="\arcsin">asin</li>
+    <li class="letter" data-action="cmd" data-content="\arccos">acos</li>
+    <li class="letter" data-action="cmd" data-content="\arctan">atan</li>
+    <li class="letter" data-action="cmd" data-content="\arccot">acot</li>
+    <li class="letter" data-action="cmd" data-content="\arcsec">asec</li>
+    <li class="letter" data-action="cmd" data-content="\arccsc">acsc</li>
+<!--     <li class="letter" data-action="cmd" data-content="\sinh">sinh</li>
+    <li class="letter" data-action="cmd" data-content="\cosh">cosh</li>
+    <li class="letter" data-action="cmd" data-content="\tanh">tanh</li>
+    <li class="letter" data-action="cmd" data-content="\sech">sech</li>
+    <li class="letter" data-action="cmd" data-content="\csch">csch</li>
+    <li class="letter" data-action="cmd" data-content="\coth">coth</li> -->
+    <li class="letter" data-action="write" data-content="e^{}">e</li>
+    <li class="letter" data-action="write" data-content="\ln">ln</li>
     <li class="delete" data-action="keystroke" data-content="Backspace">delete</li>
   </ul>
   </div>
@@ -86,6 +106,8 @@ $(document).ready(function() {
     }
     mathField.focus();
   });
+
+  $('#keyboard-mask').height($('#keyboard-wrapper').height());
 });
 </script>
 {% endblock %}
