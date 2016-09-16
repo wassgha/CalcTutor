@@ -37,7 +37,7 @@ class Question(object):
 	def getPrompt(self):
 		prompt = "<p>Differentiate this function : </p><br>"
 		self.tree.printTree()
-		prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.func.toString()))) + "</script>"
+		prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.func.toString())), inv_trig_style="full") + "</script>"
 		# prompt += "<p>Solution : </p><br>"
 		# prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.deriv.toString()))) + "</script>"
 		return prompt
