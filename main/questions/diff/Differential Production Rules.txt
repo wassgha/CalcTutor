@@ -14,7 +14,13 @@ RGF: FUNCTION -> (POWER (FUNCTION, CONST))
 D: (POWER (f, c)) -> (TIMES (c, (POWER (f, c-1))))
 
 RGF: FUNCTION -> (POWER (FUNCTION, FUNCTION))
-D: (POWER (f, g)) -> (TIMES ((POWER (f, g)), (PLUS ((TIMES (g, (DIVIDE ((D f), f)))), (TIMES ((LN (f)), (D g)))))))
+D: (POWER (f, g)) -> (TIMES (
+	(POWER (f, g)), 
+	(PLUS ((TIMES 
+		(g, (DIVIDE ((D f), f)))), 
+		(TIMES ((LN (f)), (D g)))
+	))
+))
 
 RGF: FUNCTION -> (COMPOSE (FUNCTION, FUNCTION))
 D: (COMPOSE (f, g)) -> (TIMES ((COMPOSE ((D f), g)), (D g)))
@@ -108,7 +114,7 @@ RGF: FUNCTION -> (SINH (x))
 D: (SINH (x)) -> (COSH (x))
 
 RGF: FUNCTION -> (COSH (x))
-D: (COSH (x)) -> (TIMES (-1,SINH (x)))
+D: (COSH (x)) -> (SINH (x))
 
 RGF: FUNCTION -> (TANH (x))
 D: (TANH (x)) -> (TIMES (SECH (x), SECH (x)))
