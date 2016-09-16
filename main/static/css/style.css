@@ -270,3 +270,14 @@ max-width: 500px;
     border-color: #e5e5e5;
     cursor: pointer;
     }
+
+    #mathquill {
+    padding: 5px;
+    width: 300px;
+    margin-top: 20px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    color: black;
+    border-radius: 4px;
+}
