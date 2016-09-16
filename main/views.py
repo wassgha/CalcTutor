@@ -6,7 +6,7 @@ from .utils import *
 
 from .logic import diffsteps
 
-import sys
+import sys, os
 
 # Create your views here.
 
@@ -40,7 +40,7 @@ def exercise(request, course_id, topic_id, exercise_id):
     course = get_object_or_404(Course, pk=course_id)
     topic = get_object_or_404(Topic, pk=topic_id)
     exercise = get_object_or_404(Exercise, pk=exercise_id)
-    sys.path.append('/Users/wassgha/Documents/tutor/main/questions/' + exercise.file_name)
+    sys.path.append(os.path.join(os.path.dirname(__file__), 'questions/' + exercise.file_name))
     import question
     quest = question.Question()
     # randfn = rand_fn()
