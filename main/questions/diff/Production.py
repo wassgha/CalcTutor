@@ -68,7 +68,7 @@ def times( func1, func2 ):
 
 	# if func2 is a constant, swap the 2 functions
 	elif func2.constant():
-		return Production.times( func2, func1 )
+		return times( func2, func1 )
 
 	# if no function is constant, append the two
 	# if func1.isNotElementary():

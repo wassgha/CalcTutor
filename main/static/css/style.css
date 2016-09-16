@@ -212,32 +212,61 @@ h6 {
 }
 
 
-/* position keyboard at bottom of the screen - jQuery UI isn't even loaded! */
-
-.ui-keyboard {
-  border-radius: 0;
-  left: 0;
-  top: auto;
-  bottom: 0;
-  position: fixed;
-  width: 100%;
+#keyboard {
+margin: 0;
+padding: 0;
+list-style: none;
+max-width: 500px;
+    margin: auto;
 }
-
-.ui-keyboard div {
-  font-size: 1.2em;
-}
-
-body {
-  margin-top: 100px;
-}
-
-#wrap {
-  display: block;
-  margin: 0 auto;
+  #keyboard li {
+  float: left;
+  margin: 0 5px 5px 0;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
-}
-
-textarea#keyboard {
+  background: #fff;
+  border: 1px solid #f9f9f9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  color:black;
+  }
+    .capslock, .tab, .left-shift {
+    clear: left;
+    }
+      #keyboard .tab, #keyboard .delete {
+      width: 70px;
+      }
+      #keyboard .capslock {
+      width: 80px;
+      }
+      #keyboard .return {
+      width: 77px;
+      }
+      #keyboard .left-shift {
+      width: 95px;
+      }
+      #keyboard .right-shift {
+      width: 109px;
+      }
+    .lastitem {
+    margin-right: 0;
+    }
+    .uppercase {
+    text-transform: uppercase;
+    }
+    #keyboard .space {
+    clear: left;
+    width: 681px;
+    }
+    .on {
     display: none;
-}
-
+    }
+    #keyboard li:hover {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    border-color: #e5e5e5;
+    cursor: pointer;
+    }
