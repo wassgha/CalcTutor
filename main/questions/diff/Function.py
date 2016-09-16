@@ -24,7 +24,7 @@ class Function:
 
 
 	def evaluate( self, number ):
-		return parse_expr( self.getStringFunc() ).subs({"x&" : number})
+		return parse_expr( self.toString() ).subs({'x' : number})
 	
 
 	def constant( self ):
