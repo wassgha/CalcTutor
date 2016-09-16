@@ -216,8 +216,9 @@ h6 {
 margin: 0;
 padding: 0;
 list-style: none;
-max-width: 500px;
+max-width: 600px;
     margin: auto;
+    margin-bottom: 35px !important
 }
   #keyboard li {
   float: left;
@@ -236,7 +237,7 @@ max-width: 500px;
     clear: left;
     }
       #keyboard .tab, #keyboard .delete {
-      width: 70px;
+      width: 85px;
       }
       #keyboard .capslock {
       width: 80px;
@@ -258,7 +259,7 @@ max-width: 500px;
     }
     #keyboard .space {
     clear: left;
-    width: 681px;
+    max-width: 700px;
     }
     .on {
     display: none;
