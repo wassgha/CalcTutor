@@ -159,17 +159,23 @@ class FunctionTree:
 		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
 		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 		result = production( leftFunction, rightFunction )
-		if Production.simplify(result) == 0:
-			comp = node.getComplexity()
-			while True:
-				# create a new function tree with the same complexity but does not simplify to 0
-				newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
-				newOutputFunction = newTree.getOutputFunction()
-				if Production.simplify( newOutputFunction ) != 0:
-					break
-			# replace the current subtree with the new tree
-			self.replaceNode( node, newTree.getRoot(), node.getParent() )
-			return newOutputFunction
+		### 
+			# If a subtree evaluates to 0, replace it with another subtree
+			# whose function has the same complexity but is nonzero
+			# This part is commented out because SymPy cannot simplify 
+			# hyperbolic functions
+		###
+		# if Production.simplify(result) == 0:
+		# 	comp = node.getComplexity()
+		# 	while True:
+		# 		# create a new function tree with the same complexity but does not simplify to 0
+		# 		newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
+		# 		newOutputFunction = newTree.getOutputFunction()
+		# 		if Production.simplify( newOutputFunction ) != 0:
+		# 			break
+		# 	# replace the current subtree with the new tree
+		# 	self.replaceNode( node, newTree.getRoot(), node.getParent() )
+		# 	return newOutputFunction
 		return result
 
 

@@ -3,24 +3,14 @@ import numpy as np
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from sympy.abc import x,y
+from mpmath import *
 from random import choice, randint
 from Function import *
 
 class Production:
-	# plus = lambda f1,f2: f1 + f2
-	# minus = lambda f1, f2: f2 - f1
-	# times = lambda f1, f2: f1 * f2
-	# divide = lambda f1, f2: f1 / f2
-	# compose = lambda f1, f2: f1.subs({'x' : f2})
-
-	# complexityMap = { plus: 1, minus: 1, times: 2, divide: 3, compose: 4 }
-	# nameMap = { plus: "plus", minus: "minus", times: "times", divide: "divide", compose: "compose", '': "no func"}
-	# functionArray = [ plus, minus, times, divide, compose ]
-
-
 	@classmethod
 	def getRandomProductionRule(self):
-		return choice( list(Production.production.values()) )
+		return choice( list(Production.production ) )
 
 
 	@classmethod
@@ -140,7 +130,7 @@ class Production:
 				function = Function( str( int(str1) / int(str2) ), True )
 				function.setlatex( function.getStringFunc() )
 				return function
-			elif int( func2.getStringFunc() ) == 1:
+			elif float( func2.getStringFunc() ) == 1:
 				return func1
 
 		if func1.isNotElementary():
@@ -156,7 +146,7 @@ class Production:
 	def powerConst( func1, const ):
 		str1 = "(" + func1.getStringFunc() + ")"
 		latex1 = "(" + func1.getlatex() + ")"
-		function = Function( func1 + "**" + str(const), False, False )
+		function = Function( str1 + "**" + str(const), False, False )
 		function.setlatex( latex1 + "^{" + str(const) + "}")
 		return function
 
@@ -206,27 +196,27 @@ class Production:
 
 	def sin():
 		function = Function( "sin(x&)" )
-		function.setlatex( "\\sin x&" )
+		function.setlatex( "\\sin(x&)" )
 		derivative = Function( "cos(x&)")
-		derivative.setlatex( "\cos x&" )
+		derivative.setlatex( "\\cos(x&)" )
 		function.setDerivative( derivative )
 		return function
 
 
 	def cos():
 		function = Function( "cos(x&)" )
-		function.setlatex( "\\cos x&" )
-		derivative = Function( "-sin(x&)")
-		derivative.setlatex( "-\\sin x&" )
+		function.setlatex( "\\cos(x&)" )
+		derivative = Function( "-sin(x&)", False, False)
+		derivative.setlatex( "-\\sin(x&)" )
 		function.setDerivative( derivative )
 		return function
 
 
 	def tan():
 		function = Function( "tan(x&)" )
-		function.setlatex( "\\tan x&" )
-		derivative = Function( "sec(x&)**2")
-		derivative.setlatex( "(\\sec x&)^2" )
+		function.setlatex( "\\tan(x&)" )
+		derivative = Function( "sec(x&)**2", False, False)
+		derivative.setlatex( "\\sec^2(x&)" )
 		function.setDerivative( derivative )
 		return function
 
@@ -234,8 +224,8 @@ class Production:
 	def sec():
 		function = Function( "sec(x&)" )
 		function.setlatex( "\\sec x&" )
-		derivative = Function( "sec(x&) * tan(x&)")
-		derivative.setlatex( "\\sec x& \cdot \\tan x&" )
+		derivative = Function( "sec(x&) * tan(x&)", False, False)
+		derivative.setlatex( "\\sec (x&) \cdot \\tan (x&)" )
 		function.setDerivative( derivative )
 		return function
 
@@ -243,7 +233,7 @@ class Production:
 	def csc():
 		function = Function( "csc(x&)" )
 		function.setlatex( "\\csc x&" )
-		derivative = Function( "-(csc(x&) * cot(x&))")
+		derivative = Function( "-(csc(x&) * cot(x&))", False, False)
 		derivative.setlatex( "-\csc x& \\cdot \\cot x&" )
 		function.setDerivative( derivative )
 		return function
@@ -252,8 +242,8 @@ class Production:
 	def cot():
 		function = Function( "cot(x&)" )
 		function.setlatex( "\\cot x&" )
-		derivative = Function( "-( csc(x&) )**2" )
-		derivative.setlatex( "-(\csc x&)^2" )
+		derivative = Function( "-(csc(x&))**2", False, False)
+		derivative.setlatex( "-\\csc^2(x&)" )
 		function.setDerivative( derivative )
 		return function
 
@@ -270,15 +260,134 @@ class Production:
 	def ln():
 		function = Function( "ln(x&)" )
 		function.setlatex( "\\ln x&" )
-		derivative = Function( "1 / x&")
-		derivative.setlatex( "\\dfrac{ 1 }{x&}" )
+		derivative = Function( "1 / x&", False, False)
+		derivative.setlatex( "\\dfrac{1}{x&}")
+		function.setDerivative( derivative )
+		return function
+
+	def sqrt():
+		function = Function( "sqrt(x&)" )
+		function.setlatex( "\\sqrt{x&}" )
+		derivative = Function( "1/(2 * sqrt(x&))", False, False)
+		derivative.setlatex( "\\dfrac{1}{2\\sqrt{x&}}")
+		function.setDerivative( derivative )
+		return function
+
+	def arcsin():
+		function = Function( "asin(x&)" )
+		function.setlatex( "\\arcsin(x&)")
+		derivative = Function("1/sqrt(1 - (x&)**2)", False, False)
+		derivative.setlatex("\\dfrac{1}{\\sqrt{1-(x&)^2}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def arccos():
+		function = Function( "acos(x&)" )
+		function.setlatex( "\\arccos(x&)" )
+		derivative = Function( "-1/sqrt(1-(x&)**2)", False, False)
+		derivative.setlatex("\\dfrac{-1}{\\sqrt{1-(x&)^2}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def arctan():
+		function = Function( "atan(x&)" )
+		function.setlatex( "\\arctan(x&)" )
+		derivative = Function( "1/((x&)**2+1)", False, False )
+		derivative.setlatex( "\\dfrac{1}{(x&)^2 + 1}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def arccot():
+		function = Function( "acot(x&)" )
+		function.setlatex( "\\arccot(x&)" )
+		derivative = Function( "-1/((x&)**2+1)", False, False )
+		derivative.setlatex( "\\dfrac{1}{(x&)^2+1}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def arcsec():
+		function = Function( "asec(x&)" )
+		function.setlatex( "\\text{arcsec}(x&)" )
+		derivative = Function( "1/((x&)**2 * sqrt(1 - 1/((x&)**2)))", False, False)
+		derivative.setlatex( "\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def arccsc():
+		function = Function( "arccsc(x&)" )
+		function.setlatex( "\\text{arccsc}(x&)" )
+		derivative = Function( "-1/((x&)**2 * sqrt(1 - 1/((x&)**2)))", False, False)
+		derivative.setlatex( "\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}")
+		function.setDerivative( derivative )
+		return function
+
+
+	def sinh():
+		function = Function( "sinh(x&)" )
+		function.setlatex( "\\sinh(x&)" )
+		derivative = Function( "cosh(x&)" )
+		derivative.setlatex ( "\\cosh(x&)" )
+		function.setDerivative( derivative )
+		return function
+
+
+	def cosh():
+		function = Function( "cosh(x&)" )
+		function.setlatex( "\\cosh(x&)" )
+		derivative = Function( "sinh(x&)", False, False )
+		derivative.setlatex( "\\sinh(x&)" )
+		function.setDerivative( derivative )
+		return function
+
+
+	def tanh():
+		function = Function( "tanh(x&)" )
+		function.setlatex( "\\tanh(x&)" )
+		derivative = Function( "(sech(x&))**2", False, False )
+		derivative.setlatex( "\\text{sech}(x&)^2")
+		function.setDerivative( derivative )
+		return function
+
+	def coth():
+		function = Function( "coth(x&)" )
+		function.setlatex( "\\coth(x&)" )
+		derivative = Function( "-csch(x&)**2", False, False )
+		derivative.setlatex( "-\\text{csch}((x&)^2" )
+		function.setDerivative( derivative )
+		return function
+
+
+	def sech():
+		function = Function( "sech(x&)" )
+		function.setlatex( "\\text{sech}(x&)" )
+		derivative = Function( "-tanh(x&) * sech(x&)", False, False )
+		derivative.setlatex( "-\\tanh(x&) \cdot \\text{sech}(x&)" )
+		function.setDerivative( derivative )
+		return function
+
+
+	def csch():
+		function = Function( "csch(x&)" )
+		function.setlatex( "\\text{csch}(x&)" )
+		derivative = Function( "-coth(x&) * csch(x&)", False, False )
+		derivative.setlatex( "-\\coth(x&) \cdot \\text{csch}(x&)")
 		function.setDerivative( derivative )
 		return function
 
 	# productions = [ plus, minus, times, divide, compose ]
 
 	# list of python functions, not Functions
-	elemFunctions = [ const, linear, sin, cos, tan, exp ]
+	# elemFunctions = [ const, linear, sin, cos, tan, exp ]
+	elemFunctions = [ 
+		const, linear, sin, cos, tan, exp,
+		arcsin, arccos, arctan, arccot, arcsec, arccsc, 
+		sinh, cosh, tanh, coth, sech, csch 
+	]
 	complexityMap = {
 		plus : 1,
 		minus : 1,
@@ -286,14 +395,6 @@ class Production:
 		divide: 3,
 		compose: 4,
 		power: 8
-	}
-	production = {
-		# "plus" : plus,
-		# "minus" : minus,
-		# "times" : times,
-		# "divide" : divide,
-		# "compose" : compose,
-		"power" : power
 	}
 
 	# printing name for debugging only
@@ -310,5 +411,20 @@ class Production:
 		cos: "cos",
 		tan: "tan",
 		exp: "exp",
+		arcsin: "arcsin",
+		arccos: "arccos",
+		arctan: "arctan",
+		arccot: "arccot",
+		arcsec: "arcsec",
+		arccsc: "arccsc",
+		sinh: "sinh",
+		cosh: "cosh",
+		tanh: "tanh",
+		coth: "coth",
+		sech: "sech",
+		csch: "csch"
 	}
+
+	# list of all functions
+	production = [ plus, minus, times, divide, compose, power ]
 

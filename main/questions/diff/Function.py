@@ -1,5 +1,6 @@
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
+from mpmath import *
 
 class Function:
 
@@ -24,7 +25,8 @@ class Function:
 
 
 	def evaluate( self, number ):
-		return parse_expr( self.toString() ).subs({'x' : number})
+		numericValue = self.getStringFunc().replace("x&", str(number))
+		return parse_expr( numericValue )
 	
 
 	def constant( self ):

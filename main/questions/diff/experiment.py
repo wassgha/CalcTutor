@@ -4,6 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from FunctionTree import *
 from Production import *
+from mpmath import *
 
 # def makeFn():
 # 	return parse_expr("x**2 + 2*x + 1 - (x+1)*(x+1)")
@@ -12,7 +13,7 @@ from Production import *
 # print (square == 0)
 
 
-tree = FunctionTree.buildTreeWithMaxComplexity( 8 )
+tree = FunctionTree.buildTreeWithMaxComplexity( 4 )
 func =  tree.getOutputFunction() 
 tree.printTree()
 derivative = tree.getOutputDerivative()
@@ -31,4 +32,5 @@ print( derivative.evaluate(5) )
 print("The latex representation is: ")
 print( derivative.getDisplayLatex() )
 print("checking")
-print("(differentiate (" + func.toString() + "))-(" + derivative.toString() + ")")
+wolfram = "(diff (" + func.toString() + "))-(" + derivative.toString() + ")"
+print( wolfram.replace(' ', '') )
