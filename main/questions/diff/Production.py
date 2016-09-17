@@ -4,7 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from sympy.abc import x,y
 from mpmath import *
-from random import choice, randint
+from random import choice, randint, uniform
 from Function import *
 
 
@@ -354,9 +354,24 @@ def csch():
 
 
 class Production:
+	# get a uniformly random production rule
 	@classmethod
-	def getRandomProductionRule(self):
-		return choice( list(Production.production ) )
+	def getRandomProductionRule( self ):
+		return choice( list(self.complexityMap.keys()) )
+
+
+	# get a weighted random elementary function
+	@classmethod
+	def getRandomElemFunction( self ):
+		r = uniform(0, 1)
+		upto = 0.0
+		for choice in self.elemFunctions.keys():
+			w = self.elemFunctions[choice]
+			print(w)
+			if upto + w >= r:
+				return choice
+			upto += w
+		assert False, "shouldn't get here"
 
 
 	@classmethod
@@ -390,18 +405,36 @@ class Production:
 		return simplify( func.toString() )
 
 		
-	elemFunctions = [ 
-		const, linear, sin, cos, tan, exp,
-		arcsin, arccos, arctan, arccot, arcsec, arccsc, 
-		sinh, cosh, tanh, coth, sech, csch 
-	]
+	elemFunctions = {
+		const : 2.0/27,
+		linear : 2.0/27,
+		sqrt : 2.0/27,
+		sin : 2.0/27,
+		cos : 2.0/27,
+		tan : 2.0/27,
+		cot : 2.0/27,
+		sec : 2.0/27,
+		csc : 2.0/27,
+		arcsin : 1.0/36,
+		arccos : 1.0/36,
+		arctan : 1.0/36,
+		arccot : 1.0/36,
+		arcsec : 1.0/36,
+		arccsc : 1.0/36,
+		sinh : 1.0/36,
+		cosh : 1.0/36,
+		tanh : 1.0/36,
+		coth : 1.0/36,
+		sech : 1.0/36,
+		csch : 1.0/36
+	}
 	complexityMap = {
 		plus : 1,
 		minus : 1,
-		times: 2,
-		divide: 3,
-		compose: 4,
-		power: 8
+		times : 2,
+		divide : 3,
+		compose : 4,
+		power : 8
 	}
 
 	# printing name for debugging only
@@ -432,5 +465,4 @@ class Production:
 		csch: "csch"
 	}
 
-	production = [ plus, minus, times, divide, compose, power ]
 

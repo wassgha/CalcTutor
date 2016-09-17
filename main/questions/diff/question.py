@@ -4,6 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from FunctionTree import *
 from Production import *
+from random import choice, randint, uniform
 
 class Question(object):
 
@@ -37,7 +38,7 @@ class Question(object):
 	def getPrompt(self):
 		prompt = "<p>Differentiate this function : </p><br>"
 		self.tree.printTree()
-		prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.func.toString())), inv_trig_style="full") + "</script>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.func.getlatex() + "</script>"
 		# prompt += "<p>Solution : </p><br>"
 		# prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.deriv.toString()))) + "</script>"
 		return prompt

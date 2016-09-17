@@ -80,6 +80,7 @@ class FunctionTree:
 	def __init__( self ):
 		# initialize root as a leaf
 		self.root = Node()
+		self.solutionSteps = list()
 
 
 	def applyProduction( self, production ):
@@ -131,7 +132,7 @@ class FunctionTree:
 	def assignFunctionsToLeaves( self ):
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
-			func = choice( Production.elemFunctions )
+			func = Production.getRandomElemFunction()
 			leaf.setValue( func() )
 
 
@@ -154,36 +155,19 @@ class FunctionTree:
 	def getFunctionAtSubtree( self, node ):
 		if node.isLeaf():
 			return node.getValue()
-
-		production = node.getValue()
-		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
-		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
-		result = production( leftFunction, rightFunction )
-		### 
-			# If a subtree evaluates to 0, replace it with another subtree
-			# whose function has the same complexity but is nonzero
-			# This part is commented out because SymPy cannot simplify 
-			# hyperbolic functions
-		###
-		# if Production.simplify(result) == 0:
-		# 	comp = node.getComplexity()
-		# 	while True:
-		# 		# create a new function tree with the same complexity but does not simplify to 0
-		# 		newTree = FunctionTree.buildTreeWithMaxComplexity( comp )
-		# 		newOutputFunction = newTree.getOutputFunction()
-		# 		if Production.simplify( newOutputFunction ) != 0:
-		# 			break
-		# 	# replace the current subtree with the new tree
-		# 	self.replaceNode( node, newTree.getRoot(), node.getParent() )
-		# 	return newOutputFunction
-		return result
+		else:
+			production = node.getValue()
+			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
+			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
+			result = production( leftFunction, rightFunction )
+			return result
 
 
 	# Evaluate the entire tree to get the output function
 	def getOutputFunction( self ):
 		return self.getFunctionAtSubtree( self.root )
 
-
+	# Get the derivative of the function of the subtree rooted at the input node
 	def getDerivativeAtSubtree( self, node ):
 		if node.isLeaf():
 			return node.getValue().getDerivative()
@@ -194,6 +178,10 @@ class FunctionTree:
 		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
 		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
 		result = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction, leftDerivative, rightDerivative )
+
+		step = "Compute derivative of " + leftFunction.getlatex() + " to get " + leftDerivative.getlatex() + "\n"
+		step += "Compute derivative of " + rightFunction.getlatex() + " to get " + rightDerivative.getlatex() + "\n"
+		step += "Compute derivative o"
 		print("***********")
 		print("current node: ")
 		node.display()
@@ -207,10 +195,12 @@ class FunctionTree:
 		return result
 
 
+	# Get the derivative of the function of this entire tree
 	def getOutputDerivative( self ):
 		return self.getDerivativeAtSubtree( self.root )
 
 
+	# Replace an old node with a new node and update the pointer of the parent node
 	def replaceNode( self, oldNode, newNode, parent ):
 		if parent is None:
 			self.root = newNode
@@ -220,9 +210,9 @@ class FunctionTree:
 			parent.setRightChild( newNode )
 
 
+	# Build a function tree with the input complexity bound
 	@classmethod
 	def buildTreeWithMaxComplexity(self, complexity ):
-		# prod = Production()
 		tree = FunctionTree()
 		while tree.getComplexity() < complexity:
 			productionRule = Production.getRandomProductionRule()

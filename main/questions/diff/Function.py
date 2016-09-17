@@ -4,12 +4,14 @@ from mpmath import *
 
 class Function:
 
-	# input: string representation of the function
+	# input: string representation of the function. Variables are marked as "x&" instead of "x"
+	# because later "x&" will be replaced with an actual number.
+	# isConstant: boolean to indicate if this function is a constant
+	# elementary: boolean to indicate if this function is an elementary function.
 	def __init__( self, input, isConstant = False, elementary = True ):
 		self.func = input
 		self.isConstant = isConstant
 		self.elementary = elementary
-		self.functionType = None
 		self.latex = None
 		self.derivative = None
 
@@ -23,12 +25,11 @@ class Function:
 	def toString( self ):
 		return self.func.replace("x&", "x")
 
-
+	# Evalute this function given an x-value using SymPy
 	def evaluate( self, number ):
 		numericValue = self.getStringFunc().replace("x&", str(number))
 		return parse_expr( numericValue )
 
-	
 
 	def constant( self ):
 		return self.isConstant
@@ -38,20 +39,12 @@ class Function:
 		return not self.elementary
 
 
-	def setType( self, inputType ):
-		self.functionType = inputType
-
-
-	def getType( self ):
-		return self.getType
-		
-
 	def setlatex( self, latex ):
 		self.latex = latex
 
 
 	def getlatex( self ):
-		return self.latex
+		return latex(parse_expr(self.toString()), inv_trig_style="full")
 
 
 	def getDisplayLatex( self ):
