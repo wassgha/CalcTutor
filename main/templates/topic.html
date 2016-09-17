@@ -12,7 +12,9 @@
             <h4 class="card-title">{{ exercise.exercise_name }}</h4>
             <p class="card-text">
               <br>
-              <progress class="progress progress-success progress-striped" value="60" max="100"></progress>
+              {% with progressRange|random as progress %}
+              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%} progress-striped" value="{{progress}}" max="100"></progress>
+              {% endwith %}
             </p>
           </div>
           <div class="card-footer text-xs-right">

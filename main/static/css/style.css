@@ -229,7 +229,8 @@ h6 {
   padding: 0;
   list-style: none;
   margin: auto;
-  max-width: 365px;
+  max-width: 900px;
+  text-align: center 
 }
   #keyboard li {
   float: left;

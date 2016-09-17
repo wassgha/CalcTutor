@@ -31,6 +31,7 @@ def topic(request, course_id, topic_id):
     course = get_object_or_404(Course, pk=course_id)
     topic = get_object_or_404(Topic, pk=topic_id)
     return render(request, 'topic.html', {
+        'progressRange': range(0, 100),
         'course': course,
         'topic': topic,
     })
