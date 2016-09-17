@@ -39,6 +39,12 @@ class Question(object):
 		prompt = "<p>Differentiate this function : </p><br>"
 		self.tree.printTree()
 		prompt += "<script type=\"math/tex; mode=display\">" + self.func.getlatex() + "</script>"
+		eval_table = [(x, self.func.evaluate(x)) for x in np.arange(-10, 10, 0.5)]
+		prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
+		for(x, y) in eval_table:
+			prompt += "<tr><td>" + str(x) + "</td><td>" + str(y) + "</td></tr>"
+
+		prompt += "</table>"
 		# prompt += "<p>Solution : </p><br>"
 		# prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.deriv.toString()))) + "</script>"
 		return prompt

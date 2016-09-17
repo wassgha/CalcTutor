@@ -10,12 +10,17 @@
   {{prompt}}
   {% endautoescape %}
   <br><br> 
-  {% if input_method == "MathKeyboard" %}
   Your answer : <br>
-<div id="wrap">
-  <div id="mathquill"></div>
-</div>
+  {% if input_method == "MathKeyboard" %}
+    <div id="wrap">
+      <div id="mathquill"></div>
+    </div>
   {% endif %}
+  <br>
+  <form method="POST">
+    <input type="hidden" />
+    <input class="btn btn-success" type="submit" />
+  </form>
   </center>
    <br>
 <!--   Solution : <br><script type="math/tex; mode=display">{{diff}}</script>
