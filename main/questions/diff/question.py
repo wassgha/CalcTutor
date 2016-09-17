@@ -42,7 +42,10 @@ class Question(object):
 		eval_table = [(x, self.func.evaluate(x)) for x in np.arange(-10, 10, 0.5)]
 		prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
 		for(x, y) in eval_table:
-			prompt += "<tr><td>" + str(x) + "</td><td>" + str(y) + "</td></tr>"
+			try:
+				prompt += "<tr><td>" + str(x) + "</td><td>" + str(y) + "</td></tr>"
+			except ZeroDivisionError:
+				prompt += "<tr><td>" + str(x) + "</td><td>Division by zero</td></tr>"
 
 		prompt += "</table>"
 		# prompt += "<p>Solution : </p><br>"
