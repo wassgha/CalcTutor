@@ -30,6 +30,7 @@ class Question(object):
 
 	def __init__(self, key, new):
 		session = SessionStore(session_key=key)
+		print key
 		#session.clear()
 		self.domain = np.arange(-10, 0, 0.5) + np.arange(0.5, 10.5, 0.5)
 		if 'derivString' not in session or new:
@@ -44,8 +45,9 @@ class Question(object):
 			self.derivString = session['derivString']
 			self.generateDerivEvalTable()
 
+		print session.items()
 	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(4)
+		tree = FunctionTree.buildTreeWithMaxComplexity(0)
 		func =  tree.getOutputFunction()
 		deriv =  tree.getOutputDerivative() 
 		self.funcString = func.toString()

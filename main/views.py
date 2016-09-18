@@ -45,6 +45,8 @@ def exercise(request, course_id, topic_id, exercise_id):
     
     new = False
     answer = ''
+    if not request.session.get('has_session'):
+    	request.session['has_session'] = True
 
     if request.method == 'POST':
 	    form = AnswerForm(request.POST)
