@@ -47,7 +47,7 @@ class Question(object):
 
 		print session.items()
 	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(0)
+		tree = FunctionTree.buildTreeWithMaxComplexity(6)
 		func =  tree.getOutputFunction()
 		deriv =  tree.getOutputDerivative() 
 		self.funcString = func.toString()

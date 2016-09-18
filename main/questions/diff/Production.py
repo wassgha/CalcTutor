@@ -363,7 +363,7 @@ class Production:
 	# get a weighted random elementary function
 	@classmethod
 	def getRandomElemFunction( self ):
-		r = uniform(0, 1)
+		r = uniform(0, self.totalElemWeight)
 		upto = 0.0
 		for choice in self.elemFunctions.keys():
 			w = self.elemFunctions[choice]
@@ -406,21 +406,21 @@ class Production:
 
 		
 	elemFunctions = {
-		const : 5.0/30,
-		linear : 5.0/30,
-		sqrt : 3.0/30,
-		sin : 2.0/30,
-		cos : 2.0/30,
-		tan : 2.0/30,
-		cot : 2.0/30,
-		sec : 2.0/30,
-		csc : 1.0/30,
-		arcsin : 1.0/30,
-		arccos : 1.0/30,
-		arctan : 1.0/30,
-		arccot : 1.0/30,
-		arcsec : 1.0/30,
-		arccsc : 1.0/30,
+		const : 5.0,
+		linear : 5.0,
+		sqrt : 3.0,
+		sin : 4.0,
+		cos : 4.0,
+		tan : 3.0,
+		cot : 1.0,
+		sec : 2.0,
+		csc : 1.0,
+		arcsin : 1.0,
+		arccos : 0.5,
+		arctan : 1.0,
+		arccot : 0.5,
+		arcsec : 0.25,
+		arccsc : 0.25,
 		# sinh : 1.0/36,
 		# cosh : 1.0/36,
 		# tanh : 1.0/36,
@@ -428,11 +428,12 @@ class Production:
 		# sech : 1.0/36,
 		# csch : 1.0/36
 	}
+	totalElemWeight = sum(w for c, w in elemFunctions.items())
 	complexityMap = {
 		plus : 1,
 		minus : 1,
 		times : 2,
-		divide : 3,
+		divide : 4,
 		compose : 4,
 		power : 8
 	}
