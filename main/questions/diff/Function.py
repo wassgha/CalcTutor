@@ -26,8 +26,9 @@ class Function:
 		return self.func.replace("x&", "x")
 
 	# Evalute this function given an x-value using SymPy
-	def evaluate( self, number ):
-		return parse_expr(self.toString()).subs(symbols("x"),  number)
+	@classmethod
+	def evaluate(self, funcString, number):
+		return N(parse_expr(funcString).subs(symbols("x"),  number))
 
 
 	def constant( self ):

@@ -1,4 +1,5 @@
 import numpy as np
+import types
 
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
@@ -11,6 +12,8 @@ from latex2sympy.process_latex import process_sympy
 
 
 class Question(object):
+
+
 
 	"""
 	
@@ -31,17 +34,19 @@ class Question(object):
 		print key
 		print session.items()
 		if 'derivString' not in session or new:
-			tree = FunctionTree.buildTreeWithMaxComplexity(0)
+			tree = FunctionTree.buildTreeWithMaxComplexity(4)
 			func =  tree.getOutputFunction()
 			deriv =  tree.getOutputDerivative() 
 			session['funcString'] = func.toString()
 			session['derivString'] = deriv.toString()
 			session.save()
+		self.domain = np.arange(-10, 10, 0.5)
 		self.funcString =  session['funcString']
 		self.derivString =  session['derivString']
 		# print "Derivative : " 
 		#print self.tree.getOutputDerivative()
-		self.eval_table = [(x, parse_expr(self.derivString).subs(symbols("x"),  x)) for x in np.arange(-10, 10, 0.5)]
+		print type(Function.evaluate(self.derivString, 10))
+		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
 
 
 	"""
@@ -77,7 +82,8 @@ class Question(object):
 		if studentInput=='': 
 			return ''
 		answer = process_sympy(studentInput.replace('\\right', '').replace('\\left', ''))
-		answer_eval_table = [(x, answer.subs(symbols("x"),  x)) for x in np.arange(-10, 10, 0.5)]
+		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
+		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 
 		# print("The output function is: ")
 		# print(func.toString())		
@@ -94,7 +100,7 @@ class Question(object):
 		# 		result += "<tr><td>" + str(x) + "</td><td>Division by zero</td></tr>"
 
 		# result += "</table>"
-		if self.eval_table == answer_eval_table:
+		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table):
 			result+="Correct!"
 			return result
 		else:
