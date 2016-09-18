@@ -89,7 +89,7 @@ class Question(object):
 	def getAnswer(self, studentInput):
 		if studentInput=='': 
 			return ''
-		answer = process_sympy(studentInput.replace('\\right', '').replace('\\left', ''))
+		answer = process_sympy(studentInput.replace('\\right', '').replace('\\left', '').replace("^x","^{(x)}"))
 		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 
