@@ -32,7 +32,7 @@ class Question(object):
 		session = SessionStore(session_key=key)
 		print key
 		#session.clear()
-		self.domain = np.arange(-10, 0, 0.5) + np.arange(0.5, 10.5, 0.5)
+		self.domain = 20*(np.random.random(100)-.5)
 		if 'derivString' not in session or new:
 			self.generateFunction()
 			while len(self.eval_table) < len(self.domain)/2:
