@@ -286,7 +286,7 @@ h6 {
 
     #mathquill {
     padding: 5px;
-    width: 300px;
+    width: 500px;
     margin-top: 20px;
     text-align: center;
     background: #fff;
@@ -296,4 +296,13 @@ h6 {
 }
 #keyboard-mask {
   height: 200px;
+}
+
+#solution{
+  display: none;
+}
+
+ul.errorlist.nonfield {
+    list-style: none;
+    padding: 0px;
 }

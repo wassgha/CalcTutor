@@ -182,16 +182,16 @@ class FunctionTree:
 		step = "Compute derivative of " + leftFunction.getlatex() + " to get " + leftDerivative.getlatex() + "\n"
 		step += "Compute derivative of " + rightFunction.getlatex() + " to get " + rightDerivative.getlatex() + "\n"
 		step += "Compute derivative o"
-		print("***********")
-		print("current node: ")
+		# print("***********")
+		# print("current node: ")
 		node.display()
-		sys.stdout.write("left derivative:")
-		sys.stdout.write( leftDerivative.toString()  + "\n")
-		sys.stdout.write("left derivative:")
-		sys.stdout.write( rightDerivative.toString() + "\n")
-		print("Apply differential for p rule " + Production.nameMap[production])
-		print(result.toString())
-		print("***********")
+		# sys.stdout.write("left derivative:")
+		# sys.stdout.write( leftDerivative.toString()  + "\n")
+		# sys.stdout.write("left derivative:")
+		# sys.stdout.write( rightDerivative.toString() + "\n")
+		# print("Apply differential for p rule " + Production.nameMap[production])
+		# print(result.toString())
+		# print("***********")
 		return result
 
 

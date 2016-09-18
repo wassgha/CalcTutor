@@ -367,7 +367,7 @@ class Production:
 		upto = 0.0
 		for choice in self.elemFunctions.keys():
 			w = self.elemFunctions[choice]
-			print(w)
+			#print(w)
 			if upto + w >= r:
 				return choice
 			upto += w
@@ -397,7 +397,7 @@ class Production:
 					times( compose( ln(), func1 ), func2D )
 				)
 			)
-		print("no match")
+		#print("no match")
 
 
 	@classmethod

@@ -16,10 +16,16 @@
       <div id="mathquill"></div>
     </div>
   {% endif %}
-  <br>
-  <form method="POST">
-    <input type="hidden" />
-    <input class="btn btn-success" type="submit" />
+    {% autoescape off %}
+  {{ answer }}
+   {% endautoescape %}
+ <br>
+  <form id="answer-form" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input class="btn btn-success" type="submit" value="Check Answer" /> &nbsp;
+    <button class="btn btn-info" type="button" id="display-solution">Display solution</button> &nbsp;
+    <input class="btn btn-danger" name="new" type="submit" value="New Problem" />
   </form>
   </center>
    <br>
@@ -113,6 +119,20 @@ $(document).ready(function() {
   });
 
   $('#keyboard-mask').height($('#keyboard-wrapper').height());
+
+  $('#answer-form').submit(function(event) {
+    // event.preventDefault();
+    $("#id_answer").val(mathField.latex());
+    return;
+  });
+
+  $('#display-solution').click(function(e){
+    e.preventDefault();
+    // alert(mathField.latex());
+    $(this).text($(this).text()=="Hide Solution"?"Display Solution":"Hide Solution");
+    $('#solution').slideToggle();
+  });
+  mathField.latex($("#id_answer").val());
 });
 </script>
 {% endblock %}
