@@ -31,23 +31,29 @@ class Question(object):
 	def __init__(self, key, new):
 		session = SessionStore(session_key=key)
 		#session.clear()
-		print key
-		print session.items()
+		self.domain = np.arange(-10, 0, 0.5) + np.arange(0.5, 10.5, 0.5)
 		if 'derivString' not in session or new:
-			tree = FunctionTree.buildTreeWithMaxComplexity(4)
-			func =  tree.getOutputFunction()
-			deriv =  tree.getOutputDerivative() 
-			session['funcString'] = func.toString()
-			session['derivString'] = deriv.toString()
+			self.generateFunction()
+			while len(self.eval_table) < len(self.domain)/2:
+				self.generateFunction()
+			session['funcString'] = self.funcString
+			session['derivString'] = self.derivString
 			session.save()
-		self.domain = np.arange(-10, 10, 0.5)
-		self.funcString =  session['funcString']
-		self.derivString =  session['derivString']
-		# print "Derivative : " 
-		#print self.tree.getOutputDerivative()
-		print type(Function.evaluate(self.derivString, 10))
-		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
+		else:
+			self.funcString = session['funcString']
+			self.derivString = session['derivString']
+			self.generateDerivEvalTable()
 
+	def generateFunction(self):
+		tree = FunctionTree.buildTreeWithMaxComplexity(4)
+		func =  tree.getOutputFunction()
+		deriv =  tree.getOutputDerivative() 
+		self.funcString = func.toString()
+		self.derivString = deriv.toString()
+		self.generateDerivEvalTable()
+
+	def generateDerivEvalTable(self) :
+		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
 
 	"""
 

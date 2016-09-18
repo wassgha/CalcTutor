@@ -43,13 +43,15 @@ def exercise(request, course_id, topic_id, exercise_id):
     topic = get_object_or_404(Topic, pk=topic_id)
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     
-    answer=''
     new = False
+    answer = ''
 
     if request.method == 'POST':
 	    form = AnswerForm(request.POST)
 	    new = True if 'new' in form.data else False
-	    if form.is_valid():
+	    if new:
+	    	form = AnswerForm()
+	    elif form.is_valid():
 	        answer = form.cleaned_data['answer']
     else:
         form = AnswerForm()
@@ -58,14 +60,10 @@ def exercise(request, course_id, topic_id, exercise_id):
     import question
     quest = question.Question(request.session.session_key, new)
 
-
-
-    # randfn = rand_fn()
-    return render(request, 'exercise.html', {
+    params = {
         'course': course,
         'topic': topic,
         'prompt': quest.getPrompt(),
-        'answer': quest.getAnswer(answer),
         'input_method': quest.input_method,
         'exercise': exercise,
         'form' : form
@@ -74,4 +72,10 @@ def exercise(request, course_id, topic_id, exercise_id):
 		# 'diff_steps': diffsteps.print_html_steps(randfn, Symbol('x')),
 		# 'integral': "$" + latex(integrate(randfn)) + "$"
 
-    })
+    }
+    if answer!='' and not new:
+    	params['answer'] = quest.getAnswer(answer)
+
+
+    # randfn = rand_fn()
+    return render(request, 'exercise.html', params)
