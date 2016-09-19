@@ -57,6 +57,13 @@ class Question(object):
 	def generateDerivEvalTable(self) :
 		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
 
+	def preprocessLat2Sym(self, string):
+		return (string.replace('\\right', '')
+		.replace('\\left', '')
+		.replace("^x","^{(x)}")
+		.replace("\ ","")
+		)
+
 	"""
 
 	getPrompt() returns the text of the question in HTML.
@@ -89,7 +96,7 @@ class Question(object):
 	def getAnswer(self, studentInput):
 		if studentInput=='': 
 			return ''
-		answer = process_sympy(studentInput.replace('\\right', '').replace('\\left', '').replace("^x","^{(x)}"))
+		answer = process_sympy(self.preprocessLat2Sym(studentInput))
 		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 
