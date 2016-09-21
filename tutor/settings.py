@@ -79,6 +79,8 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_LOADERS = TEMPLATES[0]['OPTIONS']['loaders']
+
 WSGI_APPLICATION = 'tutor.wsgi.application'
 
 
