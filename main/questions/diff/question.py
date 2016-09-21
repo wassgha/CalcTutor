@@ -16,7 +16,7 @@ class Question(object):
 
 
 	"""
-	
+
 	Exercise parameters
 
 	"""
@@ -32,10 +32,10 @@ class Question(object):
 		session = SessionStore(session_key=key)
 		print key
 		#session.clear()
-		self.domain = 20*(np.random.random(50)-.5)
+		self.domain = 2*np.random.random(60)
 		if 'derivString' not in session or new:
 			self.generateFunction()
-			while len(self.eval_table) < len(self.domain)/2:
+			while len(self.eval_table) < 10:
 				self.generateFunction()
 			session['funcString'] = self.funcString
 			session['derivString'] = self.derivString
@@ -47,9 +47,9 @@ class Question(object):
 
 		print session.items()
 	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(1)
+		tree = FunctionTree.buildTreeWithMaxComplexity(8)
 		func =  tree.getOutputFunction()
-		deriv =  tree.getOutputDerivative() 
+		deriv =  tree.getOutputDerivative()
 		self.funcString = func.toString()
 		self.derivString = deriv.toString()
 		self.generateDerivEvalTable()
@@ -63,7 +63,7 @@ class Question(object):
 		.replace("^x","^{(x)}")
 		.replace("\ ","")
 		)
-	
+
 	def postprocessSym2Lat(self, string):
 		return (string.replace('\\log ','\\ln ')
 		.replace('\\log{','\\ln{')
@@ -100,14 +100,14 @@ class Question(object):
 	"""
 
 	def getAnswer(self, studentInput):
-		if studentInput=='': 
+		if studentInput=='':
 			return ''
 		answer = process_sympy(self.preprocessLat2Sym(studentInput))
 		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 
 		# print("The output function is: ")
-		# print(func.toString())		
+		# print(func.toString())
 		# print("The value of the output function for x = 5 is: ")
 		# print(func.evaluate(5))
 		# print("Which is approximately: " )

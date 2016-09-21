@@ -383,8 +383,8 @@ class Production:
 		if productionRule == "times":
 			return plus( times(func1D, func2), times(func1, func2D) )
 		if productionRule == "divide":
-			return divide( 
-				minus( times(func1D, func2), times(func1, func2D) ), 
+			return divide(
+				minus( times(func1D, func2), times(func1, func2D) ),
 				powerConst(func2, 2)
 			)
 		if productionRule == "compose":
@@ -404,47 +404,47 @@ class Production:
 	def simplify(self, func ):
 		return simplify( func.toString() )
 
-		
+
 	elemFunctions = {
-		const : 5.0,
-		linear : 5.0,
-		sqrt : 3.0,
-		sin : 4.0,
-		cos : 4.0,
-		tan : 3.0,
-		cot : 1.0,
-		sec : 2.0,
-		csc : 1.0,
-		arcsin : 1.0,
-		arccos : 0.5,
-		arctan : 1.0,
-		arccot : 0.5,
-		arcsec : 0.25,
-		arccsc : 0.25,
-		# sinh : 1.0/36,
-		# cosh : 1.0/36,
-		# tanh : 1.0/36,
-		# coth : 1.0/36,
-		# sech : 1.0/36,
-		# csch : 1.0/36
-	}
+                const : 5.0,
+                linear : 15.0,
+                sqrt : 4.0,
+                sin : 4.0,
+                cos : 4.0,
+                tan : 3.0,
+                cot : .50,
+                sec : 1.0,
+                csc : .50,
+                #arcsin : 1.0,
+                #arccos : 0.5,
+                #arctan : 1.0,
+                #arccot : 0.5,
+                #arcsec : 0.25,
+                #arccsc : 0.25,
+                # sinh : 1.0/36,
+                # cosh : 1.0/36,
+                # tanh : 1.0/36,
+                # coth : 1.0/36,
+                # sech : 1.0/36,
+                # csch : 1.0/36
+        }
 	totalElemWeight = sum(w for c, w in elemFunctions.items())
 	complexityMap = {
 		plus : 1,
 		minus : 1,
-		times : 2,
+		times : 3,
 		divide : 4,
 		compose : 4,
-		power : 8
+		#power : 8
 	}
 
 	# printing name for debugging only
-	nameMap = { 
-		plus: "plus", 
-		minus: "minus", 
-		times: "times", 
-		divide: "divide", 
-		compose: "compose", 
+	nameMap = {
+		plus: "plus",
+		minus: "minus",
+		times: "times",
+		divide: "divide",
+		compose: "compose",
 		power: "power",
 		const: "const",
 		linear: "linear",
