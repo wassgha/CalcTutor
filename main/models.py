@@ -9,6 +9,10 @@ class Course(models.Model):
 	course_color = models.CharField(max_length=200)
 	def short_course_desc(self):
 		return self.course_desc[:100] + "..." if len(self.course_desc)>=100 else self.course_desc
+	def shorter_course_desc(self):
+		return self.course_desc[:50] + "..." if len(self.course_desc)>=50 else self.course_desc
+	def short_course_name(self):
+		return self.course_name[:20] + "..." if len(self.course_name)>=20 else self.course_name
 	# pub_date = models.DateTimeField('date published')
 	def __str__(self):
 		return self.course_name

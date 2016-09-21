@@ -284,6 +284,11 @@ h6 {
     cursor: pointer;
     }
 
+    #keyboard .material-icons {
+      vertical-align: middle;
+    }
+
+
     #mathquill {
     padding: 5px;
     width: 500px;
@@ -294,6 +299,10 @@ h6 {
     color: black;
     border-radius: 4px;
 }
+#mathquill .mobile {
+      width: 100% !important;
+}
+
 #keyboard-mask {
   height: 200px;
 }
