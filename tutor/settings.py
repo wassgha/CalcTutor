@@ -69,9 +69,11 @@ TEMPLATES = [
                 'django_mobile.context_processors.flavour',
             ],
             'loaders': [
-                'django_mobile.loader.Loader',
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                    'django_mobile.loader.Loader',
+                ]),
             ],
         },
     },
