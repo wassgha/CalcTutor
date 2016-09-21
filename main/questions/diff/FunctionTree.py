@@ -85,6 +85,13 @@ class FunctionTree:
 
 	def applyProduction( self, production ):
 		leaf = self.getRandomLeaf()
+
+		# if this leaf's value has already been set to a constant, do nothing
+		if leaf.getValue() is not None:
+			return
+
+		# else, replace it with a combo of Inner Node - Left Child, Right Child
+
 		parent = leaf.getParent()
 		# create new inner node holding a production rule
 		newNode = Node( production )
@@ -94,8 +101,12 @@ class FunctionTree:
 		newNode.setRightChild( newLeaf )
 		self.replaceNode( leaf, newNode, parent )
 
+		# if an inner node has rule "powerConst", its right child must be a const
+		if production == powerConst:
+			newLeaf.setValue( const() )
 
-	# Move left / right random until arriving at a leaf
+
+	# Move left / right randomly until arriving at a leaf
 	def getRandomLeaf( self ):
 		currentNode = self.root
 		while not currentNode.isLeaf():
@@ -128,7 +139,7 @@ class FunctionTree:
 		return leaves
 
 
-	# Assign an elementary function to each leaf
+	# Assign an elementary function to each leaf whose value has not been set
 	def assignFunctionsToLeaves( self ):
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:

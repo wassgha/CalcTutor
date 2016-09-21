@@ -14,7 +14,7 @@ def plus( func1, func2 ):
 
 	if func1.constant() and func2.constant():
 		# output function is also a constant
-		function = Function( str( int(str1) + int(str2) ), True )
+		function = Function( str( float(str1) + float(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
 		# if func1.isNotElementary():
@@ -35,7 +35,7 @@ def minus( func1, func2 ):
 
 	if func1.constant() and func2.constant():
 		# output function is also a constant
-		function = Function( str( int(str1) - int(str2) ), True )
+		function = Function( str( float(str1) - float(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
 		# if func1.isNotElementary():
@@ -59,7 +59,7 @@ def times( func1, func2 ):
 	if func1.constant():
 		# output function is also a constant
 		if func2.constant():
-			function = Function( str( int(str1) * int(str2) ), True )
+			function = Function( str( float(str1) * float(str2) ), True )
 			function.setlatex( function.getStringFunc() )
 			return function
 		# if func1 = 1, output is just func2
@@ -90,10 +90,10 @@ def divide( func1, func2 ):
 	if func2.constant():
 		# output function is also a constant
 		if func1.constant():
-			function = Function( str( int(str1) / int(str2) ), True )
+			function = Function( str( float(str1) / float(str2) ), True )
 			function.setlatex( function.getStringFunc() )
 			return function
-		elif int( func2.getStringFunc() ) == 1:
+		elif float( func2.getStringFunc() ) == 1:
 			return func1
 
 	# if func1.isNotElementary():
@@ -367,7 +367,7 @@ class Production:
 		upto = 0.0
 		for choice in self.elemFunctions.keys():
 			w = self.elemFunctions[choice]
-			#print(w)
+			#prfloat(w)
 			if upto + w >= r:
 				return choice
 			upto += w
@@ -397,7 +397,7 @@ class Production:
 					times( compose( ln(), func1 ), func2D )
 				)
 			)
-		#print("no match")
+		#prfloat("no match")
 
 
 	@classmethod
@@ -409,18 +409,18 @@ class Production:
 		const : 5.0,
 		linear : 5.0,
 		sqrt : 3.0,
-		sin : 4.0,
-		cos : 4.0,
-		tan : 3.0,
-		cot : 1.0,
-		sec : 2.0,
-		csc : 1.0,
-		arcsin : 1.0,
-		arccos : 0.5,
-		arctan : 1.0,
-		arccot : 0.5,
-		arcsec : 0.25,
-		arccsc : 0.25,
+		# sin : 4.0,
+		# cos : 4.0,
+		# tan : 3.0,
+		# cot : 1.0,
+		# sec : 2.0,
+		# csc : 1.0,
+		# arcsin : 1.0,
+		# arccos : 0.5,
+		# arctan : 1.0,
+		# arccot : 0.5,
+		# arcsec : 0.25,
+		# arccsc : 0.25,
 		# sinh : 1.0/36,
 		# cosh : 1.0/36,
 		# tanh : 1.0/36,
@@ -432,6 +432,7 @@ class Production:
 	complexityMap = {
 		plus : 1,
 		minus : 1,
+		powerConst: 1,
 		times : 2,
 		divide : 4,
 		compose : 4,
@@ -446,6 +447,7 @@ class Production:
 		divide: "divide", 
 		compose: "compose", 
 		power: "power",
+		powerConst: "powerC",
 		const: "const",
 		linear: "linear",
 		sin: "sin",
