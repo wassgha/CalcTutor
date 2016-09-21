@@ -291,7 +291,6 @@ h6 {
 
     #mathquill {
     padding: 5px;
-    width: 500px;
     margin-top: 20px;
     text-align: center;
     background: #fff;
@@ -299,10 +298,6 @@ h6 {
     color: black;
     border-radius: 4px;
 }
-#mathquill .mobile {
-      width: 100% !important;
-}
-
 #keyboard-mask {
   height: 200px;
 }
