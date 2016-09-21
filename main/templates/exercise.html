@@ -13,7 +13,7 @@
   Your answer : <br>
   {% if input_method == "MathKeyboard" %}
     <div id="wrap">
-      <div {% if flavour != "mobile" %}class="desktop"{% endif %} id="mathquill"></div>
+      <div class="{{flavout}}" id="mathquill"></div>
     </div>
   {% endif %}
     {% autoescape off %}
