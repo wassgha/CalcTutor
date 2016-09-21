@@ -90,7 +90,7 @@ class Question(object):
 
 		# prompt += "</table>"
 		prompt += "<div id='solution'><p>Solution : </p><br>"
-		prompt += "<script type=\"math/tex; mode=display\">" + postprocessSym2Lat(latex(simplify(parse_expr(self.derivString)))) + "</script></div>"
+		prompt += "<script type=\"math/tex; mode=display\">" + postprocessSym2Lat(latex(parse_expr(self.derivString))) + "</script></div>"
 		return prompt
 
 	"""
