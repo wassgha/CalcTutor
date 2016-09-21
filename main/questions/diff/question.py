@@ -63,6 +63,12 @@ class Question(object):
 		.replace("^x","^{(x)}")
 		.replace("\ ","")
 		)
+	
+	def postprocessSym2Lat(self, string):
+		return (string.replace('\\log ','\\ln ')
+		.replace('\\log{','\\ln{')
+		)
+
 
 	"""
 
@@ -74,7 +80,7 @@ class Question(object):
 		prompt = "<p>Differentiate this function : </p><br>"
 		# self.tree.printTree()
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
-		prompt += "<script type=\"math/tex; mode=display\">" + latex(parse_expr(self.funcString)) + "</script>"
+		prompt += "<script type=\"math/tex; mode=display\">" + postprocessSym2Lat(latex(parse_expr(self.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
 		# for(x, y) in self.eval_table:
 		# 	try:
@@ -84,7 +90,7 @@ class Question(object):
 
 		# prompt += "</table>"
 		prompt += "<div id='solution'><p>Solution : </p><br>"
-		prompt += "<script type=\"math/tex; mode=display\">" + latex(simplify(parse_expr(self.derivString))) + "</script></div>"
+		prompt += "<script type=\"math/tex; mode=display\">" + postprocessSym2Lat(latex(simplify(parse_expr(self.derivString)))) + "</script></div>"
 		return prompt
 
 	"""
