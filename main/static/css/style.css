@@ -288,9 +288,12 @@ h6 {
       vertical-align: middle;
     }
 
+#mathquill .desktop {
+      width: 500px;
+}
+
     #mathquill {
     padding: 5px;
-    width: 500px;
     margin-top: 20px;
     text-align: center;
     background: #fff;
