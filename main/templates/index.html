@@ -9,7 +9,7 @@
       <div class="card card-inverse card-{{ course.course_color }}">
         <img class="card-img" src="{% static 'img/math.jpg' %}" alt="{{ course.course_name }}">
         <div class="card-img-overlay {{ course.course_color }}">
-          <h4 class="card-title">{{ course.course_name }}</h4>
+          <h4 class="card-title">{% if flavour == "mobile" %}{{ course.short_course_name }}{% else %}{{ course.course_name }}{% endif %}</h4>
           <p class="card-text">{% if flavour == "mobile" %}{{ course.shorter_course_desc }}{% else %}{{ course.short_course_desc }}{% endif %}</p>
           <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }}">Practice</a>
         </div>
