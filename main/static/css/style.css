@@ -284,6 +284,10 @@ h6 {
     cursor: pointer;
     }
 
+    #keyboard .material-icons {
+      vertical-align: middle;
+    }
+
     #mathquill {
     padding: 5px;
     width: 500px;
