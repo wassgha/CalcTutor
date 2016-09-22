@@ -127,6 +127,12 @@ $(document).ready(function() {
     {% endif %}
   });
 
+  {% if flavour == "mobile" %}
+    $('#mathquill').click(function(e) {
+      $('#mathquill').blur();
+    });
+  {% endif %}
+ 
   $('#keyboard-mask').height($('#keyboard-wrapper').height());
 
   $('#answer-form').submit(function(event) {
