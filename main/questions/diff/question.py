@@ -44,10 +44,12 @@ class Question(object):
 			self.funcString = session['funcString']
 			self.derivString = session['derivString']
 			self.generateDerivEvalTable()
+		self.tree = None
 
 		print session.items()
 	def generateFunction(self):
 		tree = FunctionTree.buildTreeWithMaxComplexity(8)
+		tree.printTree()
 		func =  tree.getOutputFunction()
 		deriv =  tree.getOutputDerivative()
 		self.funcString = func.toString()
@@ -78,7 +80,6 @@ class Question(object):
 
 	def getPrompt(self):
 		prompt = "<p>Differentiate this function : </p><br>"
-		# self.tree.printTree()
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
 		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"

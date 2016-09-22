@@ -143,12 +143,14 @@ class FunctionTree:
 	def assignFunctionsToLeaves( self ):
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
-			func = Production.getRandomElemFunction()
-			leaf.setValue( func() )
+			if leaf.getValue() is None:
+				func = Production.getRandomElemFunction()
+				leaf.setValue( func() )
 
 
 	# Print the tree level by level
 	def printTree( self ):
+		print("*****************")
 		thisLevel = [ self.root ]
 		while len(thisLevel) > 0:
 			nextLevel = list()
@@ -160,7 +162,8 @@ class FunctionTree:
 					nextLevel.append( node.getRightChild() )
 			print()
 			thisLevel = nextLevel
-
+		print("*****************")
+		
 
 	# Evaluate the subtree rooted at node to get the output function
 	def getFunctionAtSubtree( self, node ):
@@ -189,20 +192,6 @@ class FunctionTree:
 		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
 		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
 		result = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction, leftDerivative, rightDerivative )
-
-		step = "Compute derivative of " + leftFunction.getlatex() + " to get " + leftDerivative.getlatex() + "\n"
-		step += "Compute derivative of " + rightFunction.getlatex() + " to get " + rightDerivative.getlatex() + "\n"
-		step += "Compute derivative o"
-		# print("***********")
-		# print("current node: ")
-		node.display()
-		# sys.stdout.write("left derivative:")
-		# sys.stdout.write( leftDerivative.toString()  + "\n")
-		# sys.stdout.write("left derivative:")
-		# sys.stdout.write( rightDerivative.toString() + "\n")
-		# print("Apply differential for p rule " + Production.nameMap[production])
-		# print(result.toString())
-		# print("***********")
 		return result
 
 

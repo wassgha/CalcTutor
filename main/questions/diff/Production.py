@@ -17,9 +17,7 @@ def plus( func1, func2 ):
 		function = Function( str( float(str1) + float(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
-		# if func1.isNotElementary():
 		str1 = "(" + str1 + ")"
-		# if func2.isNotElementary():
 		str2 = "(" + str2 + ")"
 		function = Function( str1 + " + " + str2, False, False )
 		function.setlatex( func1.getlatex() + " + " + func2.getlatex() )
@@ -38,10 +36,8 @@ def minus( func1, func2 ):
 		function = Function( str( float(str1) - float(str2) ), True )
 		function.setlatex( function.getStringFunc() )
 	else:
-		# if func1.isNotElementary():
 		str1 = "(" + str1 + ")"
 		latex1 = "(" + latex1 + ")"
-		# if func2.isNotElementary():
 		str2 = "(" + str2 + ")"
 		latex2 = "(" + latex2 + ")"
 		function = Function( str1 + " - " + str2, False, False )
@@ -71,10 +67,8 @@ def times( func1, func2 ):
 		return times( func2, func1 )
 
 	# if no function is constant, append the two
-	# if func1.isNotElementary():
 	str1 = "(" + str1 + ")"
 	latex1 = "(" + latex1 + ")"
-	# if func2.isNotElementary():
 	str2 = "(" + str2 + ")"
 	latex2 = "(" + latex2 + ")"
 
@@ -96,21 +90,21 @@ def divide( func1, func2 ):
 		elif float( func2.getStringFunc() ) == 1:
 			return func1
 
-	# if func1.isNotElementary():
 	str1 = "(" + str1 + ")"
-	# if func2.isNotElementary():
 	str2 = "(" + str2 + ")"
 	function = Function( str1 + " / " + str2, False, False )
 	function.setlatex( "\\dfrac{" + func1.getlatex() + "}{" + func2.getlatex() + "}" )
-
 	return function
 
 
-def powerConst( func1, const ):
+def powerConst( func1, func2 ):
+	assert func2.constant()
 	str1 = "(" + func1.getStringFunc() + ")"
+	str2 = func2.getStringFunc()
 	latex1 = "(" + func1.getlatex() + ")"
-	function = Function( func1 + "**" + str(const), False, False )
-	function.setlatex( latex1 + "^{" + str(const) + "}")
+	latex2 = func2.getlatex() # no need for ( ) in power
+	function = Function( str1 + "**" + str2 , False, False )
+	function.setlatex( latex1 + "^{" + latex2 + "}")
 	return function
 
 
@@ -132,7 +126,9 @@ def compose( func1, func2 ):
 	return function
 
 
-def const( number = randint(1, 10) ):
+def const( number = None ):
+	if number is None:
+		number = randint(1, 5)
 	function = Function( str(number), True )
 	function.setlatex( function.getStringFunc() )
 	derivative = Function( "0" )
@@ -172,14 +168,6 @@ def cos():
 	derivative = Function( "-sin(x&)")
 	derivative.setlatex( "-\\sin x&" )
 	function.setDerivative( derivative )
-	return function
-
-
-def powerConst( func1, const ):
-	str1 = "(" + func1.getStringFunc() + ")"
-	latex1 = "(" + func1.getlatex() + ")"
-	function = Function( str1 + "**" + str(const), False, False )
-	function.setlatex( latex1 + "^{" + str(const) + "}")
 	return function
 
 
@@ -385,7 +373,7 @@ class Production:
 		if productionRule == "divide":
 			return divide(
 				minus( times(func1D, func2), times(func1, func2D) ),
-				powerConst(func2, 2)
+				times( func2, func2 )
 			)
 		if productionRule == "compose":
 			return times( compose(func1D, func2), func2D )
@@ -395,6 +383,15 @@ class Production:
 				plus(
 					times( func2, divide( func1D, func1 ) ),
 					times( compose( ln(), func1 ), func2D )
+				)
+			)
+		if productionRule == "powerC":
+			assert func2.constant()
+			return times(
+				func2,
+				times(
+					powerConst( func1, const(int(func2.toString()) - 1) ),
+					func1D
 				)
 			)
 		#prfloat("no match")
