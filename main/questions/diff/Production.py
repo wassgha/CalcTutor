@@ -128,7 +128,7 @@ def compose( func1, func2 ):
 
 def const( number = None ):
 	if number is None:
-		number = randint(1, 5)
+		number = randint(1, 9)
 	function = Function( str(number), True )
 	function.setlatex( function.getStringFunc() )
 	derivative = Function( "0" )
@@ -138,7 +138,7 @@ def const( number = None ):
 
 
 def linear():
-	randomConstant = "1"
+	randomConstant = str(choice([1]*10+list(range(2,9))))
 
 	if randomConstant == "1":
 		function =  Function( "x&" )
@@ -433,7 +433,7 @@ class Production:
 		times : 2,
 		divide : 4,
 		compose : 4,
-		power : 8
+		#power : 8
 	}
 
 	# printing name for debugging only
