@@ -11,6 +11,7 @@ import sys, os
 
 # Create your views here.
 
+
 def index(request):
 	courses = Course.objects.all()
 	context = {
