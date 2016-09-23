@@ -41,65 +41,85 @@
  -->
 
  <div id="keyboard-wrapper">
- <ul id="keyboard">
-    <li class="symbol" data-action="write" data-content="1">1</li>
-    <li class="symbol" data-action="write" data-content="2">2</li>
-    <li class="symbol" data-action="write" data-content="3">3</li>
-    <li class="symbol" data-action="write" data-content="4">4</li>
-    <li class="symbol" data-action="write" data-content="5">5</li>
-    <li class="symbol" data-action="write" data-content="6">6</li>
-    <li class="symbol" data-action="write" data-content="7">7</li>
-    <li class="symbol" data-action="write" data-content="8">8</li>
-    <li class="symbol" data-action="write" data-content="9">9</li>
-    <li class="symbol" data-action="write" data-content="0">0</li>
-    <li class="letter" data-action="write" data-content="x">x</li>
-    <li class="letter" data-action="write" data-content="y">y</li>
-    <li class="letter" data-action="write" data-content="z">z</li>
-<!--     <li class="letter" data-action="write" data-content="\lim_{x\to\infty}">lim</li>
-    <li class="letter" data-action="cmd" data-content="\ge">≥</li>
-    <li class="letter" data-action="cmd" data-content="\le">≤</li>
-    <li class="letter" data-action="cmd" data-content=">">></li>
-    <li class="letter" data-action="cmd" data-content="<"><</li>
-    <li class="letter lastitem" data-action="cmd" data-content="\infty">&#x221e;</li>
- --> 
-    <li class="letter" data-action="write" data-content="+">+</li>
-    <li class="letter" data-action="write" data-content="-">-</li>
-    <li class="letter" data-action="write" data-content="*">*</li>
-    <li class="letter" data-action="write" data-content="\frac {} {}">/</li>
-    <li class="letter lastitem" data-action="cmd" data-content="^">^</li>
-    <li class="letter" data-action="cmd" data-content="\sqrt">√</li>
-    <li class="letter" data-action="write" data-content="[">[</li>
-    <li class="letter" data-action="write" data-content="]">]</li>
-    <li class="letter" data-action="write" data-content="(">(</li>
-    <li class="letter" data-action="write" data-content=")">)</li>
-    <li class="letter" data-action="write" data-content=".">.</li>
-    <li class="letter" data-action="keystroke" data-content="Left"><i class="material-icons">keyboard_arrow_left</i></li>
-    <li class="letter" data-action="keystroke" data-content="Right"><i class="material-icons">keyboard_arrow_right</i></li>
-<!--     <li class="letter" data-action="keystroke" data-content="Up"><i class="material-icons">keyboard_arrow_up</i></li>
-    <li class="letter" data-action="keystroke" data-content="Down"><i class="material-icons">keyboard_arrow_down</i></li>
- --><li class="letter" data-action="cmd" data-content="\pi">&pi;</li>
-    <li class="letter" data-action="cmd" data-content="\sin">sin</li>
-    <li class="letter" data-action="cmd" data-content="\cos">cos</li>
-    <li class="letter" data-action="cmd" data-content="\tan">tan</li>
-    <li class="letter" data-action="cmd" data-content="\cot">cot</li>
-    <li class="letter" data-action="cmd" data-content="\sec">sec</li>
-    <li class="letter" data-action="cmd" data-content="\csc">csc</li>
-    <li class="letter" data-action="cmd" data-content="\arcsin">asin</li>
-    <li class="letter" data-action="cmd" data-content="\arccos">acos</li>
-    <li class="letter" data-action="cmd" data-content="\arctan">atan</li>
-    <li class="letter" data-action="cmd" data-content="\arccot">acot</li>
-    <li class="letter" data-action="cmd" data-content="\arcsec">asec</li>
-    <li class="letter" data-action="cmd" data-content="\arccsc">acsc</li>
-<!--     <li class="letter" data-action="cmd" data-content="\sinh">sinh</li>
-    <li class="letter" data-action="cmd" data-content="\cosh">cosh</li>
-    <li class="letter" data-action="cmd" data-content="\tanh">tanh</li>
-    <li class="letter" data-action="cmd" data-content="\sech">sech</li>
-    <li class="letter" data-action="cmd" data-content="\csch">csch</li>
-    <li class="letter" data-action="cmd" data-content="\coth">coth</li> -->
-    <li class="letter" data-action="write" data-content="e^{}">e</li>
-    <li class="letter" data-action="write" data-content="\ln">ln</li>
-    <li class="letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></li>
-  </ul>
+   <div id="keyboard">
+      <div class="keypad std default row-fluid">
+        <div class="key-group col-xs-4">
+          <div class="row-fluid">
+            <div class="key col-xs-4 symbol" data-action="write" data-content="1">1</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="2">2</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="3">3</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="4">4</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="5">5</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="6">6</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="7">7</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="8">8</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="9">9</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content=",">,</div>
+            <div class="key col-xs-4 symbol" data-action="write" data-content="0">0</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content=".">.</div>
+          </div>
+        </div>
+        <div class="key-group col-xs-4">
+          <div class="row-fluid">
+            <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="y">y</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="z">z</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="+">+</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="-">-</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="*">*</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\frac {} {}">/</div>
+            <div class="key col-xs-4 letter lastitem" data-action="cmd" data-content="^">^</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt">√</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt[3]{}">√</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\ln">ln</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-content="\log[3]{}">log</div>
+          </div>
+        </div>
+        <div class="key-group col-xs-4">
+          <div class="row-fluid">
+            <div class="key col-xs-4 letter" data-action="write" data-content="(">(</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content=")">)</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-content="\pi">&pi;</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="e^{}">e</div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Up"><i class="material-icons">keyboard_arrow_up</i></div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Left"><i class="material-icons">keyboard_arrow_left</i></div>
+            <div class="key col-xs-4 letter" data-action="switch-keys" data-content="trig"><img src="{% static 'img/sincoskey.png' %}"/></div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Down"><i class="material-icons">keyboard_arrow_down</i></div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Right"><i class="material-icons">keyboard_arrow_right</i></div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
+          </div>
+        </div>
+      </div>
+      <div class="keypad trig">
+        <div class="key-group col-xs-4 offset-xs-4">
+          <div class="row-fluid">
+            <div class="key col-xs-4 letter" data-action="write" data-content="\sin()">sin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\cos()">cos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\tan()">tan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\cot()">cot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\sec()">sec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\csc()">csc</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arcsin()">asin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arccos()">acos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arctan()">atan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arccot()">acot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arcsec()">asec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\arccsc()">acsc</div>
+            <div class="key col-xs-4 letter" data-action="switch-keys" data-content="std">123</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
+            <div class="key col-xs-4 letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
+          </div>
+        </div>
+    <!--     <div class="key letter" data-action="cmd" data-content="\sinh">sinh</div>
+        <div class="key letter" data-action="cmd" data-content="\cosh">cosh</div>
+        <div class="key letter" data-action="cmd" data-content="\tanh">tanh</div>
+        <div class="key letter" data-action="cmd" data-content="\sech">sech</div>
+        <div class="key letter" data-action="cmd" data-content="\csch">csch</div>
+        <div class="key letter" data-action="cmd" data-content="\coth">coth</div> -->
+      </div>
+    </div>
   </div>
   <div id="keyboard-mask">
   </div>
@@ -111,7 +131,8 @@ $(document).ready(function() {
 
   var mathField = MQ.MathField(MQElement, {});
 
-  $('#keyboard li').click( function(event) {
+  $('#keyboard .keypad:not(.default)').hide();
+  $('#keyboard .key').click( function(event) {
     event.preventDefault();
     if ( $(this).data('action') == 'write') {
       mathField.write($(this).data('content'));
@@ -119,6 +140,10 @@ $(document).ready(function() {
       mathField.cmd($(this).data('content'));
     } else if($(this).data('action') == 'keystroke') {
       mathField.keystroke($(this).data('content'));
+    } else if($(this).data('action') == 'switch-keys') {
+      console.log("'#keyboard .keypad:not(.' + $(this).data('content') + ')'");
+      $('#keyboard .keypad:not(.' + $(this).data('content') + ')').hide();
+      $('#keyboard .keypad.' + $(this).data('content')).show();
     }
     {% if flavour == "mobile" %}
     mathField.blur();
