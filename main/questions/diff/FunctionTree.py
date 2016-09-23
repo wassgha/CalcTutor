@@ -90,9 +90,14 @@ class FunctionTree:
 		if leaf.getValue() is not None:
 			return
 
+		parent = leaf.getParent()
+
+		# avoid (f*g)^k to prevent large coefficients
+		if parent is not None:
+			if parent.getValue() == powerConst and production == times:
+				return
 		# else, replace it with a combo of Inner Node - Left Child, Right Child
 
-		parent = leaf.getParent()
 		# create new inner node holding a production rule
 		newNode = Node( production )
 		# create new leaf
@@ -100,11 +105,9 @@ class FunctionTree:
 		newNode.setLeftChild( leaf )
 		newNode.setRightChild( newLeaf )
 		self.replaceNode( leaf, newNode, parent )
-
 		# if an inner node has rule "powerConst", its right child must be a const
 		if production == powerConst:
 			newLeaf.setValue( const() )
-
 
 	# Move left / right randomly until arriving at a leaf
 	def getRandomLeaf( self ):
@@ -146,7 +149,7 @@ class FunctionTree:
 			if leaf.getValue() is None:
 				func = Production.getRandomElemFunction()
 				# Move coefficient if (a*x)^b
-				if func == linear and leaf.parent.holder == powerConst:
+				if func == linear and leaf.getParent().getValue() == powerConst:
 				    func =  Function( "x&" )
 				    func.setlatex( "x&")
 				    derivative = Function( "1" )
