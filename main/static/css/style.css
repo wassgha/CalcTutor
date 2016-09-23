@@ -303,6 +303,16 @@ h6 {
   display: none;
 }
 
+#keyboard .key.col-xs-4.special2 {
+    background: #5482a9 !important;
+    color: white !important;
+}
+
+#keyboard .key.col-xs-4.special {
+    background: gray !important;
+    color: white !important;
+}
+
 #mathquill {
   padding: 5px;
   margin-top: 20px;
