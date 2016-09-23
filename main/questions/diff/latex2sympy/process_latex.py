@@ -101,7 +101,7 @@ def convert_mp(mp):
         lh = convert_mp(mp_left)
         rh = convert_mp(mp_right)
         return sympy.Mul(lh, rh, evaluate=False)
-    elif mp.DIV() or mp.CMD_DIV():
+    elif mp.DIV() or mp.CMD_DIV() or mp.COLON():
         lh = convert_mp(mp_left)
         rh = convert_mp(mp_right)
         return sympy.Mul(lh, sympy.Pow(rh, -1, evaluate=False), evaluate=False)
@@ -213,11 +213,7 @@ def convert_exp(exp):
         if isinstance(base, list):
             raise Exception("Cannot raise derivative to power")
         if exp.atom():
-            if exp.atom().LETTER():         # Transpose
-                if exp.atom().LETTER().getText() == 'T':
-                    return sympy.Function('T')(base)
-            else:
-                exponent = convert_atom(exp.atom())
+            exponent = convert_atom(exp.atom())
         elif exp.expr():
             exponent = convert_expr(exp.expr())
         return sympy.Pow(base, exponent, evaluate=False)
@@ -270,6 +266,9 @@ def convert_atom(atom):
     elif atom.DIFFERENTIAL():
         var = get_differential_var(atom.DIFFERENTIAL())
         return sympy.Symbol('d' + var.name)
+    elif atom.mathit():
+        text = rule2text(atom.mathit().mathit_text())
+        return sympy.Symbol(text)
 
 def rule2text(ctx):
     stream = ctx.start.getInputStream()
@@ -349,15 +348,23 @@ def convert_func(func):
                 base = sympy.E
             expr = sympy.log(arg, base, evaluate=False)
 
-        if name in ["sin", "cos", "tan", "csc", "sec", "cot", "sinh", "cosh", "tanh"]:
-            if func.supexpr() and convert_expr(func.supexpr().expr()) == -1:
-                name = "a" + name
-                expr = getattr(sympy.functions, name)(arg, evaluate=False)
+        func_pow = None
+        should_pow = True
+        if func.supexpr():
+            if func.supexpr().expr():
+                func_pow = convert_expr(func.supexpr().expr())
             else:
+                func_pow = convert_atom(func.supexpr().atom())
+
+        if name in ["sin", "cos", "tan", "csc", "sec", "cot", "sinh", "cosh", "tanh"]:
+                if func_pow == -1:
+                    name = "a" + name
+                    should_pow = False
                 expr = getattr(sympy.functions, name)(arg, evaluate=False)
-                if func.supexpr():
-                    power = convert_expr(func.supexpr().expr())
-                    expr = sympy.Pow(expr, power, evaluate=False)
+
+
+        if func_pow and should_pow:
+            expr = sympy.Pow(expr, func_pow, evaluate=False)
 
         return expr
     elif func.LETTER() or func.SYMBOL():

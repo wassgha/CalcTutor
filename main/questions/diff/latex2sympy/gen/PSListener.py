@@ -1,4 +1,4 @@
-# Generated from PS.g4 by ANTLR 4.5.3
+# Generated from PS.g4 by ANTLR 4.5.1
 from antlr4 import *
 
 # This class defines a complete listener for a parse tree produced by PSParser.
@@ -199,6 +199,24 @@ class PSListener(ParseTreeListener):
 
     # Exit a parse tree produced by PSParser#atom.
     def exitAtom(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PSParser#mathit.
+    def enterMathit(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PSParser#mathit.
+    def exitMathit(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PSParser#mathit_text.
+    def enterMathit_text(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PSParser#mathit_text.
+    def exitMathit_text(self, ctx):
         pass
 
 
