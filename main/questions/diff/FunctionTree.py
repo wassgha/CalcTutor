@@ -134,8 +134,8 @@ class FunctionTree:
 			if node.isLeaf():
 				leaves.append( node )
 			else:
-				leaves = leaves + self.getAllLeaves( node.getLeftChild() ) 
-				leaves = leaves + self.getAllLeaves( node.getRightChild() ) 
+				leaves = leaves + self.getAllLeaves( node.getLeftChild() )
+				leaves = leaves + self.getAllLeaves( node.getRightChild() )
 		return leaves
 
 
@@ -145,7 +145,26 @@ class FunctionTree:
 		for leaf in leaves:
 			if leaf.getValue() is None:
 				func = Production.getRandomElemFunction()
-				leaf.setValue( func() )
+				# Move coefficient if (a*x)^b
+				if func == linear and leaf.parent.holder == powerConst:
+				    func =  Function( "x&" )
+				    func.setlatex( "x&")
+				    derivative = Function( "1" )
+				    derivative.setlatex( "1" )
+				    func.setDerivative( derivative )
+				    leaf.setValue( func )
+				    parent = leaf.getParent()
+				    grandparent = parent.getParent()
+				    # create new inner node for coefficient multiplication
+				    newNode = Node( times )
+				    # create new leaf
+				    newLeaf = Node()
+				    newLeaf.setValue( const() )
+				    newNode.setLeftChild( newLeaf )
+				    newNode.setRightChild( parent )
+				    self.replaceNode( parent, newNode, grandparent )
+				else:
+				    leaf.setValue( func() )
 
 
 	# Print the tree level by level
@@ -163,7 +182,7 @@ class FunctionTree:
 			print()
 			thisLevel = nextLevel
 		print("*****************")
-		
+
 
 	# Evaluate the subtree rooted at node to get the output function
 	def getFunctionAtSubtree( self, node ):

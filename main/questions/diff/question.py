@@ -48,7 +48,7 @@ class Question(object):
 
 		print session.items()
 	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(7)
+		tree = FunctionTree.buildTreeWithMaxComplexity(4)
 		tree.printTree()
 		func =  tree.getOutputFunction()
 		deriv =  tree.getOutputDerivative()
@@ -122,7 +122,9 @@ class Question(object):
 		# 		result += "<tr><td>" + str(x) + "</td><td>Division by zero</td></tr>"
 
 		# result += "</table>"
-		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table):
+		#
+		# Tolerance values are currently set with no real justification, but hopefully are generous enough at least
+		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
 			result+="Correct!"
 			return result
 		else:

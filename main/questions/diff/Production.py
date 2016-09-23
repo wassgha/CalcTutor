@@ -431,8 +431,8 @@ class Production:
 		minus : 1,
 		powerConst: 1,
 		times : 2,
-		divide : 4,
-		compose : 4,
+		divide : 3,
+		compose : 3,
 		#power : 8
 	}
 
