@@ -71,12 +71,12 @@
             <div class="key col-xs-4 letter" data-action="write" data-content="+">+</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="-">-</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="*">*</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\frac {} {}">/</div>
-            <div class="key col-xs-4 letter lastitem" data-action="cmd" data-content="^">^</div>
-            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt"><img src="{% static 'img/rootkey.png' %}"/></div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\ln">ln</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\log_{}">log</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\frac {} {}">/</div>
+            <div class="key col-xs-4 letter lastitem" data-action="cmd" data-stepback="1" data-content="^">^</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-stepback="1" data-content="\sqrt"><img src="{% static 'img/rootkey.png' %}"/></div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1"data-content="\ln">ln</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="2"data-content="\log_{}">log</div>
             {% if flavour != "mobile" %}
           </div>
         </div>
@@ -88,7 +88,7 @@
             <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
             <div class="key col-xs-4 letter" data-action="cmd" data-content="\pi">&pi;</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="e^{}">e</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="e^{}">e</div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Up"><i class="material-icons">keyboard_arrow_up</i></div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Left"><i class="material-icons">keyboard_arrow_left</i></div>
             <div class="key col-xs-4 letter" data-action="switch-keys" data-content="trig"><img src="{% static 'img/sincoskey.png' %}"/></div>
@@ -105,18 +105,18 @@
         <div class="key-group col-xs-4 offset-xs-4">
           <div class="row-fluid">
             {% endif %}
-            <div class="key col-xs-4 letter" data-action="write" data-content="\sin()">sin</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\cos()">cos</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\tan()">tan</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\cot()">cot</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\sec()">sec</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\csc()">csc</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arcsin()">asin</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arccos()">acos</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arctan()">atan</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arccot()">acot</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arcsec()">asec</div>
-            <div class="key col-xs-4 letter" data-action="write" data-content="\arccsc()">acsc</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sin()">sin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cos()">cos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\tan()">tan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cot()">cot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sec()">sec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\csc()">csc</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsin()">asin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccos()">acos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arctan()">atan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccot()">acot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsec()">asec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccsc()">acsc</div>
             <div class="key col-xs-4 letter" data-action="switch-keys" data-content="std">123</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
@@ -146,6 +146,7 @@ $(document).ready(function() {
   $('#keyboard .keypad:not(.default)').hide();
   $('#keyboard .key').click( function(event) {
     event.preventDefault();
+
     if ( $(this).data('action') == 'write') {
       mathField.write($(this).data('content'));
     } else if($(this).data('action') == 'cmd') {
@@ -157,6 +158,13 @@ $(document).ready(function() {
       $('#keyboard .keypad:not(.' + $(this).data('content') + ')').hide();
       $('#keyboard .keypad.' + $(this).data('content')).show();
     }
+
+    if (typeof $(this).data('stepback') !== 'undefined') {
+      for (var i = 0; i < parseInt($(this).data('stepback')); i++) {
+        mathField.keystroke('Left');
+      }
+    }
+
     if($('#keyboard').hasClass('mobile')) {
       mathField.blur();
     } else {
