@@ -75,8 +75,8 @@
             <div class="key col-xs-4 letter lastitem" data-action="cmd" data-stepback="1" data-content="^">^</div>
             <div class="key col-xs-4 letter" data-action="cmd" data-stepback="1" data-content="\sqrt"><img src="{% static 'img/rootkey.png' %}"/></div>
             <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1"data-content="\ln">ln</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="2"data-content="\log_{}">log</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\ln{()}">ln</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="3" data-content="\log_{}{()}">log</div>
             {% if flavour != "mobile" %}
           </div>
         </div>
@@ -105,18 +105,18 @@
         <div class="key-group col-xs-4 offset-xs-4">
           <div class="row-fluid">
             {% endif %}
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sin()">sin</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cos()">cos</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\tan()">tan</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cot()">cot</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sec()">sec</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\csc()">csc</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsin()">asin</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccos()">acos</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arctan()">atan</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccot()">acot</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsec()">asec</div>
-            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccsc()">acsc</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sin{()}">sin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cos{()}">cos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\tan{()}">tan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cot{()}">cot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sec{()}">sec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\csc{()}">csc</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsin{()}">asin</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccos{()}">acos</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arctan{()}">atan</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccot{()}">acot</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsec{()}">asec</div>
+            <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccsc{()}">acsc</div>
             <div class="key col-xs-4 special2" data-action="switch-keys" data-content="std">123</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 special2" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
@@ -157,6 +157,8 @@ $(document).ready(function() {
       console.log("'#keyboard .keypad:not(.' + $(this).data('content') + ')'");
       $('#keyboard .keypad:not(.' + $(this).data('content') + ')').hide();
       $('#keyboard .keypad.' + $(this).data('content')).show();
+    } else if($(this).data('action') == 'keyboard-hide'){
+      closeKeyboard();
     }
 
     if (typeof $(this).data('stepback') !== 'undefined') {
@@ -172,11 +174,24 @@ $(document).ready(function() {
     }
   });
 
-  if($('#keyboard').hasClass('mobile')) {
-    $('#mathquill').click(function(e) {
-      $('#mathquill').blur();
+  closeKeyboard = function() {
+    $('#keyboard-mask').slideUp();
+    $('#keyboard-wrapper').slideUp();
+  }
+
+  openKeyboard = function() {
+    $('#keyboard-wrapper').slideDown();
+    $('#keyboard-mask').slideDown("fast", function() {
+      $(window).scrollTop($('#keyboard-mask').position().top + $('#keyboard-mask').outerHeight());      
     });
   }
+
+  closeKeyboard();
+
+  $('#mathquill').click(function(e) {
+    $('#mathquill').blur();
+    openKeyboard();
+  });
  
   $('#keyboard-mask').height($('#keyboard-wrapper').height());
 
