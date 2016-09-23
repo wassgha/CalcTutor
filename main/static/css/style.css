@@ -244,6 +244,12 @@ h6 {
   vertical-align: middle;
 }
 
+#keyboard.mobile .key {
+  width:40px;
+  height:40px;
+  float:left;
+}
+
 .capslock, .tab, .left-shift {
   clear: left;
 }
@@ -264,7 +270,7 @@ h6 {
 }
 
 #keyboard .key img {
-    width: 65%;
+    width: 75%;
     text-align: center;
     padding: 7px;
 }
@@ -293,6 +299,9 @@ h6 {
   vertical-align: middle;
 }
 
+#keyboard .keypad:not(.default) {
+  display: none;
+}
 
 #mathquill {
   padding: 5px;

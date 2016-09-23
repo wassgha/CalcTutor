@@ -41,10 +41,12 @@
  -->
 
  <div id="keyboard-wrapper">
-   <div id="keyboard">
+   <div id="keyboard" class="{{flavour}}">
       <div class="keypad std default row-fluid">
+        {% if flavour != "mobile" %}
         <div class="key-group col-xs-4">
           <div class="row-fluid">
+            {% endif %}
             <div class="key col-xs-4 symbol" data-action="write" data-content="1">1</div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="2">2</div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="3">3</div>
@@ -57,10 +59,12 @@
             <div class="key col-xs-4 letter" data-action="write" data-content=",">,</div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="0">0</div>
             <div class="key col-xs-4 letter" data-action="write" data-content=".">.</div>
+            {% if flavour != "mobile" %}
           </div>
         </div>
         <div class="key-group col-xs-4">
           <div class="row-fluid">
+            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="y">y</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="z">z</div>
@@ -69,14 +73,16 @@
             <div class="key col-xs-4 letter" data-action="write" data-content="*">*</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="\frac {} {}">/</div>
             <div class="key col-xs-4 letter lastitem" data-action="cmd" data-content="^">^</div>
-            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt">√</div>
-            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt[3]{}">√</div>
+            <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt"><img src="{% static 'img/rootkey.png' %}"/></div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
             <div class="key col-xs-4 letter" data-action="write" data-content="\ln">ln</div>
-            <div class="key col-xs-4 letter" data-action="cmd" data-content="\log[3]{}">log</div>
+            <div class="key col-xs-4 letter" data-action="write" data-content="\log_{}">log</div>
+            {% if flavour != "mobile" %}
           </div>
         </div>
         <div class="key-group col-xs-4">
           <div class="row-fluid">
+            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-content="(">(</div>
             <div class="key col-xs-4 letter" data-action="write" data-content=")">)</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
@@ -89,12 +95,16 @@
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Down"><i class="material-icons">keyboard_arrow_down</i></div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Right"><i class="material-icons">keyboard_arrow_right</i></div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
+            {% if flavour != "mobile" %}
           </div>
         </div>
+        {% endif %}
       </div>
       <div class="keypad trig">
+        {% if flavour != "mobile" %}
         <div class="key-group col-xs-4 offset-xs-4">
           <div class="row-fluid">
+            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-content="\sin()">sin</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="\cos()">cos</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="\tan()">tan</div>
@@ -110,8 +120,10 @@
             <div class="key col-xs-4 letter" data-action="switch-keys" data-content="std">123</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 letter" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
+            {% if flavour != "mobile" %}
           </div>
         </div>
+        {% endif %}
     <!--     <div class="key letter" data-action="cmd" data-content="\sinh">sinh</div>
         <div class="key letter" data-action="cmd" data-content="\cosh">cosh</div>
         <div class="key letter" data-action="cmd" data-content="\tanh">tanh</div>
@@ -145,18 +157,18 @@ $(document).ready(function() {
       $('#keyboard .keypad:not(.' + $(this).data('content') + ')').hide();
       $('#keyboard .keypad.' + $(this).data('content')).show();
     }
-    {% if flavour == "mobile" %}
-    mathField.blur();
-    {% else %}
-    mathField.focus();
-    {% endif %}
+    if($('#keyboard').hasClass('mobile')) {
+      mathField.blur();
+    } else {
+      mathField.focus();
+    }
   });
 
-  {% if flavour == "mobile" %}
+  if($('#keyboard').hasClass('mobile')) {
     $('#mathquill').click(function(e) {
       $('#mathquill').blur();
     });
-  {% endif %}
+  }
  
   $('#keyboard-mask').height($('#keyboard-wrapper').height());
 
