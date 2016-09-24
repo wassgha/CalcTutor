@@ -24,8 +24,9 @@
     {% csrf_token %}
     {{ form }}
     <input class="btn btn-success" type="submit" value="Check Answer" /> &nbsp;
-    <button class="btn btn-info" type="button" id="display-solution">Display solution</button> &nbsp;
-    <input class="btn btn-danger" name="new" type="submit" value="New Problem" />
+    <button class="btn btn-info" type="button" id="display-solution">Solution</button>
+     &nbsp;
+    <input class="btn btn-danger" name="new" type="submit" value="Next" />
   </form>
   </center>
    <br>
@@ -204,7 +205,7 @@ $(document).ready(function() {
   $('#display-solution').click(function(e){
     e.preventDefault();
     // alert(mathField.latex());
-    $(this).text($(this).text()=="Hide Solution"?"Display Solution":"Hide Solution");
+    $(this).text($(this).text()=="Hide"?"Solution":"Hide");
     $('#solution').slideToggle();
   });
   mathField.latex($("#id_answer").val());
