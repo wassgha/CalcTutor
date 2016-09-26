@@ -7,7 +7,7 @@ from mpmath import *
 from random import choice, randint, uniform
 from Function import *
 
-
+########## PRODUCTION RULES ######################
 def plus( func1, func2 ):
 	str1 = func1.getStringFunc()
 	str2 = func2.getStringFunc()
@@ -125,220 +125,140 @@ def compose( func1, func2 ):
 	function.setlatex( func1.getlatex().replace("x&", "(" + func2.getlatex() + ")") )
 	return function
 
+########## ELEMENTARY FUNCTIONS ######################
+
+# Build a function with the given string and latex representations and derivative
+#	content: string representation of the function
+#	latex: latex representation of the function
+#	isConstant: indicate whether this function is a constant function
+#	isElementary: indicate whether this function is an elementary function
+#	dContent: string representation of the derivative
+#	dLatex: latex representation of the derivative
+def buildFunction( 
+	content, latex, dContent, dLatex,  
+	dIsConstant = False, dIsElementary = False,
+	isConstant = False, isElementary = True,):
+	func = Function( content, isConstant, isElementary )
+	func.setlatex( latex )
+	derivative = Function( dContent, dIsConstant, dIsElementary )
+	derivative.setlatex( dLatex )
+	func.setDerivative( derivative )
+	return func
+
 
 def const( number = None ):
 	if number is None:
-		number = randint(1, 9)
-	function = Function( str(number), True )
-	function.setlatex( function.getStringFunc() )
-	derivative = Function( "0" )
-	derivative.setlatex( "0" )
-	function.setDerivative( derivative )
-	return function
+		number = randint(1, 5)
+	return buildFunction( str(number), str(number), "0", "0", True, True, True, True )
 
 
 def linear():
-	randomConstant = str(choice([1]*10+list(range(2,9))))
+	randomConstant = str(randint(1, 10))
 
 	if randomConstant == "1":
-		function =  Function( "x&" )
-		function.setlatex( "x&")
+		return buildFunction( "x&", "x&", randomConstant, randomConstant, True, True )
 	else:
-		function = Function( "(" + randomConstant + "*x&)" )
-		function.setlatex( randomConstant + "x&" )
-
-	derivative = Function( randomConstant )
-	derivative.setlatex( randomConstant )
-	function.setDerivative( derivative )
-	return function
+		return buildFunction( 
+			"(" + randomConstant + "*x&)", randomConstant + "x&", 
+			randomConstant, randomConstant, True, True )
 
 
 def sin():
-	function = Function( "sin(x&)" )
-	function.setlatex( "\\sin x&" )
-	derivative = Function( "cos(x&)")
-	derivative.setlatex( "\cos x&" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "sin(x&)", "\\sin x&", "cos(x&)", "\\cos x&", False, True )
 
 
 def cos():
-	function = Function( "cos(x&)" )
-	function.setlatex( "\\cos x&" )
-	derivative = Function( "-sin(x&)")
-	derivative.setlatex( "-\\sin x&" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "cos(x&)", "\\cos x&", "-sin(x&)", "-\\sin x&" )
 
 
 def tan():
-	function = Function( "tan(x&)" )
-	function.setlatex( "\\tan x&" )
-	derivative = Function( "sec(x&)**2")
-	derivative.setlatex( "(\\sec x&)^2" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "tan(x&)", "\\tan x&", "sec(x&)**2", "(\\sec x&)^2" )
 
 
 def sec():
-	function = Function( "sec(x&)" )
-	function.setlatex( "\\sec x&" )
-	derivative = Function( "sec(x&) * tan(x&)")
-	derivative.setlatex( "\\sec x& \cdot \\tan x&" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "sec(x&)", "\\sec x&", "sec(x&) * tan(x&)", "\\sec x& \cdot \\tan x&" )
 
 
 def csc():
-	function = Function( "csc(x&)" )
-	function.setlatex( "\\csc x&" )
-	derivative = Function( "-(csc(x&) * cot(x&))")
-	derivative.setlatex( "-\csc x& \\cdot \\cot x&" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "csc(x&)", "\\csc x&", "-(csc(x&) * cot(x&))", "-\csc x& \\cdot \\cot x&" )
 
 
 def cot():
-	function = Function( "cot(x&)" )
-	function.setlatex( "\\cot x&" )
-	derivative = Function( "-( csc(x&) )**2" )
-	derivative.setlatex( "-(\csc x&)^2" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "cot(x&)", "\\cot x&", "-( csc(x&) )**2", "-(\csc x&)^2" )
 
 
 def exp():
-	function = Function( "exp(x&)" )
-	function.setlatex( "e^{x&}" )
-	derivative = Function( "exp(x&)")
-	derivative.setlatex( "e^{x&}" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "exp(x&)", "e^{x&}", "exp(x&)", "e^{x&}", False, True )
 
 
 def ln():
-	function = Function( "ln(x&)" )
-	function.setlatex( "\\ln x&" )
-	derivative = Function( "1 / x&")
-	derivative.setlatex( "\\dfrac{ 1 }{x&}" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "ln(x&)", "\\ln x&", "1 / x&", "\\dfrac{ 1 }{x&}" )
 
 
 def sqrt():
-	function = Function( "sqrt(x&)" )
-	function.setlatex( "\\sqrt{x&}" )
-	derivative = Function( "1/(2 * sqrt(x&))", False, False)
-	derivative.setlatex( "\\dfrac{1}{2\\sqrt{x&}}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( 
+		"sqrt(x&)", "\\sqrt{x&}", "1/(2 * sqrt(x&))", "\\dfrac{1}{2\\sqrt{x&}}" )
+
 
 def arcsin():
-	function = Function( "asin(x&)" )
-	function.setlatex( "\\arcsin(x&)")
-	derivative = Function("1/sqrt(1 - (x&)**2)", False, False)
-	derivative.setlatex("\\dfrac{1}{\\sqrt{1-(x&)^2}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( 
+		"asin(x&)", "\\arcsin(x&)", "1/sqrt(1 - (x&)**2)", "\\dfrac{1}{\\sqrt{1-(x&)^2}" )
 
 
 def arccos():
-	function = Function( "acos(x&)" )
-	function.setlatex( "\\arccos(x&)" )
-	derivative = Function( "-1/sqrt(1-(x&)**2)", False, False)
-	derivative.setlatex("\\dfrac{-1}{\\sqrt{1-(x&)^2}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction(
+		"acos(x&)", "\\arccos(x&)", "-1/sqrt(1-(x&)**2)", "\\dfrac{-1}{\\sqrt{1-(x&)^2}" )
 
 
 def arctan():
-	function = Function( "atan(x&)" )
-	function.setlatex( "\\arctan(x&)" )
-	derivative = Function( "1/((x&)**2+1)", False, False )
-	derivative.setlatex( "\\dfrac{1}{(x&)^2 + 1}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction(
+		"atan(x&)", "\\arctan(x&)", "1/((x&)**2+1)", "\\dfrac{1}{(x&)^2 + 1}" )
 
 
 def arccot():
-	function = Function( "acot(x&)" )
-	function.setlatex( "\\arccot(x&)" )
-	derivative = Function( "-1/((x&)**2+1)", False, False )
-	derivative.setlatex( "\\dfrac{1}{(x&)^2+1}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction("acot(x&)", "\\arccot(x&)", "-1/((x&)**2+1)", "\\dfrac{1}{(x&)^2+1}" )
 
 
 def arcsec():
-	function = Function( "asec(x&)" )
-	function.setlatex( "\\text{arcsec}(x&)" )
-	derivative = Function( "1/((x&)**2 * sqrt(1 - 1/((x&)**2)))", False, False)
-	derivative.setlatex( "\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( 
+		"asec(x&)", "\\text{arcsec}(x&)", 
+		"1/((x&)**2 * sqrt(1 - 1/((x&)**2)))",
+		"\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}" )
 
 
 def arccsc():
-	function = Function( "arccsc(x&)" )
-	function.setlatex( "\\text{arccsc}(x&)" )
-	derivative = Function( "-1/((x&)**2 * sqrt(1 - 1/((x&)**2)))", False, False)
-	derivative.setlatex( "\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction(
+		"arccsc(x&)", "\\text{arccsc}(x&)",
+		"-1/((x&)**2 * sqrt(1 - 1/((x&)**2)))",
+		"\\dfrac{1}{(x&)^2 \\sqrt{1 - \\frac{1}{(x&)^2}}}" )
 
 
 def sinh():
-	function = Function( "sinh(x&)" )
-	function.setlatex( "\\sinh(x&)" )
-	derivative = Function( "cosh(x&)" )
-	derivative.setlatex ( "\\cosh(x&)" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "sinh(x&)", "\\sinh(x&)", "cosh(x&)", "\\cosh(x&)", False, True )
 
 
 def cosh():
-	function = Function( "cosh(x&)" )
-	function.setlatex( "\\cosh(x&)" )
-	derivative = Function( "sinh(x&)", False, False )
-	derivative.setlatex( "\\sinh(x&)" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "cosh(x&)", "\\cosh(x&)", "sinh(x&)", "\\sinh(x&)", False, True )
 
 
 def tanh():
-	function = Function( "tanh(x&)" )
-	function.setlatex( "\\tanh(x&)" )
-	derivative = Function( "(sech(x&))**2", False, False )
-	derivative.setlatex( "\\text{sech}(x&)^2")
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "tanh(x&)", "\\tanh(x&)", "(sech(x&))**2", "\\text{sech}(x&)^2" )
+
 
 def coth():
-	function = Function( "coth(x&)" )
-	function.setlatex( "\\coth(x&)" )
-	derivative = Function( "-csch(x&)**2", False, False )
-	derivative.setlatex( "-\\text{csch}((x&)^2" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( "coth(x&)", "\\coth(x&)", "-csch(x&)**2", "-\\text{csch}((x&)^2" )
 
 
 def sech():
-	function = Function( "sech(x&)" )
-	function.setlatex( "\\text{sech}(x&)" )
-	derivative = Function( "-tanh(x&) * sech(x&)", False, False )
-	derivative.setlatex( "-\\tanh(x&) \cdot \\text{sech}(x&)" )
-	function.setDerivative( derivative )
-	return function
+	return buildFunction( 
+		"sech(x&)", "\\text{sech}(x&)", 
+		"-tanh(x&) * sech(x&)", "-\\tanh(x&) \cdot \\text{sech}(x&)" )
 
 
 def csch():
-	function = Function( "csch(x&)" )
-	function.setlatex( "\\text{csch}(x&)" )
-	derivative = Function( "-coth(x&) * csch(x&)", False, False )
-	derivative.setlatex( "-\\coth(x&) \cdot \\text{csch}(x&)")
-	function.setDerivative( derivative )
-	return function
-
+	return Function( 
+		"csch(x&)", "\\text{csch}(x&)", 
+		"-coth(x&) * csch(x&)", "-\\coth(x&) \cdot \\text{csch}(x&)" )
 
 
 class Production:
@@ -431,9 +351,9 @@ class Production:
 		minus : 1,
 		powerConst: 1,
 		times : 2,
-		divide : 3,
-		compose : 3,
-		#power : 8
+		divide : 4,
+		compose : 4,
+		power : 8
 	}
 
 	# printing name for debugging only
