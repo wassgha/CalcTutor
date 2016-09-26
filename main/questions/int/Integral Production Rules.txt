@@ -1,0 +1,67 @@
+RGF: FUNCTION -> (PLUS (FUNCTION, FUNCTION))
+I: (PLUS (f, g)) -> (PLUS ((I f), (I g)))
+
+RGF: FUNCTION -> (MINUS (FUNCTION, FUNCTION))
+I: (MINUS (f, g)) -> (MINUS ((I f), (I g)))
+
+RGF: FUNCTION -> (TIMES (CONST, FUNCTION))
+I: (TIMES (c, f)) -> (TIMES (c, (I f)))
+
+//FUNCTION1s must match
+//FUNCTION1 needs to come from differential production rules
+//Difficultly should be low when generating FUNCTION1
+RGF: FUNCTION -> (TIMES ((COMPOSE (FUNCTION, FUNCTION1)), (D FUNCTION1)))
+I: (TIMES ((COMPOSE (f, g)), (D g))) -> COMPOSE (I f, g)
+
+RGF: FUNCTION -> (TIMES (FUNCTION, (D FUNCTION)))
+I: (TIMES (f, (D g))) -> (MINUS ((TIMES (f, g)), (TIMES (g, (D f)))))
+
+RGF: FUNCTION -> CONST
+I: c -> (TIMES (c, x))
+
+RGF: FUNCTION -> (x)
+I: x -> (DIVIDE ((POWER (x, 2)), 2))
+
+RGF: FUNCTION -> (POWER (x, NONMINUSONE))
+I: (POWER (x, c)) -> (DIVIDE ((POWER (x, c+1)), c+1))
+
+RGF: FUNCTION -> (POWER (CONST, x))
+I: (POWER (c, x)) -> (DIVIDE ((POWER (c, x)), LN (x)))
+
+RGF: FUNCTION -> (LN (x))
+I: (LN (x)) -> (MINUS ((TIMES (x, (LN (x))), x))
+
+RGF: FUNCTION -> (SIN (x))
+I: (SIN (x)) -> (TIMES (-1, (COS (x)))
+
+RGF: FUNCTION -> (COS (x))
+I: (COS (x)) -> (SIN (x))
+
+RGF: FUNCTION -> (POWER ((SEC (x)), 2))
+I: (POWER ((SEC (x)), 2)) -> (TAN (x))
+
+RGF: FUNCTION -> (TIMES ((SEC (x)), (TAN (X))))
+I: (TIMES ((SEC (x)), (TAN (X)))) -> (SEC (x))
+
+RGF: FUNCTION -> (TIMES ((CSC (x)), (COT (x))))
+I: (TIMES ((CSC (x)), (COT (x)))) -> (TIMES (-1, (CSC (x))))
+
+RGF: FUNCTION -> (POWER ((CSC (x)), 2))
+I: (POWER ((CSC (x)), 2)) -> (TIMES (-1, (COT (x))))
+
+RGF: FUNCTION -> (EXP (x))
+I: (EXP (x)) -> (EXP (x))
+
+RGF: FUNCTION -> (DIVIDE (1, x))
+I: (DIVIDE (1, x)) -> (LN (ABS (x)))
+
+RGF: FUNCTION -> (DIVIDE (1, (PLUS (1, (POWER (x, 2))))))
+I: (DIVIDE (1, (PLUS (1, (POWER (x, 2)))))) -> (ARCTAN (x))
+
+RGF: FUNCTION -> (DIVIDE (1, (POWER ((MINUS (1, (POWER (x, 2))))), 1/2)))
+I: (DIVIDE (1, (POWER ((MINUS (1, (POWER (x, 2))))), 1/2))) -> (ARCSIN (x))
+
+//Partial fractions & trig subs, hmmm
+
+
+
