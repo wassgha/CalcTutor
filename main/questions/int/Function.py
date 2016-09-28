@@ -8,10 +8,11 @@ class Function:
 	# because later "x&" will be replaced with an actual number.
 	# isConstant: boolean to indicate if this function is a constant
 	# elementary: boolean to indicate if this function is an elementary function.
-	def __init__( self, input, isConstant = False, elementary = True ):
+	def __init__( self, input, isConstant = False, elementary = False ):
 		self.func = input
 		self.isConstant = isConstant
 		self.elementary = elementary
+		self.derivative = None
 		self.integral = None
 
 
@@ -24,11 +25,6 @@ class Function:
 	def toString( self ):
 		return self.func.replace("x&", "x")
 
-	# Evalute this function given an x-value using SymPy
-	@classmethod
-	def evaluate(self, funcString, number):
-		return N(parse_expr(funcString).subs(symbols("x"),  number))
-
 
 	def constant( self ):
 		return self.isConstant
@@ -38,16 +34,8 @@ class Function:
 		return not self.elementary
 
 
-	def setlatex( self, latex ):
-		self.latex = latex
-
-
 	def getlatex( self ):
 		return latex(parse_expr(self.toString()), inv_trig_style="full")
-
-
-	def getDisplayLatex( self ):
-		return self.latex.replace("x&", "x")
 
 
 	def setDerivative( self, derivative ):
@@ -56,3 +44,17 @@ class Function:
 
 	def getDerivative( self ):
 		return self.derivative
+
+
+	def getIntegral( self ):
+		return self.integral
+
+
+	def setIntegral( self, integral ):
+		self.integral = integral
+
+		
+	# Evalute this function given an x-value using SymPy
+	@classmethod
+	def evaluate(self, funcString, number):
+		return N(parse_expr(funcString).subs(symbols("x"),  number))

@@ -214,6 +214,19 @@ class FunctionTree:
 			parent.setRightChild( newNode )
 
 
+	# Get the derivative of the function of the subtree rooted at the input node
+	def getDerivativeAtSubtree( self, node ):
+		if node.isLeaf():
+			return node.getValue().getDerivative()
+
+		production = node.getValue()
+		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
+		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
+		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
+		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
+		result = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction, leftDerivative, rightDerivative )
+		return result
+		
 	# Build a function tree with the input complexity bound
 	@classmethod
 	def buildTreeWithMaxComplexity(self, complexity ):

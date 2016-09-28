@@ -38,22 +38,22 @@ def minus( func1, func2 ):
 	return function
 
 
-def times( func1, func2 ):
+def times( func1, func2D ):
 	str1 = func1.getStringFunc()
-	str2 = func2.getStringFunc()
+	str2 = func2D.getStringFunc()
 
 	if func1.constant():
 		# output function is also a constant
-		if func2.constant():
+		if func2D.constant():
 			function = Function( str( float(str1) * float(str2) ), True )
 			return function
 		# if func1 = 1, output is just func2
 		elif float( func1.getStringFunc() ) == 1:
-			return func2
+			return func2D
 
 	# if func2 is a constant, swap the 2 functions
-	elif func2.constant():
-		return times( func2, func1 )
+	elif func2D.constant():
+		return times( func2D, func1 )
 
 	# if no function is constant, append the two
 	str1 = "(" + str1 + ")"
@@ -63,68 +63,109 @@ def times( func1, func2 ):
 	return function
 
 
-def divide( func1, func2 ):
-	str1 = func1.getStringFunc()
-	str2 = func2.getStringFunc()
-
-	if func2.constant():
-		# output function is also a constant
-		if func1.constant():
-			function = Function( str( float(str1) / float(str2) ), True )
-			return function
-		elif float( func2.getStringFunc() ) == 1:
-			return func1
-
-	str1 = "(" + str1 + ")"
-	str2 = "(" + str2 + ")"
-	function = Function( str1 + " / " + str2, False, False )
-	return function
+# def powerConst( func1, func2 ):
+# 	assert func2.constant()
+# 	str1 = "(" + func1.getStringFunc() + ")"
+# 	str2 = func2.getStringFunc()
+# 	function = Function( str1 + "**" + str2 , False, False )
+# 	return function
 
 
-def powerConst( func1, func2 ):
-	assert func2.constant()
-	str1 = "(" + func1.getStringFunc() + ")"
-	str2 = func2.getStringFunc()
-	function = Function( str1 + "**" + str2 , False, False )
-	return function
-
-
-def power( func1, func2 ):
-	str1 = "(" + func1.getStringFunc() + ")"
-	str2 = "(" + func2.getStringFunc() + ")"
-	function = Function( str1 + "**" + str2 , False, False )
-	return function
-
-
-def compose( func1, func2 ):
-	if func1.constant():
-		return func1
-	function = Function( func1.getStringFunc().replace("x&", "(" + func2.getStringFunc() + ")"), False, False)
-	return function
 
 ########## ELEMENTARY FUNCTIONS ######################
 
 # Build a function with the given string and latex representations and derivative
 #	content: string representation of the function
-#	latex: latex representation of the function
+#	dContent: string representation of the derivative
+#	iContent: string representation of the integral
 #	isConstant: indicate whether this function is a constant function
 #	isElementary: indicate whether this function is an elementary function
-#	dContent: string representation of the derivative
-#	dLatex: latex representation of the derivative
-def buildFunction( 
-	content, iContent,
-	isConstant = False, isElementary = True,):
+def buildFunction( content, iContent, dContent, isConstant = False, isElementary = False ):
 	func = Function( content, isConstant, isElementary )
-	func.setlatex( latex )
-	integral = Function( dContent, dIsConstant, dIsElementary )
+	integral = Function( iContent )
+	derivative = Function( dContent )
 	func.setDerivative( derivative )
+	func.setIntegral( integral )
 	return func
 
 
-def const( number = None):
+def const( number = None ):
 	if number is None:
 		number = randint(1, 10)
-	return buildFunction( str(number), str(number) + "*x&" )
+	numberS = str(number)
+	return buildFunction( numberS, numberS + "*x&", "0", True, True )
+
+
+def linear():
+	number = randint(1, 10)
+	numberS = str(number)
+	return buildFunction( numberS + "*x&", numberS + "*(x&)**2/2", numberS )
+
+
+def powerConst():
+	number = randint(-5,5)
+	while number == -1:
+		number = randint(-5,5)
+	numberS = str(number)
+	return buildFunction( 
+		"x&**" + numberS, 
+		"x**" + str(number+1) + "/" + str(number+1),
+		numberS + "*x&**" + str(number-1)
+	)
+
+
+def constPower():
+	number = randint(1, 10)
+	numberS = str(number)
+	return buildFunction( 
+		number + "**x&", 
+		number + "**x&" + "/ln(" + numberS + ")",
+		"(" + number + "**x&)" + "*ln(" + numberS + ")"
+	)
+
+
+def ln():
+	return buildFunction( "ln(x&)", "x&*ln(x&)-x&", "1/x&", False, True )
+
+
+def sin():
+	return buildFunction( "sin(x&)", "-cos(x&)", "cos(x&)", False, True )
+
+
+def cos():
+	return buildFunction( "cos(x&)", "sin(x&)", "-sin(x&)", False, True )
+
+
+def secSquare():
+	return buildFunction( "sec(x&)**2", "tan(x&)", "2*tan(x&)*sec(x&)**2" )
+
+
+def cscSquare():
+	return buildFunction( "csc(x&)**2", "-cot(x&)", "-2*cot(x&)*csc(x&)**2" )
+
+
+def sectan():
+	return buildFunction( "sec(x&)*tan(x&)", "sec(x&)", "sec(x&)*(tan(x&)**2 + sec(x&)**2)" )
+
+
+def csccot():
+	return buildFunction( "csc(x&)*cot(x&)", "-csc(x&)", "-csc(x&)*(cot(x&)**2 + csc(x&)**2)" )
+
+
+def exp():
+	return buildFunction( "e**x&", "e**x&", "e**x&" )
+
+
+def oneOverX():
+	return buildFunction( "1/x&", "ln(Abs(x&))", "-1/(x&**2)" )
+
+
+def divideOnePlusSquare():
+	return buildFunction( "1/(x&**2+1)", "atan(x&)", "-2*x&/(x&**2+1)**2" )
+
+
+def divideSqrtOneMinusSquare():
+	return buildFunction( "1/sqrt(1-x&**2)", "asin(x&)", "x&/(1-x&**2)**(3/2)" )
 
 
 
@@ -150,24 +191,48 @@ class Production:
 			upto += w
 		assert False, "shouldn't get here"
 
+	@classmethod
+	def getDerivative(self, productionRule, func1, func2, func1D, func2D ):
+		if productionRule == "plus":
+			return plus( func1D, func2D )
+		if productionRule == "minus":
+			return minus( func1D, func2D )
+		if productionRule == "times":
+			return plus( times(func1D, func2), times(func1, func2D) )
+		if productionRule == "divide":
+			return divide(
+				minus( times(func1D, func2), times(func1, func2D) ),
+				times( func2, func2 )
+			)
+		if productionRule == "compose":
+			return times( compose(func1D, func2), func2D )
+		if productionRule == "power":
+			return times(
+				power( func1, func2 ),
+				plus(
+					times( func2, divide( func1D, func1 ) ),
+					times( compose( ln(), func1 ), func2D )
+				)
+			)
+		if productionRule == "powerC":
+			assert func2.constant()
+			return times(
+				func2,
+				times(
+					powerConst( func1, const(int(func2.toString()) - 1) ),
+					func1D
+				)
+			)
 
 	@classmethod
-	def getIntegral(
-		self, productionRule, 
-		func1, func2, func1I, func2I, 
-		func1D = None, func2D = None ):
+	def getIntegral( self, productionRule, func1, func2, func1D, func2D, func1I, func2I ):
 		if productionRule == "plus":
 			return plus( func1I, func2I )
 		if productionRule == "minus":
 			return minus( func1I, func2I )
-		if productionRule == "timesConst":
-			assert func2.constant()
-			return times( func2, func1I )
-		if productionRule == "timesCompose":
-			return compose( func1I, func2 )
-		if productionRule == "times":
-			assert func1D is not None
-			return minus( times(func1, func2) - times(g, func1D) )
+			if productionRule == "timesCompose":
+
+
 
 	@classmethod
 	def simplify(self, func ):
@@ -177,35 +242,28 @@ class Production:
 	elemFunctions = {
 	    const : 5.0,
 	    linear : 15.0,
-	    sqrt : 4.0,
+	    powerConst : 4.0,
+	    constPower: 4.0,
+	    ln: 4.0,
 	    sin : 4.0,
 	    cos : 4.0,
-	    tan : 3.0,
-	    cot : .50,
-	    sec : 1.0,
-	    csc : .50,
-	    #arcsin : 1.0,
-	    #arccos : 0.5,
-	    #arctan : 1.0,
-	    #arccot : 0.5,
-	    #arcsec : 0.25,
-	    #arccsc : 0.25,
-	    # sinh : 1.0/36,
-	    # cosh : 1.0/36,
-	    # tanh : 1.0/36,
-	    # coth : 1.0/36,
-	    # sech : 1.0/36,
-	    # csch : 1.0/36
+	    secSquare: 3.0,
+	    cscSquare: 3.0,
+	    sectan: 5.0,
+	    csccot: 5.0,
+	    exp: 15.0,
+	    oneOverX: 3.0,
+	    divideOnePlusSquare: 2.0,
+	    divideSqrtOneMinusSquare: 1.0
 	}
+
 	totalElemWeight = sum(w for c, w in elemFunctions.items())
 	complexityMap = {
 		plus : 1,
 		minus : 1,
-		powerConst: 1,
-		times : 2,
-		divide : 4,
-		compose : 4,
-		power : 8
+		timesConst: 1,
+		timesCompose: 5,
+		times: 3
 	}
 
 	# printing name for debugging only
@@ -217,24 +275,20 @@ class Production:
 		compose: "compose",
 		power: "power",
 		powerConst: "powerC",
-		const: "const",
-		linear: "linear",
-		sin: "sin",
-		cos: "cos",
-		tan: "tan",
-		exp: "exp",
-		arcsin: "arcsin",
-		arccos: "arccos",
-		arctan: "arctan",
-		arccot: "arccot",
-		arcsec: "arcsec",
-		arccsc: "arccsc",
-		sinh: "sinh",
-		cosh: "cosh",
-		tanh: "tanh",
-		coth: "coth",
-		sech: "sech",
-		csch: "csch"
+		constPower: "cPower",
+		const : "const",
+	    linear : "linear",
+	    ln: "ln",
+	    sin : "sin",
+	    cos : "cos",
+	    secSquare: "secSquare",
+	    cscSquare: "cscSquare",
+	    sectan: "sectan",
+	    csccot: "csccot",
+	    exp: "e^x",
+	    oneOverX: "1/x",
+	    divideOnePlusSquare: "1/(x^2+1)",
+	    divideSqrtOneMinusSquare: "1/sqrt(1-x^2)"
 	}
 
 

@@ -26,7 +26,7 @@ RGF: FUNCTION -> (POWER (x, NONMINUSONE))
 I: (POWER (x, c)) -> (DIVIDE ((POWER (x, c+1)), c+1))
 
 RGF: FUNCTION -> (POWER (CONST, x))
-I: (POWER (c, x)) -> (DIVIDE ((POWER (c, x)), LN (x)))
+I: (POWER (c, x)) -> (DIVIDE ((POWER (c, x)), LN (c)))
 
 RGF: FUNCTION -> (LN (x))
 I: (LN (x)) -> (MINUS ((TIMES (x, (LN (x))), x))
