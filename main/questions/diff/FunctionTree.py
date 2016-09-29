@@ -81,6 +81,7 @@ class FunctionTree:
 		# initialize root as a leaf
 		self.root = Node()
 		self.solutionSteps = list()
+		self.outputFunction = None
 
 
 	def applyProduction( self, production ):
@@ -150,19 +151,13 @@ class FunctionTree:
 				func = Production.getRandomElemFunction()
 				# Move coefficient if (a*x)^b
 				if func == linear and leaf.getParent().getValue() == powerConst:
-				    func =  Function( "x&" )
-				    func.setlatex( "x&")
-				    derivative = Function( "1" )
-				    derivative.setlatex( "1" )
-				    func.setDerivative( derivative )
-				    leaf.setValue( func )
+				    leaf.setValue( buildFunction( "x&", "1", True, True ) )
 				    parent = leaf.getParent()
 				    grandparent = parent.getParent()
 				    # create new inner node for coefficient multiplication
 				    newNode = Node( times )
 				    # create new leaf
-				    newLeaf = Node()
-				    newLeaf.setValue( const() )
+				    newLeaf = Node( const() )
 				    newNode.setLeftChild( newLeaf )
 				    newNode.setRightChild( parent )
 				    self.replaceNode( parent, newNode, grandparent )
@@ -192,34 +187,28 @@ class FunctionTree:
 		if node.isLeaf():
 			return node.getValue()
 		else:
+			# get the function
 			production = node.getValue()
 			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
 			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 			result = production( leftFunction, rightFunction )
+
+			# get the derivative
+			derivative = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction )
+			result.setDerivative( derivative )
 			return result
 
 
 	# Evaluate the entire tree to get the output function
 	def getOutputFunction( self ):
-		return self.getFunctionAtSubtree( self.root )
-
-	# Get the derivative of the function of the subtree rooted at the input node
-	def getDerivativeAtSubtree( self, node ):
-		if node.isLeaf():
-			return node.getValue().getDerivative()
-
-		production = node.getValue()
-		leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
-		rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
-		leftDerivative = self.getDerivativeAtSubtree( node.getLeftChild() )
-		rightDerivative = self.getDerivativeAtSubtree( node.getRightChild() )
-		result = Production.getDerivative( Production.nameMap[production], leftFunction, rightFunction, leftDerivative, rightDerivative )
-		return result
+		if self.outputFunction == None:
+			self.outputFunction = self.getFunctionAtSubtree( self.root )
+		return self.outputFunction
 
 
 	# Get the derivative of the function of this entire tree
 	def getOutputDerivative( self ):
-		return self.getDerivativeAtSubtree( self.root )
+		return self.getOutputFunction().getDerivative()
 
 
 	# Replace an old node with a new node and update the pointer of the parent node

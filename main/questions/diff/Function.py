@@ -39,16 +39,8 @@ class Function:
 		return not self.elementary
 
 
-	def setlatex( self, latex ):
-		self.latex = latex
-
-
 	def getlatex( self ):
 		return latex(parse_expr(self.toString()), inv_trig_style="full")
-
-
-	def getDisplayLatex( self ):
-		return self.latex.replace("x&", "x")
 
 
 	def setDerivative( self, derivative ):
