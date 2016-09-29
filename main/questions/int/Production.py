@@ -63,12 +63,20 @@ def times( func1, func2D ):
 	return function
 
 
-# def powerConst( func1, func2 ):
-# 	assert func2.constant()
-# 	str1 = "(" + func1.getStringFunc() + ")"
-# 	str2 = func2.getStringFunc()
-# 	function = Function( str1 + "**" + str2 , False, False )
-# 	return function
+def powerConst( func1, func2 ):
+	assert func2.constant()
+	str1 = "(" + func1.getStringFunc() + ")"
+	str2 = func2.getStringFunc()
+	function = Function( str1 + "**" + str2 , False, False )
+	return function
+
+
+def constPower( func1, func2 ):
+	assert func1.constant()
+	str1 = func1.getStringFunc()
+	str2 = func2.getStringFunc()
+	function = Function( str1 + "**" + str2 , False, False )
+	return function
 
 
 
@@ -100,28 +108,6 @@ def linear():
 	number = randint(1, 10)
 	numberS = str(number)
 	return buildFunction( numberS + "*x&", numberS + "*(x&)**2/2", numberS )
-
-
-def powerConst():
-	number = randint(-5,5)
-	while number == -1:
-		number = randint(-5,5)
-	numberS = str(number)
-	return buildFunction( 
-		"x&**" + numberS, 
-		"x**" + str(number+1) + "/" + str(number+1),
-		numberS + "*x&**" + str(number-1)
-	)
-
-
-def constPower():
-	number = randint(1, 10)
-	numberS = str(number)
-	return buildFunction( 
-		number + "**x&", 
-		number + "**x&" + "/ln(" + numberS + ")",
-		"(" + number + "**x&)" + "*ln(" + numberS + ")"
-	)
 
 
 def ln():
@@ -191,46 +177,20 @@ class Production:
 			upto += w
 		assert False, "shouldn't get here"
 
-	@classmethod
-	def getDerivative(self, productionRule, func1, func2, func1D, func2D ):
-		if productionRule == "plus":
-			return plus( func1D, func2D )
-		if productionRule == "minus":
-			return minus( func1D, func2D )
-		if productionRule == "times":
-			return plus( times(func1D, func2), times(func1, func2D) )
-		if productionRule == "divide":
-			return divide(
-				minus( times(func1D, func2), times(func1, func2D) ),
-				times( func2, func2 )
-			)
-		if productionRule == "compose":
-			return times( compose(func1D, func2), func2D )
-		if productionRule == "power":
-			return times(
-				power( func1, func2 ),
-				plus(
-					times( func2, divide( func1D, func1 ) ),
-					times( compose( ln(), func1 ), func2D )
-				)
-			)
-		if productionRule == "powerC":
-			assert func2.constant()
-			return times(
-				func2,
-				times(
-					powerConst( func1, const(int(func2.toString()) - 1) ),
-					func1D
-				)
-			)
 
 	@classmethod
-	def getIntegral( self, productionRule, func1, func2, func1D, func2D, func1I, func2I ):
+	def getIntegral( self, productionRule, func1, func2 ):
 		if productionRule == "plus":
-			return plus( func1I, func2I )
+			return plus( func1.getIntegral(), func2.getIntegral() )
 		if productionRule == "minus":
-			return minus( func1I, func2I )
-			if productionRule == "timesCompose":
+			return minus( func1.getIntegral(), func2.getIntegral() )
+		if productionRule == "timesConst":
+			assert func1.constant()
+			return times( func1, func2.getIntegral() )
+		if productionRule == "timesCompose":
+			return compose( func1.getIntegral(), func2 )
+		if productionRule == "times":
+			return minus( times(func1,func2), times(func2, func1.getDerivative()) )
 
 
 
@@ -242,8 +202,6 @@ class Production:
 	elemFunctions = {
 	    const : 5.0,
 	    linear : 15.0,
-	    powerConst : 4.0,
-	    constPower: 4.0,
 	    ln: 4.0,
 	    sin : 4.0,
 	    cos : 4.0,
@@ -262,6 +220,8 @@ class Production:
 		plus : 1,
 		minus : 1,
 		timesConst: 1,
+		powerConst: 2,
+		constPower: 2,
 		timesCompose: 5,
 		times: 3
 	}
@@ -271,6 +231,7 @@ class Production:
 		plus: "plus",
 		minus: "minus",
 		times: "times",
+		timesConst: "timesConst",
 		divide: "divide",
 		compose: "compose",
 		power: "power",

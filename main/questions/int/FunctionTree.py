@@ -144,30 +144,7 @@ class FunctionTree:
 
 	# Assign an elementary function to each leaf whose value has not been set
 	def assignFunctionsToLeaves( self ):
-		leaves = self.getAllLeaves( self.root )
-		for leaf in leaves:
-			if leaf.getValue() is None:
-				func = Production.getRandomElemFunction()
-				# Move coefficient if (a*x)^b
-				if func == linear and leaf.getParent().getValue() == powerConst:
-				    func =  Function( "x&" )
-				    func.setlatex( "x&")
-				    derivative = Function( "1" )
-				    derivative.setlatex( "1" )
-				    func.setDerivative( derivative )
-				    leaf.setValue( func )
-				    parent = leaf.getParent()
-				    grandparent = parent.getParent()
-				    # create new inner node for coefficient multiplication
-				    newNode = Node( times )
-				    # create new leaf
-				    newLeaf = Node()
-				    newLeaf.setValue( const() )
-				    newNode.setLeftChild( newLeaf )
-				    newNode.setRightChild( parent )
-				    self.replaceNode( parent, newNode, grandparent )
-				else:
-				    leaf.setValue( func() )
+		
 
 
 	# Print the tree level by level
