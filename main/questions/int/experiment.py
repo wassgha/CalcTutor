@@ -6,12 +6,12 @@ from FunctionTree import *
 from mpmath import *
 
 
-tree = FunctionTree.buildTreeWithMaxComplexity( 8 )
+tree = FunctionTree.buildTreeWithMaxComplexity( 3 )
 func =  tree.getOutputFunction() 
 integral = tree.getOutputIntegral()
 tree.printTree()
 integral = tree.getOutputIntegral()
 print("The output function is: ")
 print(func.toString())
-# print("The integral is: ")
-# print(integral.toString())
+print("The integral is: ")
+print(integral.toString())

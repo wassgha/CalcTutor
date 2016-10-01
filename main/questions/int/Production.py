@@ -16,9 +16,7 @@ def plus( func1, func2 ):
 		# output function is also a constant
 		function = Function( str( float(str1) + float(str2) ), True )
 	else:
-		str1 = "(" + str1 + ")"
-		str2 = "(" + str2 + ")"
-		function = Function( str1 + " + " + str2, False, False )
+		function = Function( str1 + "+" + str2, False, False )
 
 	return function
 
@@ -31,9 +29,7 @@ def minus( func1, func2 ):
 		# output function is also a constant
 		function = Function( str( float(str1) - float(str2) ), True )
 	else:
-		str1 = "(" + str1 + ")"
-		str2 = "(" + str2 + ")"
-		function = Function( str1 + " - " + str2, False, False )
+		function = Function( str1 + "-" + str2, False, False )
 
 	return function
 
@@ -77,10 +73,8 @@ def times( func1, func2 ):
 		return times( func2, func1 )
 
 	# if no function is constant, append the two
-	str1 = "(" + str1 + ")"
-	str2 = "(" + str2 + ")"
 
-	function = Function( str1 + " * " + str2, False, False )
+	function = Function( str1 + "*" + str2, False, False )
 	return function
 
 

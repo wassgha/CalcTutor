@@ -117,13 +117,11 @@ class FunctionTree:
 			newLeaf.setValue( func )
 
 		# if rule "times", both children must be outputs of diff production rules
-		if production == times:
+		if production == timesDerivative:
 			diffTree1 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
 			diffTree2 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
 			func1 = diffTree1.getOutputFunction()
 			func2 = diffTree2.getOutputFunction()
-			if func1.getDerivative() is None or func2.getDerivative() is None:
-				print("puccaaaaaaa")
 			leaf.setValue( func1 )
 			newLeaf.setValue( func2 )
 

@@ -18,7 +18,9 @@ class Function:
 
 	# Return the string currently held
 	def getStringFunc( self ):
-		return self.func
+		if self.elementary or self.isConstant:
+			return self.func
+		return "(" + self.func + ")"
 
 
 	# Return the proper representation of this function
