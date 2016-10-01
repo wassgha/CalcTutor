@@ -38,22 +38,43 @@ def minus( func1, func2 ):
 	return function
 
 
-def times( func1, func2D ):
+def timesDerivative( func1, func2 ):
+	func2D = func2.getDerivative()
+	assert func2D is not None
+	return times( func1, func2D )
+
+
+def timesCompose( func1, func2 ):
+	assert func2.getDerivative() is not None
+	return times( compose(func1, func2), func2.getDerivative() )
+
+
+def timesConst( func1, func2 ):
+	assert func1.constant()
 	str1 = func1.getStringFunc()
-	str2 = func2D.getStringFunc()
+	str2 = func2.getStringFunc()
+	function = Function( str1 + "*" + str2 , False, False )
+	return function
+
+
+########## HELPER FUNCTIONS THAT ARE NOT PRODUCTION RULES ###########
+
+def times( func1, func2 ):
+	str1 = func1.getStringFunc()
+	str2 = func2.getStringFunc()
 
 	if func1.constant():
 		# output function is also a constant
-		if func2D.constant():
+		if func2.constant():
 			function = Function( str( float(str1) * float(str2) ), True )
 			return function
 		# if func1 = 1, output is just func2
 		elif float( func1.getStringFunc() ) == 1:
-			return func2D
+			return func2
 
 	# if func2 is a constant, swap the 2 functions
-	elif func2D.constant():
-		return times( func2D, func1 )
+	elif func2.constant():
+		return times( func2, func1 )
 
 	# if no function is constant, append the two
 	str1 = "(" + str1 + ")"
@@ -63,21 +84,11 @@ def times( func1, func2D ):
 	return function
 
 
-def powerConst( func1, func2 ):
-	assert func2.constant()
-	str1 = "(" + func1.getStringFunc() + ")"
-	str2 = func2.getStringFunc()
-	function = Function( str1 + "**" + str2 , False, False )
+def compose( func1, func2 ):
+	if func1.constant():
+		return func1
+	function = Function( func1.getStringFunc().replace("x&", "(" + func2.getStringFunc() + ")"), False, False)
 	return function
-
-
-def constPower( func1, func2 ):
-	assert func1.constant()
-	str1 = func1.getStringFunc()
-	str2 = func2.getStringFunc()
-	function = Function( str1 + "**" + str2 , False, False )
-	return function
-
 
 
 ########## ELEMENTARY FUNCTIONS ######################
@@ -109,6 +120,30 @@ def linear():
 	numberS = str(number)
 	return buildFunction( numberS + "*x&", numberS + "*(x&)**2/2", numberS )
 
+
+def powerConst():
+	number = randint(-10, 10)
+	while number == -1:
+		number = randint(-10, 10)
+	numberS = str(number)
+	plusOne = str(number + 1)
+	minusOne = str(number - 1)
+	return buildFunction( 
+		"x&**" + numberS, 
+		"x&**" + plusOne + "/" + plusOne,
+		numberS + "*x&**" + minusOne
+	)
+
+
+def constPower():
+	number = randint(2, 10)
+	numberS = str(number)
+	return buildFunction( 
+		numberS + "**x&", 
+		numberS + "**x&/ln(" + numberS + ")",
+		numberS + "**x&*ln(" + numberS + ")",
+	)
+	
 
 def ln():
 	return buildFunction( "ln(x&)", "x&*ln(x&)-x&", "1/x&", False, True )
@@ -154,9 +189,6 @@ def divideSqrtOneMinusSquare():
 	return buildFunction( "1/sqrt(1-x&**2)", "asin(x&)", "x&/(1-x&**2)**(3/2)" )
 
 
-
-
-
 class Production:
 	# get a uniformly random production rule
 	@classmethod
@@ -179,20 +211,27 @@ class Production:
 
 
 	@classmethod
-	def getIntegral( self, productionRule, func1, func2 ):
-		if productionRule == "plus":
+	def getIntegral( self, productionRuleString, func1, func2 ):
+		if productionRuleString == "plus":
 			return plus( func1.getIntegral(), func2.getIntegral() )
-		if productionRule == "minus":
+
+		if productionRuleString == "minus":
 			return minus( func1.getIntegral(), func2.getIntegral() )
-		if productionRule == "timesConst":
+
+		if productionRuleString == "timesConst":
 			assert func1.constant()
 			return times( func1, func2.getIntegral() )
-		if productionRule == "timesCompose":
+
+		if productionRuleString == "timesCompose":
 			return compose( func1.getIntegral(), func2 )
-		if productionRule == "times":
-			return minus( times(func1,func2), times(func2, func1.getDerivative()) )
 
 
+		if productionRuleString == "timesDerivative":
+			func1D = func1.getDerivative()
+			assert func1D is not None
+			return minus( times(func1,func2), times(func2, func1D) )
+		assert False, "unrecognized production rule: " + productionRuleString
+		
 
 	@classmethod
 	def simplify(self, func ):
@@ -202,6 +241,8 @@ class Production:
 	elemFunctions = {
 	    const : 5.0,
 	    linear : 15.0,
+	    powerConst: 15.0,
+	    constPower: 15.0,
 	    ln: 4.0,
 	    sin : 4.0,
 	    cos : 4.0,
@@ -220,23 +261,17 @@ class Production:
 		plus : 1,
 		minus : 1,
 		timesConst: 1,
-		powerConst: 2,
-		constPower: 2,
 		timesCompose: 5,
-		times: 3
+		timesDerivative: 3
 	}
 
 	# printing name for debugging only
 	nameMap = {
 		plus: "plus",
 		minus: "minus",
-		times: "times",
+		timesDerivative: "timesDerivative",
 		timesConst: "timesConst",
-		divide: "divide",
-		compose: "compose",
-		power: "power",
-		powerConst: "powerC",
-		constPower: "cPower",
+		timesCompose: "timesCompose",
 		const : "const",
 	    linear : "linear",
 	    ln: "ln",

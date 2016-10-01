@@ -1,17 +1,16 @@
 import numpy as np
 
 from random import choice
-from Production import *
-from Function import *
-from DiffFunctionTree import *
-import sys
 
+from DiffProduction import *
+from Function import *
+import sys
 
 
 class Node:
 
 	# holder: object of type Function
-	def __init__( self, holder = None):
+	def __init__( self, holder = None ):
 		self.holder = holder
 		self.left = None
 		self.right = None
@@ -60,7 +59,7 @@ class Node:
 	def getComplexity( self ):
 		complexity = 0
 		if not self.isLeaf():
-			complexity = complexity + Production.complexityMap[self.holder]
+			complexity = complexity + DiffProduction.complexityMap[self.holder]
 		if self.left is not None:
 			complexity = complexity + self.left.getComplexity()
 		if self.right is not None:
@@ -73,60 +72,43 @@ class Node:
 		if self.isLeaf():
 			sys.stdout.write(self.getValue().toString() + " ")
 		else:
-			sys.stdout.write( Production.nameMap[self.holder] + " " )
+			sys.stdout.write( DiffProduction.nameMap[self.holder] + " " )
 
 
-class FunctionTree:
+class DiffFunctionTree:
 
-	# maxComp: upper bound complexity
-	def __init__( self, maxComp ):
+	def __init__( self ):
 		# initialize root as a leaf
 		self.root = Node()
 		self.solutionSteps = list()
-		self.maxComp = maxComp
 		self.outputFunction = None
 
 
 	def applyProduction( self, production ):
 		leaf = self.getRandomLeaf()
 
-		# if this leaf's value has already been set, do nothing
+		# if this leaf's value has already been set to a constant, do nothing
 		if leaf.getValue() is not None:
 			return
 
 		parent = leaf.getParent()
 
-		# replace leaf with a combo of Inner Node, Left Child, Right Child
+		# avoid (f*g)^k to prevent large coefficients
+		if parent is not None:
+			if parent.getValue() == powerConst and production == times:
+				return
+		# else, replace it with a combo of Inner Node - Left Child, Right Child
+
+		# create new inner node holding a production rule
 		newNode = Node( production )
 		# create new leaf
 		newLeaf = Node()
 		newNode.setLeftChild( leaf )
 		newNode.setRightChild( newLeaf )
 		self.replaceNode( leaf, newNode, parent )
-
-
-		# if rule "timesConst", its left child must be a const
-		if production == timesConst:
-			leaf.setValue( const() )
-
-		# if rule "timesCompose" 
-		# right child must be an output of diff production rules
-		if production == timesCompose:
-			diffTree = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
-			func = diffTree.getOutputFunction()
-			newLeaf.setValue( func )
-
-		# if rule "times", both children must be outputs of diff production rules
-		if production == times:
-			diffTree1 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
-			diffTree2 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
-			func1 = diffTree1.getOutputFunction()
-			func2 = diffTree2.getOutputFunction()
-			if func1.getDerivative() is None or func2.getDerivative() is None:
-				print("puccaaaaaaa")
-			leaf.setValue( func1 )
-			newLeaf.setValue( func2 )
-
+		# if an inner node has rule "powerConst", its right child must be a const
+		if production == powerConst:
+			newLeaf.setValue( const() )
 
 	# Move left / right randomly until arriving at a leaf
 	def getRandomLeaf( self ):
@@ -166,8 +148,21 @@ class FunctionTree:
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
 			if leaf.getValue() is None:
-				func = Production.getRandomElemFunction()
-				leaf.setValue( func() )
+				func = DiffProduction.getRandomElemFunction()
+				# Move coefficient if (a*x)^b
+				if func == linear and leaf.getParent().getValue() == powerConst:
+				    leaf.setValue( buildFunction( "x&", "1", True, True ) )
+				    parent = leaf.getParent()
+				    grandparent = parent.getParent()
+				    # create new inner node for coefficient multiplication
+				    newNode = Node( times )
+				    # create new leaf
+				    newLeaf = Node( const() )
+				    newNode.setLeftChild( newLeaf )
+				    newNode.setRightChild( parent )
+				    self.replaceNode( parent, newNode, grandparent )
+				else:
+				    leaf.setValue( func() )
 
 
 	# Print the tree level by level
@@ -192,26 +187,28 @@ class FunctionTree:
 		if node.isLeaf():
 			return node.getValue()
 		else:
+			# get the function
 			production = node.getValue()
 			leftFunction = self.getFunctionAtSubtree( node.getLeftChild() )
 			rightFunction = self.getFunctionAtSubtree( node.getRightChild() )
 			result = production( leftFunction, rightFunction )
 
-			# get the integral
-			integral = Production.getIntegral( Production.nameMap[production], leftFunction, rightFunction )
-			result.setIntegral( integral )
+			# get the derivative
+			derivative = DiffProduction.getDerivative( DiffProduction.nameMap[production], leftFunction, rightFunction )
+			result.setDerivative( derivative )
 			return result
 
 
 	# Evaluate the entire tree to get the output function
 	def getOutputFunction( self ):
-		if self.outputFunction is None:
+		if self.outputFunction == None:
 			self.outputFunction = self.getFunctionAtSubtree( self.root )
 		return self.outputFunction
-		
 
-	def getOutputIntegral( self ):
-		return self.getOutputFunction().getIntegral()
+
+	# Get the derivative of the function of this entire tree
+	def getOutputDerivative( self ):
+		return self.getOutputFunction().getDerivative()
 
 
 	# Replace an old node with a new node and update the pointer of the parent node
@@ -224,16 +221,12 @@ class FunctionTree:
 			parent.setRightChild( newNode )
 
 
-		
 	# Build a function tree with the input complexity bound
 	@classmethod
 	def buildTreeWithMaxComplexity(self, complexity ):
-		iteration = 0
-		tree = FunctionTree( complexity )
-		while tree.getComplexity() < complexity and iteration < 20:
-			productionRule = Production.getRandomProductionRule()
+		tree = DiffFunctionTree()
+		while tree.getComplexity() < complexity:
+			productionRule = DiffProduction.getRandomProductionRule()
 			tree.applyProduction( productionRule )
-			iteration = iteration + 1
-
 		tree.assignFunctionsToLeaves()
 		return tree
