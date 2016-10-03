@@ -33,16 +33,16 @@ class Question(object):
 		print key
 		#session.clear()
 		self.domain = 2*np.random.random(60)
-		if 'derivString' not in session or new:
+		if 'integralString' not in session or new:
 			self.generateFunction()
 			while len(self.eval_table) < 10:
 				self.generateFunction()
 			session['funcString'] = self.funcString
-			session['derivString'] = self.derivString
+			session['integralString'] = self.integralString
 			session.save()
 		else:
 			self.funcString = session['funcString']
-			self.derivString = session['derivString']
+			self.integralString = session['integralString']
 			self.generateDerivEvalTable()
 		self.tree = None
 
@@ -51,13 +51,13 @@ class Question(object):
 		tree = FunctionTree.buildTreeWithMaxComplexity(4)
 		tree.printTree()
 		func =  tree.getOutputFunction()
-		deriv =  tree.getOutputDerivative()
+		integral =  tree.getOutputIntegral()
 		self.funcString = func.toString()
-		self.derivString = deriv.toString()
+		self.integralString = integral.toString()
 		self.generateDerivEvalTable()
 
 	def generateDerivEvalTable(self) :
-		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
+		self.eval_table = np.array([(x, Function.evaluate(self.integralString, x)) for x in self.domain if isinstance(Function.evaluate(self.integralString, x), Float)]).astype(float)
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
@@ -79,7 +79,7 @@ class Question(object):
 	"""
 
 	def getPrompt(self):
-		prompt = "<p>Differentiate this function : </p><br>"
+		prompt = "<p>Integrate this function : </p><br>"
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
 		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
@@ -91,7 +91,7 @@ class Question(object):
 
 		# prompt += "</table>"
 		prompt += "<div id='solution'><p>Solution : </p><br>"
-		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.derivString))) + "</script></div>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.integralString))) + "</script></div>"
 		return prompt
 
 	"""
