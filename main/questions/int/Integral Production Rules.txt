@@ -14,7 +14,7 @@ RGF: FUNCTION -> (TIMES ((COMPOSE (FUNCTION, FUNCTION1)), (D FUNCTION1)))
 I: (TIMES ((COMPOSE (f, g)), (D g))) -> COMPOSE (I f, g)
 
 RGF: FUNCTION -> (TIMES (FUNCTION, (D FUNCTION)))
-I: (TIMES (f, (D g))) -> (MINUS ((TIMES (f, g)), (TIMES (g, (D f)))))
+I: (TIMES (f, (D g))) -> (MINUS ((TIMES (f, g)), (I (TIMES (g, (D f))))))
 
 RGF: FUNCTION -> CONST
 I: c -> (TIMES (c, x))
