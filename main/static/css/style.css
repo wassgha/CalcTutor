@@ -327,6 +327,14 @@ ul.errorlist.nonfield {
   padding: 0px;
 }
 
+.mobile {
+  display: none;
+}
+
+.desktop {
+  display: none;
+}
+
 @media screen and (max-width: 760px) {
   .mobile {
     display: block;
