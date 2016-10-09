@@ -42,12 +42,10 @@
  -->
 
  <div id="keyboard-wrapper">
-   <div id="keyboard" class="{{flavour}}">
+   <div id="keyboard" class="desktop">
       <div class="keypad std default row-fluid">
-        {% if flavour != "mobile" %}
         <div class="key-group col-xs-4">
           <div class="row-fluid">
-            {% endif %}
             <div class="key col-xs-4 symbol" data-action="write" data-content="1">1</div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="2">2</div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="3">3</div>
@@ -60,12 +58,10 @@
             <div class="key col-xs-4 special2" data-action="keyboard-hide"><i class="material-icons">keyboard_hide</i></div>
             <div class="key col-xs-4 symbol" data-action="write" data-content="0">0</div>
             <div class="key col-xs-4 letter" data-action="write" data-content=".">.</div>
-            {% if flavour != "mobile" %}
           </div>
         </div>
         <div class="key-group col-xs-4">
           <div class="row-fluid">
-            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="y">y</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="z">z</div>
@@ -78,12 +74,10 @@
             <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
             <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\ln{()}">ln</div>
             <div class="key col-xs-4 letter" data-action="write" data-stepback="3" data-content="\log_{}{()}">log</div>
-            {% if flavour != "mobile" %}
           </div>
         </div>
         <div class="key-group col-xs-4">
           <div class="row-fluid">
-            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-content="(">(</div>
             <div class="key col-xs-4 letter" data-action="write" data-content=")">)</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
@@ -96,16 +90,12 @@
             <div class="key col-xs-4 special" data-action="keystroke" data-content="Down"><i class="material-icons">keyboard_arrow_down</i></div>
             <div class="key col-xs-4 special2" data-action="switch-keys" data-content="trig"><img src="{% static 'img/sincoskey.png' %}"/></div>
             <div class="key col-xs-4 special2" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
-            {% if flavour != "mobile" %}
           </div>
         </div>
-        {% endif %}
       </div>
       <div class="keypad trig">
-        {% if flavour != "mobile" %}
         <div class="key-group col-xs-4 offset-xs-4">
           <div class="row-fluid">
-            {% endif %}
             <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sin{()}">sin</div>
             <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cos{()}">cos</div>
             <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\tan{()}">tan</div>
@@ -121,16 +111,66 @@
             <div class="key col-xs-4 special2" data-action="switch-keys" data-content="std">123</div>
             <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
             <div class="key col-xs-4 special2" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
-            {% if flavour != "mobile" %}
           </div>
         </div>
-        {% endif %}
-    <!--     <div class="key letter" data-action="cmd" data-content="\sinh">sinh</div>
-        <div class="key letter" data-action="cmd" data-content="\cosh">cosh</div>
-        <div class="key letter" data-action="cmd" data-content="\tanh">tanh</div>
-        <div class="key letter" data-action="cmd" data-content="\sech">sech</div>
-        <div class="key letter" data-action="cmd" data-content="\csch">csch</div>
-        <div class="key letter" data-action="cmd" data-content="\coth">coth</div> -->
+      </div>
+    </div>
+
+   <div id="keyboard" class="mobile">
+      <div class="keypad std default row-fluid">
+        <div class="key col-xs-4 symbol" data-action="write" data-content="1">1</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="2">2</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="3">3</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="4">4</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="5">5</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="6">6</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="7">7</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="8">8</div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="9">9</div>
+        <div class="key col-xs-4 special2" data-action="keyboard-hide"><i class="material-icons">keyboard_hide</i></div>
+        <div class="key col-xs-4 symbol" data-action="write" data-content="0">0</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content=".">.</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="y">y</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="z">z</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="+">+</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="-">-</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="*">*</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\frac {} {}">/</div>
+        <div class="key col-xs-4 letter lastitem" data-action="cmd" data-stepback="1" data-content="^">^</div>
+        <div class="key col-xs-4 letter" data-action="cmd" data-content="\sqrt"><img src="{% static 'img/rootkey.png' %}"/></div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="2" data-content="\sqrt[]{}"><img src="{% static 'img/baserootkey.png' %}"/></div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\ln{()}">ln</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="3" data-content="\log_{}{()}">log</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="(">(</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content=")">)</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="[">]</div>
+        <div class="key col-xs-4 letter" data-action="cmd" data-content="\pi">&pi;</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="e^{}">e</div>
+        <div class="key col-xs-4 special" data-action="keystroke" data-content="Up"><i class="material-icons">keyboard_arrow_up</i></div>
+        <div class="key col-xs-4 special" data-action="keystroke" data-content="Left"><i class="material-icons">keyboard_arrow_left</i></div>
+        <div class="key col-xs-4 special" data-action="keystroke" data-content="Right"><i class="material-icons">keyboard_arrow_right</i></div>
+        <div class="key col-xs-4 special" data-action="keystroke" data-content="Down"><i class="material-icons">keyboard_arrow_down</i></div>
+        <div class="key col-xs-4 special2" data-action="switch-keys" data-content="trig"><img src="{% static 'img/sincoskey.png' %}"/></div>
+        <div class="key col-xs-4 special2" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
+      </div>
+      <div class="keypad trig">
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sin{()}">sin</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cos{()}">cos</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\tan{()}">tan</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\cot{()}">cot</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\sec{()}">sec</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\csc{()}">csc</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsin{()}">asin</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccos{()}">acos</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arctan{()}">atan</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccot{()}">acot</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arcsec{()}">asec</div>
+        <div class="key col-xs-4 letter" data-action="write" data-stepback="1" data-content="\arccsc{()}">acsc</div>
+        <div class="key col-xs-4 special2" data-action="switch-keys" data-content="std">123</div>
+        <div class="key col-xs-4 letter" data-action="write" data-content="x">x</div>
+        <div class="key col-xs-4 special2" data-action="keystroke" data-content="Backspace"><i class="material-icons">backspace</i></div>
       </div>
     </div>
   </div>
@@ -138,6 +178,7 @@
   </div>
 <script>
 $(document).ready(function() {
+  var isMobile = window.matchMedia("only screen and (max-width: 760px)");
   var MQElement = document.getElementById('mathquill');
 
   var MQ = MathQuill.getInterface(2); // for backcompat
@@ -168,7 +209,7 @@ $(document).ready(function() {
       }
     }
 
-    if($('#keyboard').hasClass('mobile')) {
+    if(isMobile) {
       mathField.blur();
     } else {
       mathField.focus();

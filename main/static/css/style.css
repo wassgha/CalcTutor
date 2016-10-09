@@ -335,3 +335,21 @@ ul.errorlist.nonfield {
   list-style: none;
   padding: 0px;
 }
+
+@media screen and (max-width: 760px) {
+  .mobile {
+    display: block;
+  }
+  .desktop {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 760px) {
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: block;
+  }
+}
