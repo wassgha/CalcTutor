@@ -342,6 +342,14 @@ ul.errorlist.nonfield {
   .desktop {
     display: none;
   }
+
+  #keyboard .key {
+    line-height: 30px !important;
+    padding: 0px !important;
+  }
+  #keyboard .key img {
+    width: 100% !important;
+  }
 }
 
 @media screen and (min-width: 760px) {
