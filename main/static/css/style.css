@@ -102,17 +102,8 @@ h6 {
   margin-top: 30px;
 }
 
-.topics div {
-  margin-bottom: 20px;
-}
 
-.topics a {
-  font-size: 18px;
-  line-height: 1.5;
-  color: #f49200;
-}
-
-.exercise h4.card-title {
+.exercise h4.card-title, .topic h4.card-title {
   color: #2e2e2e;
 }
 
@@ -352,4 +343,17 @@ ul.errorlist.nonfield {
   .desktop {
     display: block;
   }
+
+  .topic.card, .exercise.card {
+      width: 31%;
+      margin-right: 2%;
+      margin-bottom: 2%;
+  }
+
+  .topics, .exercises {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 }
+

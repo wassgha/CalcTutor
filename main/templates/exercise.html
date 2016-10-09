@@ -2,8 +2,8 @@
 {% block content %}
   {% load staticfiles %}
   <a href="/course/{{ course.id }}"><b>{{ course.course_name }}</b></a>
-  <a href="/course/{{ course.id }}/topic/{{ topic.id }}"><b><i class="material-icons">keyboard_arrow_right</i> {{ topic.topic_name }}</b></a>
-  <h3> <i class="material-icons" style="vertical-align:middle">keyboard_arrow_right</i> {{ exercise.exercise_name }}</h3>
+  <a href="/course/{{ course.id }}/topic/{{ topic.id }}"><b><i class="material-icons">keyboard_arrow_right</i> {{ topic.topic_name }}</b></a><i class="material-icons">keyboard_arrow_right</i> {{ exercise.exercise_name }}
+  <h3>{{ exercise.exercise_name }}</h3>
   <br>
   <center>
   {% autoescape off %}

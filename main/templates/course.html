@@ -14,26 +14,27 @@
   Integral :   <br>{{integral}} -->
   {% if course.topic_set.all %}
   <h4>Topics</h4>
-  <div class="topics row">
+  <div class="topics">
     {% for topic in course.topic_set.all %}
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"><a href="/course/{{ course.id }}/topic/{{ topic.id }}"><i class="material-icons">{% if topic.id < 3 %}star{% else %}star_border{% endif%}</i>{{ topic.topic_name }}</a></div>
+        <div class="topic card card">
+          <div class="card-block">
+            <h4 class="card-title">{{ topic.topic_name }}</h4>
+            <p class="card-text">
+              <br>
+              {% with progressRange|random as progress %}
+              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%} progress-striped" value="{{progress}}" max="100"></progress>
+              {% endwith %}
+            </p>
+          </div>
+          <div class="card-footer text-xs-right">
+            {% if topic.exercise_set.count > 0 %}<a href="/course/{{ course.id }}/topic/{{ topic.id }}"><button type="button" class="btn btn-danger">Exercises ({{topic.exercise_set.count}})</button></a>
+            {% else %}
+            <button type="button" disabled class="btn btn-secondary">No Exercises</button>
+            {% endif %}
+          </div>
+        </div>
     {% endfor %}
   </div>
   {% endif %}
-<!-- 
-  {% if courses %}
-  <div class="card-columns">
-    {% for course in courses %}
-      <div class="card card-inverse card-{{ course.course_color }}">
-        <img class="card-img" src="{% static 'img/math.jpg' %}" alt="Math course">
-        <div class="card-img-overlay {{ course.course_color }}">
-          <h4 class="card-title">{{ course.course_name }}</h4>
-          <p class="card-text">{{ course.short_course_desc }}</p>
-          <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }}">Go somewhere</a>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-  {% endif %} -->
 
 {% endblock %}

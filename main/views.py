@@ -23,10 +23,7 @@ def course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     return render(request, 'course.html', {
         'course': course,
-		# 'rand_fn': "$" + latex(randfn) + "$",
-		# 'diff': "$" + latex(diff(randfn)) + "$",
-		# 'integral': "$" + latex(integrate(randfn)) + "$"
-
+        'progressRange': range(0, 100),
     })
 
 def topic(request, course_id, topic_id):
