@@ -150,7 +150,9 @@ class DiffFunctionTree:
 			if leaf.getValue() is None:
 				func = DiffProduction.getRandomElemFunction()
 				# Move coefficient if (a*x)^b
-				if func == linear and leaf.getParent().getValue() == powerConst:
+				if leaf.getParent() is None :
+					leaf.setValue( func() )
+				elif func == linear and leaf.getParent().getValue() == powerConst:
 				    leaf.setValue( buildFunction( "x&", "1", True, True ) )
 				    parent = leaf.getParent()
 				    grandparent = parent.getParent()
