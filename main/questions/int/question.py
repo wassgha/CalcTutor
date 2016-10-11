@@ -57,7 +57,7 @@ class Question(object):
 		self.generateDerivEvalTable()
 
 	def generateDerivEvalTable(self) :
-		self.eval_table = np.array([(x, Function.evaluate(self.integralString, x)) for x in self.domain if isinstance(Function.evaluate(self.integralString, x), Float)]).astype(float)
+		self.eval_table = np.array([(x, Function.evaluate(self.funcString, x)) for x in self.domain if isinstance(Function.evaluate(self.funcString, x), Float)]).astype(float)
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
@@ -104,26 +104,13 @@ class Question(object):
 		if studentInput=='':
 			return ''
 		answer = process_sympy(self.preprocessLat2Sym(studentInput))
-		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
-		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
+		#Differentiate student input
+		answer_derivative = process_sympy("\\frac{d{" + self.preprocessLat2Sym(studentInput) + "}}{dx}")
 
-		# print("The output function is: ")
-		# print(func.toString())
-		# print("The value of the output function for x = 5 is: ")
-		# print(func.evaluate(5))
-		# print("Which is approximately: " )
-		# print(N(func.evaluate(5)))
+		answer_eval_table = np.array([(x, N(answer_derivative.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer_derivative.subs(symbols("x"),  x)), Float)]).astype(float)
+
 		result=""
-		# result += "<br><table><tr><td>x</td><td>y</td></tr>"
-		# for(x, y) in answer_eval_table:
-		# 	try:
-		# 		result += "<tr><td>" + str(x) + "</td><td>" + str(y) + "</td></tr>"
-		# 	except:
-		# 		result += "<tr><td>" + str(x) + "</td><td>Division by zero</td></tr>"
 
-		# result += "</table>"
-		#
-		# Tolerance values are currently set with no real justification, but hopefully are generous enough at least
 		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
 			result+="Correct!"
 			return result
