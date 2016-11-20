@@ -32,13 +32,16 @@ class Question(object):
 
 	def __init__(self, key, new):
 		session = SessionStore(session_key=key)
-		if 'questionNum' not in session:
-			session['questionNum'] = 0
+		if 'int' not in session:
+			session['int'] = {}
+		if 'questionNum' not in session['int']:
+			session['int']['questionNum'] = 0
 			session.save()
 		elif new:
-			session['questionNum'] = session['questionNum'] + 1
+			session['int']['questionNum'] = session['questionNum'] + 1
 			session.save()
-		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), "main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"), 'rb') as questionFile:
+		questionFileName = "main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
+		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), questionFileName), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
 	def preprocessLat2Sym(self, string):
