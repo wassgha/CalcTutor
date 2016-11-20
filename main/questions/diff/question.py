@@ -38,6 +38,7 @@ class Question(object):
 			session['diff']['questionNum'] = 0
 			session.save()
 		elif new:
+			self.isCorrect = False
 			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
 			session.save()
 		questionFileName = "../../../main/question_factory/diff/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
@@ -98,7 +99,6 @@ class Question(object):
 		# print(func.evaluate(5))
 		# print("Which is approximately: " )
 		# print(N(func.evaluate(5)))
-		result=""
 		# result += "<br><table><tr><td>x</td><td>y</td></tr>"
 		# for(x, y) in answer_eval_table:
 		# 	try:
@@ -109,9 +109,10 @@ class Question(object):
 		# result += "</table>"
 		
 		# Tolerance values are currently set with no real justification, but hopefully are generous enough at least
-		if self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
-			result+="Correct!"
-			return result
+		return self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05)
+
+	def getMessage(self, answer):
+		if answer:
+			return '<div class="alert alert-success" role="alert"><strong>Correct answer!</strong> Click next to conitnue</div>'
 		else:
-			result+="Incorrect answer, try again."
-			return result
+			return '<div class="alert alert-danger" role="alert"><strong>Incorrect answer.</strong> see <a href="#">a hint</a>?</div>'

@@ -73,8 +73,10 @@ def exercise(request, course_id, topic_id, exercise_id):
 		# 'integral': "$" + latex(integrate(randfn)) + "$"
 
     }
+    params['correct'] = False
     if answer!='' and not new:
-    	params['answer'] = quest.getAnswer(answer)
+        params['correct'] = quest.getAnswer(answer)
+        params['answer'] = quest.getMessage(params['correct'])
 
 
     # randfn = rand_fn()

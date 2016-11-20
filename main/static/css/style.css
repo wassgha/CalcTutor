@@ -35,6 +35,11 @@ a:hover {
 	text-decoration: none;
 }
 
+.alert.alert-danger a {
+    color: #a94442 !important;
+    font-weight: 600;
+}
+
 .path a {
     color: #9c9c9c;
     font-size: 14px;
@@ -141,25 +146,12 @@ h6 {
 }
 
 .question.card .btn {
-  border-radius: 20px; 
+  border-radius: 40px;
   font-size:16px;
+  padding: 15px;
   font-weight: 600;
   text-transform: uppercase; 
-}
-
-
-.question.card .btn-danger {
-  background: transparent !important;
-  float: right;
-  border: none;
-  font-size:16px;
-  font-weight: 600;
-  text-transform: uppercase; 
-  color: #d9534f;
-}
-
-.question.card .btn-success {
-  width:180px;
+  width: 200px;
 }
 
 .question-progress {
