@@ -13,7 +13,7 @@
             <p class="card-text">
               <br>
               {% with progressRange|random as progress %}
-              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%} progress-striped" value="{{progress}}" max="100"></progress>
+              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%}" value="{{progress}}" max="100"></progress>
               {% endwith %}
             </p>
           </div>
