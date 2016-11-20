@@ -7,13 +7,23 @@
   <h3>{{ exercise.exercise_name }}</h3>
   <hr>
   <br><br> 
-  <center>
-    <div class="question card">
+  <div class="row">
+    <div class="question card offset-md-3 col-md-6">
+      <div class="question-progress">
+        <span class="question-dot done"></span>
+        <span class="question-dot done"></span>
+        <span class="question-dot done"></span>
+        <span class="question-dot"></span>
+        <span class="question-dot"></span>
+        <span class="question-dot"></span>
+        <span class="question-dot"></span>
+      </div>
+      <div class="question-progress-text">
+        Question 4 of 7
+      </div>
       {% autoescape off %}
       {{prompt}}
       {% endautoescape %}
-      <br>
-      Your answer : <br>
       {% if input_method == "MathKeyboard" %}
       <div id="wrap" class="row">
         <div class="col-xs-8 offset-xs-2" id="mathquill"></div>
@@ -33,7 +43,7 @@
       </form>
       <div style="clear: both; float: none"> </div>
     </div>
-  </center>
+  </div>
    <br>
 <!--   Solution : <br><script type="math/tex; mode=display">{{diff}}</script>
  -->  <br>

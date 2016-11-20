@@ -9,6 +9,13 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  outline: 0 !important;
+}
+
+*:focus, *:hover {
+  outline: 0 !important;
+}
 
 /* Typography */
 
@@ -125,6 +132,7 @@ h6 {
 
 .question.card {
   padding: 30px;
+  text-align: center;
 }
 
 .question.card .btn {
@@ -147,6 +155,31 @@ h6 {
 
 .question.card .btn-success {
   width:180px;
+}
+
+.question-progress {
+    display: flex;
+    justify-content: space-between;
+}
+
+.question-dot {
+    background: #e9e9e9;
+    content: '';
+    height: 10px;
+    width: 60px;
+    border-radius: 20px;
+}
+
+.question-dot.done {
+    background: #5cb85c;
+}
+
+.question-progress-text {
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #d8d8d8;
 }
 
 .card-img {
@@ -400,7 +433,6 @@ h6 {
 
 #mathquill {
   padding: 10px;
-  margin-top: 20px;
   text-align: center;
   background: #ffffff;
   border: 2px solid #d8d8d8;
