@@ -40,8 +40,8 @@ class Question(object):
 		elif new:
 			session['int']['questionNum'] = session['questionNum'] + 1
 			session.save()
-		questionFileName = "main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
-		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), questionFileName), 'rb') as questionFile:
+		questionFileName = "../../../main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
+		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
 	def preprocessLat2Sym(self, string):
