@@ -6,7 +6,7 @@ import sys, os
 from sympy import *
 from random import choice, randint, uniform
 
-sys.path.append(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__name__)), "../../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../../")))
 from main.question_factory.DiffProd import FunctionTree, Production, Function
 from main.question_factory.QuestionData import QuestionData
 

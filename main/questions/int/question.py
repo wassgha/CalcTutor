@@ -6,7 +6,7 @@ import pickle
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from django.contrib.sessions.backends.db import SessionStore
-sys.path.append(os.path.abspath(os.path.dirname(__name__)))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from main.static.latex2sympy.process_latex import process_sympy
 from main.question_factory.IntProd import IntFunctionTree, IntProduction, Function
 from main.question_factory.QuestionData import QuestionData
