@@ -39,9 +39,9 @@ class Question(object):
 			session.save()
 		elif new:
 			self.isCorrect = False
-			session['int']['questionNum'] = session['questionNum'] + 1
+			session['int']['questionNum'] = session['int']['questionNum'] + 1
 			session.save()
-		questionFileName = "../../../main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
+		questionFileName = "../../../main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['int']['questionNum']) + ".question"
 		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
@@ -93,7 +93,7 @@ class Question(object):
 		#Differentiate student input
 		answer_derivative = process_sympy("\\frac{d{" + self.preprocessLat2Sym(studentInput) + "}}{dx}")
 
-		answer_eval_table = np.array([(x, N(answer_derivative.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer_derivative.subs(symbols("x"),  x)), Float)]).astype(float)
+		answer_eval_table = np.array([(x, N(answer_derivative.subs(symbols("x"),  x))) for x in self.question.domain if isinstance(N(answer_derivative.subs(symbols("x"),  x)), Float)]).astype(float)
 
 		return self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05)
 

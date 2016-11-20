@@ -38,7 +38,6 @@ class Question(object):
 			session['diff']['questionNum'] = 0
 			session.save()
 		elif new:
-			self.isCorrect = False
 			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
 			session.save()
 		questionFileName = "../../../main/question_factory/diff/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
