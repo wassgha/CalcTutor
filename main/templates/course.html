@@ -1,7 +1,10 @@
 {% extends "header.html" %}
 {% block content %}
   {% load staticfiles %}
-  <h3><a href="/">Courses</a><i class="material-icons">keyboard_arrow_right</i>{{ course.course_name }}</h3>
+  <span class="path">
+  <a href="/">Courses</a><i class="material-icons">keyboard_arrow_right</i>
+  </span>
+  <h3>{{ course.course_name }}</h3>
   <hr>
   <br>
   <p>
