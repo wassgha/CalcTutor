@@ -6,7 +6,7 @@ import pickle
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from django.contrib.sessions.backends.db import SessionStore
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(os.path.abspath(os.path.dirname(__name__)))
 from main.static.latex2sympy.process_latex import process_sympy
 from main.question_factory.IntProd import IntFunctionTree, IntProduction, Function
 from main.question_factory.QuestionData import QuestionData
@@ -40,7 +40,7 @@ class Question(object):
 		elif new:
 			session['int']['questionNum'] = session['questionNum'] + 1
 			session.save()
-		questionFileName = "../../question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
+		questionFileName = "main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"
 		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), questionFileName), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
