@@ -7,7 +7,7 @@ class Course(models.Model):
 	course_name = models.CharField(max_length=200)
 	course_desc = models.CharField(max_length=200)
 	course_color = models.CharField(max_length=200)
-	course_active = models.BooleanField(default = True)
+	course_active = models.BooleanField(default = False)
 	def short_course_desc(self):
 		return self.course_desc[:100] + "..." if len(self.course_desc)>=100 else self.course_desc
 	def shorter_course_desc(self):
@@ -26,6 +26,7 @@ class Topic(models.Model):
 
 class Exercise(models.Model):
 	exercise_name = models.CharField(max_length=200)
+	exercise_active = models.BooleanField(default = False)
 	file_name = models.CharField(max_length=200)
 	topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 	def __str__(self):

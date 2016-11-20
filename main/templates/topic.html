@@ -10,20 +10,20 @@
   {% if topic.exercise_set.all %}
   <div class="exercises">
     {% for exercise in topic.exercise_set.all %}
-        <div class="exercise card">
+        <div class="exercise card {% if not exercise.exercise_active %}inactive{% endif %}">
           <div class="card-block">
             <h4 class="card-title">{{ exercise.exercise_name }}</h4>
             <p class="card-text">
               <br>
               {% with progressRange|random as progress %}
-              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%}" value="{{progress}}" max="100"></progress>
+              <progress class="progress progress-success" value="{{progress}}" max="100"></progress>
               {% endwith %}
             </p>
           </div>
           <div class="card-footer text-xs-right">
             <button type="button" class="btn btn-success"><i class="material-icons">assessment</i></button>
             <button type="button" class="btn btn-danger"><i class="material-icons">alarm</i></button>
-            <a href="/course/{{ course.id }}/topic/{{ topic.id }}/exercise/{{ exercise.id }}"><button type="button" class="btn btn-primary">Practice</button></a>
+            <a href="/course/{{ course.id }}/topic/{{ topic.id }}/exercise/{{ exercise.id }}"><button type="button" class="btn btn-primary {% if not exercise.exercise_active %}disabled{% endif %}">Practice</button></a>
           </div>
         </div>
     {% endfor %}
