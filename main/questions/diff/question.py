@@ -41,7 +41,7 @@ class Question(object):
 			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
 			session.save()
 		questionFileName = "main/question_factory/diff/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
-		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), questionFileName), 'rb') as questionFile:
+		with open(os.path.join(os.path.abspath(__file__), questionFileName), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
 	def preprocessLat2Sym(self, string):
