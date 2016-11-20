@@ -1,7 +1,8 @@
 {% extends "header.html" %}
 {% block content %}
   {% load staticfiles %}
-  <h3>{{ course.course_name }}</h3>
+  <h3><a href="/">Courses</a><i class="material-icons">keyboard_arrow_right</i>{{ course.course_name }}</h3>
+  <hr>
   <br>
   <p>
   {{ course.course_desc }}
@@ -16,13 +17,13 @@
   <h4>Topics</h4>
   <div class="topics">
     {% for topic in course.topic_set.all %}
-        <div class="topic card card">
+        <div class="topic card">
           <div class="card-block">
             <h4 class="card-title">{{ topic.topic_name }}</h4>
             <p class="card-text">
               <br>
               {% with progressRange|random as progress %}
-              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%} progress-striped" value="{{progress}}" max="100"></progress>
+              <progress class="progress progress-{%if progress < 20 %}danger {% elif progress < 60  %}warning {%else%}success {%endif%}" value="{{progress}}" max="100"></progress>
               {% endwith %}
             </p>
           </div>

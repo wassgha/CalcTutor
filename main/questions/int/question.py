@@ -64,7 +64,7 @@ class Question(object):
 	"""
 
 	def getPrompt(self):
-		prompt = "<p>Integrate this function : </p><br>"
+		prompt = "<p>Integrate this function : </p>"
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
 		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.question.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"

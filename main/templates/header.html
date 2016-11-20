@@ -20,8 +20,12 @@
 </head>
 
 <body class="body">
+  <div class="header">
+    <div class="container">
+    <a href="{% url 'index' %}"><img style="filter:grayscale(100%) brightness(150%)" src="{% static 'img/logo.png' %}" height="100px"/></a>
+    </div>
+  </div>
   <div class="container">
-  <center><a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" height="100px"/></a></center>
    {% block content %}
    {% endblock %} 
   </div>
