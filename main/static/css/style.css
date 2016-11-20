@@ -40,14 +40,9 @@ a:hover {
     font-weight: 600;
 }
 
-.path a {
-    color: #9c9c9c;
-    font-size: 14px;
-}
-
-.path .material-icons {
-    color: #9c9c9c;
-    vertical-align: middle;
+.breadcrumb {
+  background: #fdfdfd !important;
+  margin-bottom: 25px;
 }
 
 h1,

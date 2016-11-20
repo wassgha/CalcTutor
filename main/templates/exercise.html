@@ -1,9 +1,12 @@
 {% extends "header.html" %}
 {% block content %}
   {% load staticfiles %}
-  <span class="path">
-  <a href="/course/{{ course.id }}/topic/{{ topic.id }}">{{ topic.topic_name }}</a><i class="material-icons">keyboard_arrow_right</i>
-  </span>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Courses</a></li>
+    <li class="breadcrumb-item"><a href="/course/{{ course.id }}">{{ course.course_name }}</a></li>
+    <li class="breadcrumb-item"><a href="/course/{{ course.id }}/topic/{{ topic.id }}">{{ topic.topic_name }}</a></li>
+    <li class="breadcrumb-item active">{{ exercise.exercise_name }}</li>
+  </ol>
   <h3>{{ exercise.exercise_name }}</h3>
   <hr>
   <br><br> 
