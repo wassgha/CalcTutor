@@ -131,7 +131,7 @@ h6 {
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-.question.card:not(.inactive):hover, .topic.card:not(.inactive):hover, .exercise.card:not(.inactive):hover {
+.topic.card:not(.inactive):hover, .exercise.card:not(.inactive):hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.08);
 }
 
