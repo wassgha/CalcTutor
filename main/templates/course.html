@@ -20,7 +20,7 @@
   <h4>Topics</h4>
   <div class="topics">
     {% for topic in course.topic_set.all %}
-        <div class="topic card">
+        <div class="topic card {% if topic.exercise_set.count == 0 %} inactive {% endif %}">
           <div class="card-block">
             <h4 class="card-title">{{ topic.topic_name }}</h4>
             <p class="card-text">

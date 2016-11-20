@@ -7,6 +7,7 @@ class Course(models.Model):
 	course_name = models.CharField(max_length=200)
 	course_desc = models.CharField(max_length=200)
 	course_color = models.CharField(max_length=200)
+	course_active = models.BooleanField(default = True)
 	def short_course_desc(self):
 		return self.course_desc[:100] + "..." if len(self.course_desc)>=100 else self.course_desc
 	def shorter_course_desc(self):

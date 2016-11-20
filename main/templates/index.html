@@ -7,14 +7,14 @@
   {% if courses %}
   <div class="card-columns">
     {% for course in courses %}
-      <div class="course card card-inverse card-{{ course.course_color }}">
+      <div class="course card card-inverse card-{{ course.course_color }} {% if not course.course_active %}inactive{% endif %}">
         <img class="card-img" src="{% static 'img/math.jpg' %}" alt="{{ course.course_name }}">
         <div class="card-img-overlay {{ course.course_color }}">
           <h4 class="card-title desktop">{{ course.course_name }}</h4>
           <h4 class="card-title mobile">{{ course.short_course_name }}</h4>
           <p class="card-text desktop">{{ course.short_course_desc }}</p>
           <p class="card-text mobile">{{ course.shorter_course_desc }}</p>
-          <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }}">Practice Now</a>
+          <a href="/course/{{ course.id }}" class="btn btn-{{ course.course_color }} {% if not course.course_active %}disabled{% endif %}">Practice Now</a>
         </div>
       </div>
     {% endfor %}
