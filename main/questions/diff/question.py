@@ -1,19 +1,18 @@
 import numpy as np
 import types
+import sys, os
+import pickle
 
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
-from FunctionTree import *
-from Production import *
-from random import choice, randint, uniform
-from steps import diffsteps
 from django.contrib.sessions.backends.db import SessionStore
-from latex2sympy.process_latex import process_sympy
+sys.path.append(os.path.abspath(os.path.dirname(__name__)))
+from main.static.latex2sympy.process_latex import process_sympy
+from main.question_factory.DiffProd import FunctionTree, Production, Function
+from main.question_factory.QuestionData import QuestionData
 
 
 class Question(object):
-
-
 
 	"""
 
@@ -21,43 +20,26 @@ class Question(object):
 
 	"""
 	input_method = "MathKeyboard"
+	difficulty = 4
+	dirname = "generated_questions"
+
 
 	"""
 
-	Initialize the exercise (generate a function)
+	Initialize the exercise
 
 	"""
 
 	def __init__(self, key, new):
 		session = SessionStore(session_key=key)
-		print key
-		#session.clear()
-		self.domain = 2*np.random.random(60)
-		if 'derivString' not in session or new:
-			self.generateFunction()
-			while len(self.eval_table) < 10:
-				self.generateFunction()
-			session['funcString'] = self.funcString
-			session['derivString'] = self.derivString
+		if 'questionNum' not in session:
+			session['questionNum'] = 0
 			session.save()
-		else:
-			self.funcString = session['funcString']
-			self.derivString = session['derivString']
-			self.generateDerivEvalTable()
-		self.tree = None
-
-		print session.items()
-	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(4)
-		tree.printTree()
-		func =  tree.getOutputFunction()
-		deriv =  tree.getOutputDerivative()
-		self.funcString = func.toString()
-		self.derivString = deriv.toString()
-		self.generateDerivEvalTable()
-
-	def generateDerivEvalTable(self) :
-		self.eval_table = np.array([(x, Function.evaluate(self.derivString, x)) for x in self.domain if isinstance(Function.evaluate(self.derivString, x), Float)]).astype(float)
+		elif new:
+			session['questionNum'] = session['questionNum'] + 1
+			session.save()
+		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), "main/question_factory/diff/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"), 'rb') as questionFile:
+			self.question = pickle.load(questionFile)
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
@@ -81,9 +63,9 @@ class Question(object):
 	def getPrompt(self):
 		prompt = "<p>Differentiate this function : </p><br>"
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
-		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.funcString))) + "</script>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.question.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
-		# for(x, y) in self.eval_table:
+		# for(x, y) in self.question.eval_table:
 		# 	try:
 		# 		prompt += "<tr><td>" + str(x) + "</td><td>" + str(y) + "</td></tr>"
 		# 	except:
@@ -91,7 +73,7 @@ class Question(object):
 
 		# prompt += "</table>"
 		prompt += "<div id='solution'><p>Solution : </p><br>"
-		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.derivString))) + "</script></div>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.question.derivString))) + "</script></div>"
 		return prompt
 
 	"""
@@ -104,8 +86,8 @@ class Question(object):
 		if studentInput=='':
 			return ''
 		answer = process_sympy(self.preprocessLat2Sym(studentInput))
-		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
-		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
+		#answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.question.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
+		answer_eval_table = np.array([(x, N(answer.subs(symbols("x"),  x))) for x in self.question.domain if isinstance(N(answer.subs(symbols("x"),  x)), Float)]).astype(float)
 
 		# print("The output function is: ")
 		# print(func.toString())
@@ -122,9 +104,9 @@ class Question(object):
 		# 		result += "<tr><td>" + str(x) + "</td><td>Division by zero</td></tr>"
 
 		# result += "</table>"
-		#
+		
 		# Tolerance values are currently set with no real justification, but hopefully are generous enough at least
-		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
+		if self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
 			result+="Correct!"
 			return result
 		else:

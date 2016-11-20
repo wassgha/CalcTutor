@@ -1,19 +1,18 @@
 import numpy as np
 import types
+import sys, os
+import pickle
 
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
-from FunctionTree import *
-from Production import *
-from random import choice, randint, uniform
-from steps import diffsteps
 from django.contrib.sessions.backends.db import SessionStore
-from latex2sympy.process_latex import process_sympy
+sys.path.append(os.path.abspath(os.path.dirname(__name__)))
+from main.static.latex2sympy.process_latex import process_sympy
+from main.question_factory.IntProd import IntFunctionTree, IntProduction, Function
+from main.question_factory.QuestionData import QuestionData
 
 
 class Question(object):
-
-
 
 	"""
 
@@ -21,43 +20,26 @@ class Question(object):
 
 	"""
 	input_method = "MathKeyboard"
+	difficulty = 4
+	dirname = "generated_questions"
+
 
 	"""
 
-	Initialize the exercise (generate a function)
+	Initialize the exercise
 
 	"""
 
 	def __init__(self, key, new):
 		session = SessionStore(session_key=key)
-		print key
-		#session.clear()
-		self.domain = 2*np.random.random(60)
-		if 'integralString' not in session or new:
-			self.generateFunction()
-			while len(self.eval_table) < 10:
-				self.generateFunction()
-			session['funcString'] = self.funcString
-			session['integralString'] = self.integralString
+		if 'questionNum' not in session:
+			session['questionNum'] = 0
 			session.save()
-		else:
-			self.funcString = session['funcString']
-			self.integralString = session['integralString']
-			self.generateDerivEvalTable()
-		self.tree = None
-
-		print session.items()
-	def generateFunction(self):
-		tree = FunctionTree.buildTreeWithMaxComplexity(4)
-		tree.printTree()
-		func =  tree.getOutputFunction()
-		integral =  tree.getOutputIntegral()
-		self.funcString = func.toString()
-		self.integralString = integral.toString()
-		self.generateDerivEvalTable()
-
-	def generateDerivEvalTable(self) :
-		self.eval_table = np.array([(x, Function.evaluate(self.funcString, x)) for x in self.domain if isinstance(Function.evaluate(self.funcString, x), Float)]).astype(float)
+		elif new:
+			session['questionNum'] = session['questionNum'] + 1
+			session.save()
+		with open(os.path.join(os.path.abspath(os.path.dirname(__name__)), "main/question_factory/int/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['questionNum']) + ".question"), 'rb') as questionFile:
+			self.question = pickle.load(questionFile)
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
@@ -81,7 +63,7 @@ class Question(object):
 	def getPrompt(self):
 		prompt = "<p>Integrate this function : </p><br>"
 		# diffsteps.print_html_steps(randfn, Symbol('x'))
-		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.funcString))) + "</script>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.question.funcString))) + "</script>"
 		# prompt += "<br><table><tr><td>x</td><td>y</td></tr>"
 		# for(x, y) in self.eval_table:
 		# 	try:
@@ -91,7 +73,7 @@ class Question(object):
 
 		# prompt += "</table>"
 		prompt += "<div id='solution'><p>Solution : </p><br>"
-		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.integralString))) + "</script></div>"
+		prompt += "<script type=\"math/tex; mode=display\">" + self.postprocessSym2Lat(latex(parse_expr(self.question.integralString))) + "</script></div>"
 		return prompt
 
 	"""
@@ -111,7 +93,7 @@ class Question(object):
 
 		result=""
 
-		if self.eval_table.shape == answer_eval_table.shape and np.allclose(self.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
+		if self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05):
 			result+="Correct!"
 			return result
 		else:
