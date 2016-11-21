@@ -21,8 +21,26 @@
 
 <body class="body">
   <div class="header">
-    <div class="container">
-    <a href="{% url 'index' %}"><img style="filter:grayscale(100%) brightness(150%)" src="{% static 'img/logo.png' %}" height="100px"/></a>
+    <div class="container row">
+      <a href="{% url 'index' %}" >
+      <img style="filter:grayscale(100%) brightness(150%); max-width:100%;" src="{% static 'img/logo.png' %}" class="d-inline-block align-top col-md-2" alt="">
+      </a>
+      <nav class="navbar navbar-dark bg-primary offset-md-6 col-md-4">
+        <ul class="nav navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Feedback</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
   <div class="container">

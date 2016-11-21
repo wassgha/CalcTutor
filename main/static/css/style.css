@@ -45,6 +45,18 @@ a:hover {
   margin-bottom: 25px;
 }
 
+.breadcrumb a:hover {
+  color: #5791ff;
+}
+
+.navbar {
+  margin-top:10px;
+}
+
+.navbar-nav .nav-item {
+  margin-left: 1.5rem !important;
+}
+
 h1,
 h2,
 h3,
@@ -574,6 +586,12 @@ background-image: none;
 
 .desktop {
   display: none;
+}
+
+@media screen and (max-width: 544px) {
+  .navbar {
+      border-radius: .25rem;
+  }
 }
 
 @media screen and (max-width: 760px) {
