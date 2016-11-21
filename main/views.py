@@ -69,7 +69,7 @@ def exercise(request, course_id, topic_id, exercise_id):
         'form' : form,
         'numQuestions': quest.numQuestions(),
         'questionRange': range(quest.numQuestions()),
-        'curQuestion': quest.curQuestionNum(),
+        'curQuestion': quest.curQuestionNum() + 1,
    		# 'rand_fn': latex(randfn),
 		# 'diff': latex(diff(randfn)),
 		# 'diff_steps': diffsteps.print_html_steps(randfn, Symbol('x')),
