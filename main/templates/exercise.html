@@ -246,9 +246,14 @@ $(document).ready(function() {
   closeKeyboard();
 
   $('#mathquill').click(function(e) {
-    e.preventDefault();
-    $('#mathquill').blur();
-    openKeyboard();
+    $(this).attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+    $(this).attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+    setTimeout(function() {
+        $(this).blur();  //actually close the keyboard
+        $(this).removeAttr('readonly');
+        $(this).removeAttr('disabled');
+        openKeyboard();
+    }, 100);
   });
  
   $('#keyboard-mask').height($('#keyboard-wrapper').height());
