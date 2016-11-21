@@ -246,12 +246,12 @@ $(document).ready(function() {
   closeKeyboard();
 
   $('#mathquill').click(function(e) {
-    $(this).attr('readonly', 'readonly'); // Force keyboard to hide on input field.
-    $(this).attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+    $('.mq-textarea textarea').attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+    $('.mq-textarea textarea').attr('disabled', 'true'); // Force keyboard to hide on textarea field.
     setTimeout(function() {
-        $(this).blur();  //actually close the keyboard
-        $(this).removeAttr('readonly');
-        $(this).removeAttr('disabled');
+        $('.mq-textarea textarea').blur();  //actually close the keyboard
+        $('.mq-textarea textarea').removeAttr('readonly');
+        $('.mq-textarea textarea').removeAttr('disabled');
         openKeyboard();
     }, 100);
   });
