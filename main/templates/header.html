@@ -21,7 +21,7 @@
 
 <body class="body">
   <div class="header {% if request.path == '/' %}home{% endif %}">
-    <div class="container row">
+    <div class="container">
       <a href="{% url 'index' %}" >
       <img src="{% if request.path == '/' %}{% static 'img/logo-blue.png' %}{% else %}{% static 'img/logo.png' %}{% endif %}" class="d-inline-block align-top col-md-2" alt="">
       </a>
