@@ -54,7 +54,7 @@ a:hover {
 }
 
 .navbar-nav .nav-item {
-  margin-left: 1.5rem !important;
+  margin-left: 1rem !important;
 }
 
 h1,
@@ -598,10 +598,10 @@ background-image: none;
 
 .splash {
   background: #025d9e;
-  margin-bottom: 20px;
   background-image: url(../img/sky.png);
   text-align: center;
-  padding: 120px;
+  padding-top: 120px;
+  padding-bottom: 120px;
   color: rgba(255,255,255,0.5);
   margin-bottom: 25px;
 }
@@ -612,11 +612,20 @@ background-image: none;
 }
 
 .splash p {
-  max-width:500px;
-  margin: auto;
   color: rgba(255,255,255,0.5);
   font-size: 20px;
 }
+
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
 
 .mobile {
   display: none;
