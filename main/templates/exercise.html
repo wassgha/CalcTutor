@@ -246,6 +246,7 @@ $(document).ready(function() {
   closeKeyboard();
 
   $('#mathquill').click(function(e) {
+    e.preventDefault();
     $('#mathquill').blur();
     openKeyboard();
   });
