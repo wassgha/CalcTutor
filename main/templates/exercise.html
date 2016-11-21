@@ -13,16 +13,12 @@
   <div class="row">
     <div class="question card offset-md-3 col-md-6">
       <div class="question-progress">
-        <span class="question-dot done"></span>
-        <span class="question-dot done"></span>
-        <span class="question-dot done"></span>
-        <span class="question-dot"></span>
-        <span class="question-dot"></span>
-        <span class="question-dot"></span>
-        <span class="question-dot"></span>
+        {% for i in questionRange %}
+          <span class="question-dot {% if i <= curQuestion %}done{% endif %}"></span>
+        {% endfor %}
       </div>
       <div class="question-progress-text">
-        Question 4 of 7
+        Question {{curQuestion}} of {{numQuestions}}
       </div>
       {% autoescape off %}
       {{ answer }}

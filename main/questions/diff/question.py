@@ -21,7 +21,7 @@ class Question(object):
 	"""
 	input_method = "MathKeyboard"
 	difficulty = 4
-	dirname = "generated_questions"
+	dirname = "../../../main/question_factory/diff/generated_questions"
 
 
 	"""
@@ -31,6 +31,7 @@ class Question(object):
 	"""
 
 	def __init__(self, key, new):
+		global session
 		session = SessionStore(session_key=key)
 		if 'diff' not in session:
 			session['diff'] = {}
@@ -40,7 +41,7 @@ class Question(object):
 		elif new:
 			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
 			session.save()
-		questionFileName = "../../../main/question_factory/diff/generated_questions/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
+		questionFileName = self.dirname + "/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
 		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
@@ -110,6 +111,31 @@ class Question(object):
 		# Tolerance values are currently set with no real justification, but hopefully are generous enough at least
 		return self.question.eval_table.shape == answer_eval_table.shape and np.allclose(self.question.eval_table, answer_eval_table, rtol=1e-02, atol=1e-05)
 
+	"""
+	
+	numQuestions() gets the number of questions available currently
+
+	"""
+
+	def numQuestions(self):
+		directory = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.dirname)) + '/'
+		print directory
+		return len(os.listdir(directory))
+
+	"""
+	
+	curQuestionNum() gets the index of the current question
+
+	"""
+
+	def curQuestionNum(self):
+		return session['diff']['questionNum']
+
+	"""
+
+	getMessage() gets the message to display according to whether the answer was right or not
+
+	"""
 	def getMessage(self, answer):
 		if answer:
 			return '<div class="alert alert-success" role="alert"><strong>Correct answer!</strong> Click next to conitnue</div>'
