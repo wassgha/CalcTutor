@@ -20,10 +20,10 @@
 </head>
 
 <body class="body">
-  <div class="header">
+  <div class="header {% if request.path == '/' %}home{% endif %}">
     <div class="container row">
       <a href="{% url 'index' %}" >
-      <img style="filter:grayscale(100%) brightness(150%); max-width:100%;" src="{% static 'img/logo.png' %}" class="d-inline-block align-top col-md-2" alt="">
+      <img src="{% if request.path == '/' %}{% static 'img/logo-blue.png' %}{% else %}{% static 'img/logo.png' %}{% endif %}" class="d-inline-block align-top col-md-2" alt="">
       </a>
       <nav class="navbar navbar-dark bg-primary offset-md-6 col-md-4">
         <ul class="nav navbar-nav">
@@ -43,9 +43,20 @@
       </nav>
     </div>
   </div>
+  {% if request.path == '/' %}
+    <div class="splash" >
+      <h3>Practice your Calculus Knowledge</h3>
+      <p> Unlimited drill exercises for Calculus courses : Differentiation, Integration, and much more! Do calculus drills on the go.</p>
+    </div>
+  {% endif %}
   <div class="container">
    {% block content %}
    {% endblock %} 
+  </div>
+  <div class="footer">
+    <div class="container">
+    Copyright &copy; Jonathan Dahl, Wassim Gharbi, Huy Nguyen. Lafayette College (2016)
+    </div>
   </div>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({

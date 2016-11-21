@@ -131,6 +131,18 @@ h6 {
   padding: 30px;
 }
 
+.header img {
+  max-width:100%;
+}
+
+.footer {
+  background: #3e4248;
+  text-align: center;
+  color:  white;
+  margin-top:55px;
+  padding: 30px;
+}
+
 .card-footer {
   border: none;
   padding: .75rem .75rem !important;
@@ -579,7 +591,32 @@ background-color: #F35958;
 background-image: none;
 }
 
+.header.home {
+  background: white !important;
+  margin-bottom: 0px !important;
+}
 
+.splash {
+  background: #025d9e;
+  margin-bottom: 20px;
+  background-image: url(../img/sky.png);
+  text-align: center;
+  padding: 120px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 25px;
+}
+
+.splash h3 {
+    color: white;
+    font-size: 40px !important;
+}
+
+.splash p {
+  max-width:500px;
+  margin: auto;
+  color: rgba(255,255,255,0.5);
+  font-size: 20px;
+}
 
 .mobile {
   display: none;
