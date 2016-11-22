@@ -47,7 +47,7 @@ class Question(object):
 
 	def question_file(self):
 		return "difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
-		
+
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
 		.replace('\\left', '')
@@ -122,7 +122,6 @@ class Question(object):
 
 	def numQuestions(self):
 		directory = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.dirname)) + '/'
-		print directory
 		return len(os.listdir(directory))
 
 	"""

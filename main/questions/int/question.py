@@ -108,8 +108,8 @@ class Question(object):
 	"""
 
 	def numQuestions(self):
-		directory = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.dirname))
-		return len([name for name in os.listdir(directory) if os.path.isfile(name)])
+		directory = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.dirname)) + '/'
+		return len(os.listdir(directory))
 
 	"""
 	
