@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from .models import Course, Topic, Exercise
+from .models import Course, Topic, Exercise, Attempt
 from .utils import *
 
 from .forms import AnswerForm
 
 
 import sys, os
+import datetime
 
 # Create your views here.
 
@@ -25,7 +26,7 @@ def course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     return render(request, 'course.html', {
         'course': course,
-        'progressRange': range(0, 100),
+        'progressRange': range(0, 100)
     })
 
 @login_required
@@ -35,7 +36,7 @@ def topic(request, course_id, topic_id):
     return render(request, 'topic.html', {
         'progressRange': range(0, 100),
         'course': course,
-        'topic': topic,
+        'topic': topic
     })
 
 
@@ -44,7 +45,7 @@ def exercise(request, course_id, topic_id, exercise_id):
     course = get_object_or_404(Course, pk=course_id)
     topic = get_object_or_404(Topic, pk=topic_id)
     exercise = get_object_or_404(Exercise, pk=exercise_id)
-    
+
     new = False
     answer = ''
     if not request.session.get('has_session'):
@@ -84,15 +85,9 @@ def exercise(request, course_id, topic_id, exercise_id):
     if answer!='' and not new:
         params['correct'] = quest.getAnswer(answer)
         params['answer'] = quest.getMessage(params['correct'])
+        attempt = Attempt(user=request.user, exercise=exercise, question=quest.question_file(), answer=answer, correct=params['correct'], submit_date=datetime.datetime.now())
+        attempt.save()
 
 
     # randfn = rand_fn()
     return render(request, 'exercise.html', params)
-
-@login_required
-def profile(request):
-    courses = Course.objects.all()
-    context = {
-        'courses': courses,
-    }
-    return render(request, 'index.html', context)

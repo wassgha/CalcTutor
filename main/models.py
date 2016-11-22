@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 
 from django.db import models
 
@@ -29,8 +30,19 @@ class Exercise(models.Model):
 	exercise_active = models.BooleanField(default = False)
 	file_name = models.CharField(max_length=200)
 	topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+	question_count = models.IntegerField(default= 20)
 	def __str__(self):
 		return self.exercise_name
+
+class Attempt(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+	question = models.CharField(max_length=200)
+	answer = models.CharField(max_length=200)
+	correct = models.BooleanField(default = False)
+	submit_date = models.DateTimeField()
+	def __str__(self):
+		return self.answer
 
 # class Choice(models.Model):
 #     question = models.ForeignKey(Question, on_delete=models.CASCADE)

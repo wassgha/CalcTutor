@@ -14,7 +14,7 @@
     <div class="question card offset-md-3 col-md-6">
       <div class="question-progress">
         {% for i in questionRange %}
-          <span class="question-dot {% if i <= curQuestion %}done{% endif %}"></span>
+          <span class="question-dot {% if i < curQuestion %}done{% endif %}"></span>
         {% endfor %}
       </div>
       <div class="question-progress-text">
@@ -252,12 +252,12 @@ $(document).ready(function() {
   closeKeyboard();
 
   $('#mathquill').click(function(e) {
-    $('.mq-textarea textarea').attr('readonly', 'readonly'); // Force keyboard to hide on input field.
-    $('.mq-textarea textarea').attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+    //$('.mq-textarea textarea').attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+    //$('.mq-textarea textarea').attr('disabled', 'true'); // Force keyboard to hide on textarea field.
     setTimeout(function() {
-        $('.mq-textarea textarea').blur();  //actually close the keyboard
-        $('.mq-textarea textarea').removeAttr('readonly');
-        $('.mq-textarea textarea').removeAttr('disabled');
+        // $('.mq-textarea textarea').blur();  //actually close the keyboard
+        // $('.mq-textarea textarea').removeAttr('readonly');
+        // $('.mq-textarea textarea').removeAttr('disabled');
         openKeyboard();
     }, 100);
   });

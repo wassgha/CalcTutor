@@ -42,9 +42,12 @@ class Question(object):
 			self.isCorrect = False
 			session['int']['questionNum'] = session['int']['questionNum'] + 1
 			session.save()
-		questionFileName = self.dirname + "/difficulty" + str(self.difficulty) + "_" + str(session['int']['questionNum']) + ".question"
+		questionFileName = self.dirname + "/" + self.question_file()
 		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
+
+	def question_file(self):
+		return "difficulty" + str(self.difficulty) + "_" + str(session['int']['questionNum']) + ".question"
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')

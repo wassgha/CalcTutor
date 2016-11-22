@@ -41,10 +41,13 @@ class Question(object):
 		elif new:
 			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
 			session.save()
-		questionFileName = self.dirname + "/difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
+		questionFileName = self.dirname + "/" + self.question_file()
 		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
+	def question_file(self):
+		return "difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
+		
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
 		.replace('\\left', '')
