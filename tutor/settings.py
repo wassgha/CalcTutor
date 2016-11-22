@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
-    'main.templatetags.progress',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
