@@ -5,9 +5,10 @@
   <hr>
   <br>
   {% if courses %}
-  <div class="card-columns">
+<div class="card-deck-wrapper">
+  <div class="card-deck">
     {% for course in courses %}
-      <div class="course card card-inverse card-{{ course.course_color }} {% if not course.course_active %}inactive{% endif %}">
+      <div class="course card-block card card-inverse card-{{ course.course_color }} {% if not course.course_active %}inactive{% endif %}">
         <img class="card-img" src="{% static 'img/math.jpg' %}" alt="{{ course.course_name }}">
         <div class="card-img-overlay {{ course.course_color }}">
           <h4 class="card-title desktop">{{ course.course_name }}</h4>
@@ -18,6 +19,7 @@
         </div>
       </div>
     {% endfor %}
+  </div>
   </div>
   {% endif %}
 

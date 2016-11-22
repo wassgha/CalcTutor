@@ -1,0 +1,30 @@
+{% extends "header.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    <div class="row">
+      <form method="post" class="card offset-md-4 col-md-4" autocomplete="off" action="{% url 'auth_login' %}">
+          <h3>Login</h3>
+          <img src="{% static 'img/user-default.png' %}" alt="">
+          {% csrf_token %}
+          <div class="form-body">
+            <div class="form-group">
+              <input autofocus="" id="id_username" maxlength="254" name="username" placeholder="Username" type="text" value="demo" required="">
+              <small id="emailHelp" class="form-text text-muted">For this demo, please use username <strong>"demo"</strong> and password <strong>"mathtutor"</strong>.</small>
+            </div>
+
+            <div class="form-group">
+              <input id="id_password" name="password" type="password" value="mathtutor" required="" placeholder="Password">
+            </div>
+
+           <input type="submit" class="btn btn-danger" value="GO" />
+           <input type="hidden" name="next" value="{{ next }}" />
+         </div>
+     </form>
+   </div>
+
+{% endblock %}

@@ -57,6 +57,10 @@ a:hover {
   margin-left: 1rem !important;
 }
 
+.navbar-text {
+  color: white !important;
+}
+
 h1,
 h2,
 h3,
@@ -162,6 +166,50 @@ h6 {
 .question.card {
   padding: 30px;
   text-align: center;
+}
+
+form.card {
+  padding: 0px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+form.card h3 {
+    color: #d9534f;
+    border-left: 3px solid #d9534f;
+    padding-left: 15px;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+form.card img {
+    max-width: 100px;
+    margin: auto;
+    display: block;
+}
+
+form.card .form-body {
+  padding:30px;
+}
+
+form.card input[type="text"], form.card input[type="password"] {
+  background: transparent;
+  padding:10px;
+  border:none;
+  border-bottom: 2px solid lightgray;
+  color:gray;
+  display: block;
+  width: 100%;
+}
+
+form.card .btn {
+  border-radius: 40px;
+  font-size:16px;
+  padding: 15px;
+  font-weight: 600;
+  text-transform: uppercase; 
+  width: 100%;
+  margin-top: 20px;
 }
 
 .question.card .btn {
@@ -626,6 +674,10 @@ background-image: none;
   text-align: center;
 }
 
+.navbar .material-icons {
+  vertical-align: sub !important;
+}
+
 
 .mobile {
   display: none;
@@ -638,6 +690,13 @@ background-image: none;
 @media screen and (max-width: 544px) {
   .navbar {
       border-radius: .25rem;
+  }
+
+  .question.card, form.card {
+    border:none;
+    margin-top:0px !important;
+    margin-bottom: 0px !important;
+    border-radius: 0px
   }
 }
 
