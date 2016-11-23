@@ -22,7 +22,7 @@ class Question(object):
 	input_method = "MathKeyboard"
 	difficulty = 4
 	dirname = "../../../main/question_factory/diff/generated_questions"
-
+	
 
 	"""
 
@@ -30,23 +30,14 @@ class Question(object):
 
 	"""
 
-	def __init__(self, key, new):
-		global session
-		session = SessionStore(session_key=key)
-		if 'diff' not in session:
-			session['diff'] = {}
-		if 'questionNum' not in session['diff']:
-			session['diff']['questionNum'] = 0
-			session.save()
-		elif new:
-			session['diff']['questionNum'] = session['diff']['questionNum'] + 1
-			session.save()
+	def __init__(self, cur, new):
+		self.questionNum = cur
 		questionFileName = self.dirname + "/" + self.question_file()
 		with open(os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), questionFileName)), 'rb') as questionFile:
 			self.question = pickle.load(questionFile)
 
 	def question_file(self):
-		return "difficulty" + str(self.difficulty) + "_" + str(session['diff']['questionNum']) + ".question"
+		return "difficulty" + str(self.difficulty) + "_" + str(self.questionNum) + ".question"
 
 	def preprocessLat2Sym(self, string):
 		return (string.replace('\\right', '')
@@ -123,16 +114,6 @@ class Question(object):
 	def numQuestions(self):
 		directory = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.dirname)) + '/'
 		return len(os.listdir(directory))
-
-	"""
-	
-	curQuestionNum() gets the index of the current question
-
-	"""
-
-	def curQuestionNum(self):
-		return session['diff']['questionNum']
-
 	"""
 
 	getMessage() gets the message to display according to whether the answer was right or not

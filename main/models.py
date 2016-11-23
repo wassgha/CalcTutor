@@ -38,6 +38,7 @@ class Attempt(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
 	question = models.CharField(max_length=200)
+	question_num = models.IntegerField(default=0)
 	answer = models.CharField(max_length=200)
 	correct = models.BooleanField(default = False)
 	submit_date = models.DateTimeField()

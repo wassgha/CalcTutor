@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 
 from .models import Course, Topic, Exercise, Attempt
 from .utils import *
@@ -45,11 +46,14 @@ def exercise(request, course_id, topic_id, exercise_id):
     course = get_object_or_404(Course, pk=course_id)
     topic = get_object_or_404(Topic, pk=topic_id)
     exercise = get_object_or_404(Exercise, pk=exercise_id)
+    try:
+        lastquestionNum = Attempt.objects.filter(user = request.user, exercise=exercise, correct=True).latest('question_num')
+        questionNum = lastquestionNum.question_num + 1 
+    except Attempt.DoesNotExist:
+        questionNum = 0
 
     new = False
     answer = ''
-    if not request.session.get('has_session'):
-    	request.session['has_session'] = True
 
     if request.method == 'POST':
 	    form = AnswerForm(request.POST)
@@ -62,8 +66,8 @@ def exercise(request, course_id, topic_id, exercise_id):
         form = AnswerForm()
 
     sys.path.append(os.path.join(os.path.dirname(__file__), 'questions/' + exercise.file_name))
-    import question
-    quest = question.Question(request.session.session_key, new)
+    from question import Question
+    quest = Question(questionNum, new)
 
     params = {
         'course': course,
@@ -74,7 +78,7 @@ def exercise(request, course_id, topic_id, exercise_id):
         'form' : form,
         'numQuestions': quest.numQuestions(),
         'questionRange': range(quest.numQuestions()),
-        'curQuestion': quest.curQuestionNum() + 1,
+        'curQuestion': questionNum + 1,
    		# 'rand_fn': latex(randfn),
 		# 'diff': latex(diff(randfn)),
 		# 'diff_steps': diffsteps.print_html_steps(randfn, Symbol('x')),
@@ -85,7 +89,7 @@ def exercise(request, course_id, topic_id, exercise_id):
     if answer!='' and not new:
         params['correct'] = quest.getAnswer(answer)
         params['answer'] = quest.getMessage(params['correct'])
-        attempt = Attempt(user=request.user, exercise=exercise, question=quest.question_file(), answer=answer, correct=params['correct'], submit_date=datetime.datetime.now())
+        attempt = Attempt(user=request.user, exercise=exercise, question_num = questionNum, question=quest.question_file(), answer=answer, correct=params['correct'], submit_date=datetime.datetime.now())
         attempt.save()
 
 
