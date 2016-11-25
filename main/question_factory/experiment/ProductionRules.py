@@ -98,12 +98,6 @@ def compose( func1, func2 ):
 	return function
 
 
-def timesDerivative( func1, func2 ):
-	func2D = func2.getDerivative()
-	assert func2D is not None
-	return times( func1, func2D )
-
-
 def timesCompose( func1, func2 ):
 	assert func2.getDerivative() is not None
 	return times( compose(func1, func2), func2.getDerivative() )
@@ -116,6 +110,10 @@ def timesConst( func1, func2 ):
 	function = Function( str1 + "*" + str2 , False, False )
 	return function
 
+
+# I (TIMES (f, (D g))) -> (MINUS ((TIMES (f, g)), I (TIMES (g, (D f)))))
+def partialInt( func1, func2 ):
+	return None
 
 ########## ELEMENTARY FUNCTIONS ######################
 

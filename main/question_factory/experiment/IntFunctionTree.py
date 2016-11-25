@@ -33,19 +33,26 @@ class IntFunctionTree(FunctionTree):
 
 		# if rule "timesCompose" 
 		# right child must be an output of diff production rules
-		if production == timesCompose:
+		elif production == timesCompose:
 			diffTree = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
 			func = diffTree.getOutputFunction()
 			newLeaf.setValue( func )
 
-		# if rule "times", both children must be outputs of diff production rules
-		if production == timesDerivative:
-			diffTree1 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
-			diffTree2 = DiffFunctionTree.buildTreeWithMaxComplexity( self.maxComp / 5 )
-			func1 = diffTree1.getOutputFunction()
-			func2 = diffTree2.getOutputFunction()
-			leaf.setValue( func1 )
-			newLeaf.setValue( func2 )
+		# if rule "partialInt"
+		elif production == partialInt:
+			constructFunctionsForPartialInt( leaf, newLeaf, newNode )
+
+
+
+	def constructFunctionsForPartialInt( self, leftChild, rightChild, parent ):
+		# construct h(x) where int h(x) is known
+		h = IntFunctionTrees.buildTreeWithMaxComplexity( self.maxComp / 3 )
+
+		# construct f(x) where diff f(x) is known
+		f = DiffFunctionTrees.buildTreeWithMaxComplexity( self.maxComp / 6 )
+
+		# construct g(x) = int ( h(x) / f(x) )
+
 
 
 	# Evaluate the subtree rooted at node to get the output function
@@ -59,7 +66,7 @@ class IntFunctionTree(FunctionTree):
 			result = production( leftFunction, rightFunction )
 
 			# get the integral
-			integral = IntProduction.getIntegral( IntProduction.nameMap[production], leftFunction, rightFunction )
+			integral = IntProductionRules.getIntegral( production.__name__, leftFunction, rightFunction )
 			result.setIntegral( integral )
 			return result
 
@@ -70,8 +77,9 @@ class IntFunctionTree(FunctionTree):
 		iteration = 0
 		tree = IntFunctionTree( complexity )
 		while tree.getComplexity() < complexity and iteration < 20:
-			productionRule = IntProduction.getRandomProductionRule()
-			tree.applyProduction( productionRule )
+			productionRule = IntProductionRules.getRandomProductionRule()
+			complexity = IntProductionRules.complexityMap[productionRule]
+			tree.applyProduction( productionRule, complexity )
 			iteration = iteration + 1
 
 		tree.assignFunctionsToLeaves()

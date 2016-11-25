@@ -37,11 +37,6 @@ class IntProductionRules:
 		if productionRuleString == "timesCompose":
 			return compose( func1.getIntegral(), func2 )
 
-
-		if productionRuleString == "timesDerivative":
-			func1D = func1.getDerivative()
-			assert func1D is not None
-			return minus( times(func1,func2), times(func2, func1D) )
 		assert False, "unrecognized production rule: " + productionRuleString
 		
 
@@ -73,5 +68,5 @@ class IntProductionRules:
 		minus : 1,
 		timesConst: 1,
 		timesCompose: 5,
-		timesDerivative: 3
+		partialInt: 8
 	}

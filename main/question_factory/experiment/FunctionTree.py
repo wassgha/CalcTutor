@@ -128,7 +128,7 @@ class FunctionTree:
 		leaves = self.getAllLeaves( self.root )
 		for leaf in leaves:
 			if leaf.getValue() is None:
-				func = IntProduction.getRandomElemFunction()
+				func = IntProductionRules.getRandomElemFunction()
 				leaf.setValue( func() )
 
 
