@@ -39,8 +39,8 @@ class IntFunctionTree(FunctionTree):
 			newLeaf.setValue( func )
 
 		# if rule "partialInt"
-		elif production == partialInt:
-			constructFunctionsForPartialInt( leaf, newLeaf, newNode )
+		# elif production == partialInt:
+		# 	constructFunctionsForPartialInt( leaf, newLeaf, newNode )
 
 
 

@@ -140,6 +140,7 @@ def const( number = None ):
 
 
 def linear():
+	# todo. debug linear
 	number = randint(1, 10)
 	numberS = str(number)
 	if number == 1:
@@ -155,21 +156,15 @@ def monomial():
 	numberS = str(number)
 	plusOne = str(number + 1)
 	minusOne = str(number - 1)
-	return buildFunction( 
-		"x&**" + numberS, 
-		"x&**" + plusOne + "/" + plusOne,
-		numberS + "*x&**" + minusOne
-	)
+	return buildFunction(
+		"x&**" + numberS, "x&**" + plusOne + "/" + plusOne, numberS + "*x&**" + minusOne )
 
 
 def constPower():
 	number = randint(2, 10)
 	numberS = str(number)
-	return buildFunction( 
-		numberS + "**x&", 
-		numberS + "**x&/ln(" + numberS + ")",
-		numberS + "**x&*ln(" + numberS + ")",
-	)
+	return buildFunction(
+		numberS + "**x&", numberS + "**x&/ln(" + numberS + ")", numberS + "**x&*ln(" + numberS + ")" )
 
 
 def sin():

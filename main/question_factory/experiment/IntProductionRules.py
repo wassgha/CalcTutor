@@ -68,5 +68,5 @@ class IntProductionRules:
 		minus : 1,
 		timesConst: 1,
 		timesCompose: 5,
-		partialInt: 8
+		# partialInt: 8
 	}
