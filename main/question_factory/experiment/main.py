@@ -10,7 +10,7 @@ from sympy.integrals.manualintegrate import manualintegrate
 from sympy.abc import x
 
 for i in range(1):
-    tree = IntFunctionTree.buildTreeWithMaxComplexity( 8 )
+    tree = IntFunctionTree.buildTreeWithMaxComplexity( 5, True )
     tree.printTree()
     func =  tree.getOutputFunction()
     integral = func.getIntegral()
@@ -21,12 +21,12 @@ for i in range(1):
     print("Which is approximately: " )
     print(N(Function.evaluate( func.toString(), 5)))
     print("The integral is: ")
-    print( integral.toString() )
+    print( simplify(integral.toString()) )
     print("The value of the derivative for x = 5 is: ")
     print(Function.evaluate( integral.toString(), 5))
     print("checking")
-    wolfram = "(int (" + func.toString() + "))-(" + integral.toString() + ")"
-    print( wolfram.replace(' ', '') )
+    wolfram = "(int (" + func.toString() + ")) - (" + str(simplify(integral.toString())) + ")"
+    print( wolfram.replace(' ', ''))
 
 # IntFunctionTree.constructFunctionsForPartialInt( None, None, None )
 # u = parse_expr("(((10*x) + ((x**-5)))) / (((6) - ((x**-6))))")

@@ -12,6 +12,8 @@ from sympy.integrals.manualintegrate import manualintegrate
 
 class IntFunctionTree(FunctionTree):
 
+    partialIntUsed = False
+
     def applyProduction( self, production, complexity ):
         leaf = self.getRandomLeaf()
 
@@ -43,17 +45,18 @@ class IntFunctionTree(FunctionTree):
 
         # if rule "partialInt"
         elif production == partialInt:
-        	self.constructFunctionsForPartialInt( leaf, newLeaf, newNode )
+            self.partialIntUsed = True
+            self.constructFunctionsForPartialInt( leaf, newLeaf, newNode )
 
 
     def constructFunctionsForPartialInt( self, leftChild, rightChild, parent ):
         while (True):
             # construct h(x) where int h(x) is known
-            productTree = IntFunctionTree.buildTreeWithMaxComplexity( 5 )
+            productTree = IntFunctionTree.buildTreeWithMaxComplexity( 3, not self.partialIntUsed )
             h = productTree.getOutputFunction()
 
             # construct v where diff v is known
-            rightTree = DiffFunctionTree.buildTreeWithMaxComplexity( 5 )
+            rightTree = DiffFunctionTree.buildTreeWithMaxComplexity( 3)
             v = rightTree.getOutputFunction()
             vDerivative = v.getDerivative()
             assert vDerivative is not None
@@ -99,13 +102,15 @@ class IntFunctionTree(FunctionTree):
 
     # Build a function tree with the input complexity bound
     @classmethod
-    def buildTreeWithMaxComplexity(self, complexity ):
+    def buildTreeWithMaxComplexity( self, complexity, usePartialInt ):
         iteration = 0
         tree = IntFunctionTree( complexity )
         while tree.getComplexity() < complexity and iteration < 20:
             productionRule = IntProductionRules.getRandomProductionRule()
+            if ( not usePartialInt and productionRule == partialInt ):
+                continue
             productionComp = IntProductionRules.complexityMap[productionRule]
-            tree.applyProduction( productionRule, complexity )
+            tree.applyProduction( productionRule, productionComp )
             iteration = iteration + 1
 
         tree.assignFunctionsToLeaves()
