@@ -58,11 +58,6 @@ class DiffProductionRules:
 		assert False, "Unrecognized production rule"
 
 
-	@classmethod
-	def simplify(self, func ):
-		return simplify( func.toString() )
-
-
 	elemFunctions = {
 	    const : 5.0,
 	    # linear : 15.0,

@@ -15,17 +15,17 @@ for i in range(1):
     func =  tree.getOutputFunction()
     integral = func.getIntegral()
     print("The output function is: ")
-    print(func.toString())
+    print( simplify(parse_expr(func.toString())))
     print("The value of the output function for x = 5 is: ")
     print(Function.evaluate( func.toString(), 5))
     print("Which is approximately: " )
     print(N(Function.evaluate( func.toString(), 5)))
     print("The integral is: ")
-    print( simplify(integral.toString()) )
-    print("The value of the derivative for x = 5 is: ")
+    print( simplify(parse_expr(integral.toString())) )
+    print("The value of the integral for x = 5 is: ")
     print(Function.evaluate( integral.toString(), 5))
     print("checking")
-    wolfram = "(int (" + func.toString() + ")) - (" + str(simplify(integral.toString())) + ")"
+    wolfram = "(int (" + func.toString() + ")) - (" + integral.toString() + ")"
     print( wolfram.replace(' ', ''))
 
 # IntFunctionTree.constructFunctionsForPartialInt( None, None, None )

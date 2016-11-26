@@ -43,16 +43,12 @@ class IntProductionRules:
         if productionRuleString == "partialInt":
             assert func1.getDerivative() is not None
             partial = times( func1.getDerivative(), func2 )
-            partial = parse_expr( partial.toString() )
+            partial =  parse_expr( partial.toString() )
             int = manualintegrate( partial, x )
             return minus( times(func1, func2), Function(str(int)) )
 
         assert False, "unrecognized production rule: " + productionRuleString
 
-
-    @classmethod
-    def simplify(self, func ):
-        return simplify( func.toString() )
 
     elemFunctions = {
         const : 5.0,
