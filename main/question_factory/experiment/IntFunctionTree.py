@@ -6,7 +6,7 @@ from IntProductionRules import *
 from FunctionTree import *
 from DiffFunctionTree import *
 from sympy.parsing.sympy_parser import parse_expr
-from sympy.abc import x,y
+from sympy.abc import x
 from sympy.integrals.manualintegrate import manualintegrate
 
 
@@ -42,18 +42,19 @@ class IntFunctionTree(FunctionTree):
             newLeaf.setValue( func )
 
         # if rule "partialInt"
-        # elif production == partialInt:
-        # 	constructFunctionsForPartialInt( leaf, newLeaf, newNode )
+        elif production == partialInt:
+        	self.constructFunctionsForPartialInt( leaf, newLeaf, newNode )
 
 
-    @classmethod
     def constructFunctionsForPartialInt( self, leftChild, rightChild, parent ):
         while (True):
             # construct h(x) where int h(x) is known
-            h = IntFunctionTree.buildTreeWithMaxComplexity( 5 ).getOutputFunction()
+            productTree = IntFunctionTree.buildTreeWithMaxComplexity( 5 )
+            h = productTree.getOutputFunction()
 
             # construct v where diff v is known
-            v = DiffFunctionTree.buildTreeWithMaxComplexity( 5 ).getOutputFunction()
+            rightTree = DiffFunctionTree.buildTreeWithMaxComplexity( 5 )
+            v = rightTree.getOutputFunction()
             vDerivative = v.getDerivative()
             assert vDerivative is not None
 
@@ -61,18 +62,18 @@ class IntFunctionTree(FunctionTree):
             uDerivative = divide( h, v )
             u = manualintegrate( parse_expr( uDerivative.toString() ), x )
 
-            print( h.toString() )
-            print( v.toString() )
-            print( uDerivative.toString() )
-            print( u )
-
-            if not IntFunctionTree.isIntegrable( u ):
+            if not self.isIntegrable( u ):
                 continue
 
-            return
+            # save the constructed functions to the corresponding nodes
+            leftFunction = Function( str(u) )
+            leftFunction.setDerivative( uDerivative )
+            leftChild.setValue( leftFunction )
+            rightChild.setValue( v )
+            break
+        return 10
 
 
-    @classmethod
     def isIntegrable(self, expr):
         for args in preorder_traversal(expr):
             if isinstance( args, Integral ):
@@ -103,7 +104,7 @@ class IntFunctionTree(FunctionTree):
         tree = IntFunctionTree( complexity )
         while tree.getComplexity() < complexity and iteration < 20:
             productionRule = IntProductionRules.getRandomProductionRule()
-            complexity = IntProductionRules.complexityMap[productionRule]
+            productionComp = IntProductionRules.complexityMap[productionRule]
             tree.applyProduction( productionRule, complexity )
             iteration = iteration + 1
 

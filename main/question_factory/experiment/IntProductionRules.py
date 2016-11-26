@@ -1,5 +1,7 @@
 from ProductionRules import *
 from random import choice, uniform, randint
+from sympy.abc import x
+from sympy.integrals.manualintegrate import manualintegrate
 
 class IntProductionRules:
 	# get a uniformly random production rule
@@ -37,6 +39,12 @@ class IntProductionRules:
 		if productionRuleString == "timesCompose":
 			return compose( func1.getIntegral(), func2 )
 
+		if productionRuleString == "partialInt":
+			assert func1.getDerivative() is not None
+			partial = times( func1.getDerivative(), func2 )
+			int = manualintegrate( parse_expr(partial.toString()), x )
+			return minus( times(func1, func2), Function(int) )
+
 		assert False, "unrecognized production rule: " + productionRuleString
 		
 
@@ -68,5 +76,5 @@ class IntProductionRules:
 		minus : 1,
 		# timesConst: 1,
 		# timesCompose: 5,
-		# partialInt: 8
+		partialInt: 10
 	}
