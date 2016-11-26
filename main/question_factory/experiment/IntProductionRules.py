@@ -48,25 +48,25 @@ class IntProductionRules:
 	    const : 5.0,
 	    linear : 15.0,
 	    monomial: 15.0,
-	    constPower: 15.0,
-	    ln: 4.0,
-	    sin : 4.0,
-	    cos : 4.0,
-	    secSquare: 3.0,
-	    cscSquare: 3.0,
-	    sectan: 5.0,
-	    csccot: 5.0,
-	    exp: 15.0,
-	    oneOverX: 3.0,
-	    divideOnePlusSquare: 2.0,
-	    divideSqrtOneMinusSquare: 1.0
+	    # constPower: 15.0,
+	    # ln: 4.0,
+	    # sin : 4.0,
+	    # cos : 4.0,
+	    # secSquare: 3.0,
+	    # cscSquare: 3.0,
+	    # sectan: 5.0,
+	    # csccot: 5.0,
+	    # exp: 15.0,
+	    # oneOverX: 3.0,
+	    # divideOnePlusSquare: 2.0,
+	    # divideSqrtOneMinusSquare: 1.0
 	}
 
 	totalElemWeight = sum(w for c, w in elemFunctions.items())
 	complexityMap = {
 		plus : 1,
 		minus : 1,
-		timesConst: 1,
-		timesCompose: 5,
+		# timesConst: 1,
+		# timesCompose: 5,
 		# partialInt: 8
 	}
